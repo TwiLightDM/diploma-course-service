@@ -487,7 +487,6 @@ type UpdateCourseRequest struct {
 	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	AccessType    string                 `protobuf:"bytes,4,opt,name=access_type,json=accessType,proto3" json:"access_type,omitempty"`
-	IsPublished   bool                   `protobuf:"varint,5,opt,name=is_published,json=isPublished,proto3" json:"is_published,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -550,7 +549,52 @@ func (x *UpdateCourseRequest) GetAccessType() string {
 	return ""
 }
 
-func (x *UpdateCourseRequest) GetIsPublished() bool {
+type UpdateIsPublishedRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	IsPublished   bool                   `protobuf:"varint,2,opt,name=is_published,json=isPublished,proto3" json:"is_published,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateIsPublishedRequest) Reset() {
+	*x = UpdateIsPublishedRequest{}
+	mi := &file_proto_course_service_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateIsPublishedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateIsPublishedRequest) ProtoMessage() {}
+
+func (x *UpdateIsPublishedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_course_service_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateIsPublishedRequest.ProtoReflect.Descriptor instead.
+func (*UpdateIsPublishedRequest) Descriptor() ([]byte, []int) {
+	return file_proto_course_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *UpdateIsPublishedRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UpdateIsPublishedRequest) GetIsPublished() bool {
 	if x != nil {
 		return x.IsPublished
 	}
@@ -566,7 +610,7 @@ type UpdateCourseResponse struct {
 
 func (x *UpdateCourseResponse) Reset() {
 	*x = UpdateCourseResponse{}
-	mi := &file_proto_course_service_proto_msgTypes[10]
+	mi := &file_proto_course_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -578,7 +622,7 @@ func (x *UpdateCourseResponse) String() string {
 func (*UpdateCourseResponse) ProtoMessage() {}
 
 func (x *UpdateCourseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_course_service_proto_msgTypes[10]
+	mi := &file_proto_course_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -591,7 +635,7 @@ func (x *UpdateCourseResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateCourseResponse.ProtoReflect.Descriptor instead.
 func (*UpdateCourseResponse) Descriptor() ([]byte, []int) {
-	return file_proto_course_service_proto_rawDescGZIP(), []int{10}
+	return file_proto_course_service_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *UpdateCourseResponse) GetCourse() *Course {
@@ -610,7 +654,7 @@ type DeleteCourseRequest struct {
 
 func (x *DeleteCourseRequest) Reset() {
 	*x = DeleteCourseRequest{}
-	mi := &file_proto_course_service_proto_msgTypes[11]
+	mi := &file_proto_course_service_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -622,7 +666,7 @@ func (x *DeleteCourseRequest) String() string {
 func (*DeleteCourseRequest) ProtoMessage() {}
 
 func (x *DeleteCourseRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_course_service_proto_msgTypes[11]
+	mi := &file_proto_course_service_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -635,7 +679,7 @@ func (x *DeleteCourseRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteCourseRequest.ProtoReflect.Descriptor instead.
 func (*DeleteCourseRequest) Descriptor() ([]byte, []int) {
-	return file_proto_course_service_proto_rawDescGZIP(), []int{11}
+	return file_proto_course_service_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *DeleteCourseRequest) GetId() string {
@@ -653,7 +697,7 @@ type DeleteCourseResponse struct {
 
 func (x *DeleteCourseResponse) Reset() {
 	*x = DeleteCourseResponse{}
-	mi := &file_proto_course_service_proto_msgTypes[12]
+	mi := &file_proto_course_service_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -665,7 +709,7 @@ func (x *DeleteCourseResponse) String() string {
 func (*DeleteCourseResponse) ProtoMessage() {}
 
 func (x *DeleteCourseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_course_service_proto_msgTypes[12]
+	mi := &file_proto_course_service_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -678,7 +722,7 @@ func (x *DeleteCourseResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteCourseResponse.ProtoReflect.Descriptor instead.
 func (*DeleteCourseResponse) Descriptor() ([]byte, []int) {
-	return file_proto_course_service_proto_rawDescGZIP(), []int{12}
+	return file_proto_course_service_proto_rawDescGZIP(), []int{13}
 }
 
 var File_proto_course_service_proto protoreflect.FileDescriptor
@@ -713,26 +757,29 @@ const file_proto_course_service_proto_rawDesc = "" +
 	"\x1fReadAllCoursesByGroupIdsRequest\x12\x1b\n" +
 	"\tgroup_ids\x18\x01 \x03(\tR\bgroupIds\"S\n" +
 	" ReadAllCoursesByGroupIdsResponse\x12/\n" +
-	"\acourses\x18\x01 \x03(\v2\x15.courseservice.CourseR\acourses\"\xa1\x01\n" +
+	"\acourses\x18\x01 \x03(\v2\x15.courseservice.CourseR\acourses\"~\n" +
 	"\x13UpdateCourseRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1f\n" +
 	"\vaccess_type\x18\x04 \x01(\tR\n" +
-	"accessType\x12!\n" +
-	"\fis_published\x18\x05 \x01(\bR\visPublished\"E\n" +
+	"accessType\"M\n" +
+	"\x18UpdateIsPublishedRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
+	"\fis_published\x18\x02 \x01(\bR\visPublished\"E\n" +
 	"\x14UpdateCourseResponse\x12-\n" +
 	"\x06course\x18\x01 \x01(\v2\x15.courseservice.CourseR\x06course\"%\n" +
 	"\x13DeleteCourseRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"\x16\n" +
-	"\x14DeleteCourseResponse2\xe4\x04\n" +
+	"\x14DeleteCourseResponse2\xc7\x05\n" +
 	"\rCourseService\x12W\n" +
 	"\fCreateCourse\x12\".courseservice.CreateCourseRequest\x1a#.courseservice.CreateCourseResponse\x12Q\n" +
 	"\n" +
 	"ReadCourse\x12 .courseservice.ReadCourseRequest\x1a!.courseservice.ReadCourseResponse\x12x\n" +
 	"\x17ReadAllCoursesByOwnerId\x12-.courseservice.ReadAllCoursesByOwnerIdRequest\x1a..courseservice.ReadAllCoursesByOwnerIdResponse\x12{\n" +
 	"\x18ReadAllCoursesByGroupIds\x12..courseservice.ReadAllCoursesByGroupIdsRequest\x1a/.courseservice.ReadAllCoursesByGroupIdsResponse\x12W\n" +
-	"\fUpdateCourse\x12\".courseservice.UpdateCourseRequest\x1a#.courseservice.UpdateCourseResponse\x12W\n" +
+	"\fUpdateCourse\x12\".courseservice.UpdateCourseRequest\x1a#.courseservice.UpdateCourseResponse\x12a\n" +
+	"\x11UpdateIsPublished\x12'.courseservice.UpdateIsPublishedRequest\x1a#.courseservice.UpdateCourseResponse\x12W\n" +
 	"\fDeleteCourse\x12\".courseservice.DeleteCourseRequest\x1a#.courseservice.DeleteCourseResponseB\x17Z\x15proto/courseservicepbb\x06proto3"
 
 var (
@@ -747,7 +794,7 @@ func file_proto_course_service_proto_rawDescGZIP() []byte {
 	return file_proto_course_service_proto_rawDescData
 }
 
-var file_proto_course_service_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_proto_course_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_proto_course_service_proto_goTypes = []any{
 	(*Course)(nil),                           // 0: courseservice.Course
 	(*CreateCourseRequest)(nil),              // 1: courseservice.CreateCourseRequest
@@ -759,9 +806,10 @@ var file_proto_course_service_proto_goTypes = []any{
 	(*ReadAllCoursesByGroupIdsRequest)(nil),  // 7: courseservice.ReadAllCoursesByGroupIdsRequest
 	(*ReadAllCoursesByGroupIdsResponse)(nil), // 8: courseservice.ReadAllCoursesByGroupIdsResponse
 	(*UpdateCourseRequest)(nil),              // 9: courseservice.UpdateCourseRequest
-	(*UpdateCourseResponse)(nil),             // 10: courseservice.UpdateCourseResponse
-	(*DeleteCourseRequest)(nil),              // 11: courseservice.DeleteCourseRequest
-	(*DeleteCourseResponse)(nil),             // 12: courseservice.DeleteCourseResponse
+	(*UpdateIsPublishedRequest)(nil),         // 10: courseservice.UpdateIsPublishedRequest
+	(*UpdateCourseResponse)(nil),             // 11: courseservice.UpdateCourseResponse
+	(*DeleteCourseRequest)(nil),              // 12: courseservice.DeleteCourseRequest
+	(*DeleteCourseResponse)(nil),             // 13: courseservice.DeleteCourseResponse
 }
 var file_proto_course_service_proto_depIdxs = []int32{
 	0,  // 0: courseservice.CreateCourseResponse.course:type_name -> courseservice.Course
@@ -774,15 +822,17 @@ var file_proto_course_service_proto_depIdxs = []int32{
 	5,  // 7: courseservice.CourseService.ReadAllCoursesByOwnerId:input_type -> courseservice.ReadAllCoursesByOwnerIdRequest
 	7,  // 8: courseservice.CourseService.ReadAllCoursesByGroupIds:input_type -> courseservice.ReadAllCoursesByGroupIdsRequest
 	9,  // 9: courseservice.CourseService.UpdateCourse:input_type -> courseservice.UpdateCourseRequest
-	11, // 10: courseservice.CourseService.DeleteCourse:input_type -> courseservice.DeleteCourseRequest
-	2,  // 11: courseservice.CourseService.CreateCourse:output_type -> courseservice.CreateCourseResponse
-	4,  // 12: courseservice.CourseService.ReadCourse:output_type -> courseservice.ReadCourseResponse
-	6,  // 13: courseservice.CourseService.ReadAllCoursesByOwnerId:output_type -> courseservice.ReadAllCoursesByOwnerIdResponse
-	8,  // 14: courseservice.CourseService.ReadAllCoursesByGroupIds:output_type -> courseservice.ReadAllCoursesByGroupIdsResponse
-	10, // 15: courseservice.CourseService.UpdateCourse:output_type -> courseservice.UpdateCourseResponse
-	12, // 16: courseservice.CourseService.DeleteCourse:output_type -> courseservice.DeleteCourseResponse
-	11, // [11:17] is the sub-list for method output_type
-	5,  // [5:11] is the sub-list for method input_type
+	10, // 10: courseservice.CourseService.UpdateIsPublished:input_type -> courseservice.UpdateIsPublishedRequest
+	12, // 11: courseservice.CourseService.DeleteCourse:input_type -> courseservice.DeleteCourseRequest
+	2,  // 12: courseservice.CourseService.CreateCourse:output_type -> courseservice.CreateCourseResponse
+	4,  // 13: courseservice.CourseService.ReadCourse:output_type -> courseservice.ReadCourseResponse
+	6,  // 14: courseservice.CourseService.ReadAllCoursesByOwnerId:output_type -> courseservice.ReadAllCoursesByOwnerIdResponse
+	8,  // 15: courseservice.CourseService.ReadAllCoursesByGroupIds:output_type -> courseservice.ReadAllCoursesByGroupIdsResponse
+	11, // 16: courseservice.CourseService.UpdateCourse:output_type -> courseservice.UpdateCourseResponse
+	11, // 17: courseservice.CourseService.UpdateIsPublished:output_type -> courseservice.UpdateCourseResponse
+	13, // 18: courseservice.CourseService.DeleteCourse:output_type -> courseservice.DeleteCourseResponse
+	12, // [12:19] is the sub-list for method output_type
+	5,  // [5:12] is the sub-list for method input_type
 	5,  // [5:5] is the sub-list for extension type_name
 	5,  // [5:5] is the sub-list for extension extendee
 	0,  // [0:5] is the sub-list for field type_name
@@ -799,7 +849,7 @@ func file_proto_course_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_course_service_proto_rawDesc), len(file_proto_course_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   13,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

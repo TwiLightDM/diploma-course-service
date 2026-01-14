@@ -89,6 +89,26 @@ func (h *CourseHandler) UpdateCourse(ctx context.Context, req *courseservicepb.U
 		Title:       req.Title,
 		Description: req.Description,
 		AccessType:  req.AccessType,
+	})
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	return &courseservicepb.UpdateCourseResponse{
+		Course: &courseservicepb.Course{
+			Id:          updatedCourse.Id,
+			Title:       updatedCourse.Title,
+			Description: updatedCourse.Description,
+			AccessType:  updatedCourse.AccessType,
+			IsPublished: updatedCourse.IsPublished,
+			OwnerId:     updatedCourse.OwnerId,
+		},
+	}, nil
+}
+
+func (h *CourseHandler) UpdateIsPublished(ctx context.Context, req *courseservicepb.UpdateIsPublishedRequest) (*courseservicepb.UpdateCourseResponse, error) {
+	updatedCourse, err := h.service.UpdateCourse(ctx, &entities.Course{
+		Id:          req.Id,
 		IsPublished: req.IsPublished,
 	})
 	if err != nil {
