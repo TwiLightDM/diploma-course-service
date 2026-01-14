@@ -28,7 +28,7 @@ type Lesson struct {
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	Content       string                 `protobuf:"bytes,4,opt,name=content,proto3" json:"content,omitempty"`
 	Position      int64                  `protobuf:"varint,5,opt,name=position,proto3" json:"position,omitempty"`
-	CourseId      string                 `protobuf:"bytes,6,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	ModuleId      string                 `protobuf:"bytes,6,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -98,9 +98,9 @@ func (x *Lesson) GetPosition() int64 {
 	return 0
 }
 
-func (x *Lesson) GetCourseId() string {
+func (x *Lesson) GetModuleId() string {
 	if x != nil {
-		return x.CourseId
+		return x.ModuleId
 	}
 	return ""
 }
@@ -110,7 +110,7 @@ type CreateLessonRequest struct {
 	Title         string                 `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
 	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
 	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
-	CourseId      string                 `protobuf:"bytes,4,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	ModuleId      string                 `protobuf:"bytes,4,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -166,9 +166,9 @@ func (x *CreateLessonRequest) GetContent() string {
 	return ""
 }
 
-func (x *CreateLessonRequest) GetCourseId() string {
+func (x *CreateLessonRequest) GetModuleId() string {
 	if x != nil {
-		return x.CourseId
+		return x.ModuleId
 	}
 	return ""
 }
@@ -399,7 +399,6 @@ type UpdateLessonRequest struct {
 	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	Position      int64                  `protobuf:"varint,4,opt,name=position,proto3" json:"position,omitempty"`
-	CourseId      string                 `protobuf:"bytes,5,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -460,13 +459,6 @@ func (x *UpdateLessonRequest) GetPosition() int64 {
 		return x.Position
 	}
 	return 0
-}
-
-func (x *UpdateLessonRequest) GetCourseId() string {
-	if x != nil {
-		return x.CourseId
-	}
-	return ""
 }
 
 type UpdateLessonResponse struct {
@@ -604,12 +596,12 @@ const file_proto_lesson_service_proto_rawDesc = "" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x18\n" +
 	"\acontent\x18\x04 \x01(\tR\acontent\x12\x1a\n" +
 	"\bposition\x18\x05 \x01(\x03R\bposition\x12\x1b\n" +
-	"\tcourse_id\x18\x06 \x01(\tR\bcourseId\"\x84\x01\n" +
+	"\tmodule_id\x18\x06 \x01(\tR\bmoduleId\"\x84\x01\n" +
 	"\x13CreateLessonRequest\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x18\n" +
 	"\acontent\x18\x03 \x01(\tR\acontent\x12\x1b\n" +
-	"\tcourse_id\x18\x04 \x01(\tR\bcourseId\"E\n" +
+	"\tmodule_id\x18\x04 \x01(\tR\bmoduleId\"E\n" +
 	"\x14CreateLessonResponse\x12-\n" +
 	"\x06lesson\x18\x01 \x01(\v2\x15.lessonservice.LessonR\x06lesson\"#\n" +
 	"\x11ReadLessonRequest\x12\x0e\n" +
@@ -619,13 +611,12 @@ const file_proto_lesson_service_proto_rawDesc = "" +
 	"\x1fReadAllLessonsByModuleIdRequest\x12\x1b\n" +
 	"\tmodule_id\x18\x01 \x01(\tR\bmoduleId\"S\n" +
 	" ReadAllLessonsByModuleIdResponse\x12/\n" +
-	"\alessons\x18\x01 \x03(\v2\x15.lessonservice.LessonR\alessons\"\x96\x01\n" +
+	"\alessons\x18\x01 \x03(\v2\x15.lessonservice.LessonR\alessons\"y\n" +
 	"\x13UpdateLessonRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1a\n" +
-	"\bposition\x18\x04 \x01(\x03R\bposition\x12\x1b\n" +
-	"\tcourse_id\x18\x05 \x01(\tR\bcourseId\"E\n" +
+	"\bposition\x18\x04 \x01(\x03R\bposition\"E\n" +
 	"\x14UpdateLessonResponse\x12-\n" +
 	"\x06lesson\x18\x01 \x01(\v2\x15.lessonservice.LessonR\x06lesson\"%\n" +
 	"\x13DeleteLessonRequest\x12\x0e\n" +

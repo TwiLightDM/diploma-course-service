@@ -383,7 +383,6 @@ type UpdateModuleRequest struct {
 	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	Position      int64                  `protobuf:"varint,4,opt,name=position,proto3" json:"position,omitempty"`
-	ModuleId      string                 `protobuf:"bytes,5,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -444,13 +443,6 @@ func (x *UpdateModuleRequest) GetPosition() int64 {
 		return x.Position
 	}
 	return 0
-}
-
-func (x *UpdateModuleRequest) GetModuleId() string {
-	if x != nil {
-		return x.ModuleId
-	}
-	return ""
 }
 
 type UpdateModuleResponse struct {
@@ -601,13 +593,12 @@ const file_proto_module_service_proto_rawDesc = "" +
 	"\x1fReadAllModulesByCourseIdRequest\x12\x1b\n" +
 	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\"S\n" +
 	" ReadAllModulesByCourseIdResponse\x12/\n" +
-	"\amodules\x18\x01 \x03(\v2\x15.moduleservice.ModuleR\amodules\"\x96\x01\n" +
+	"\amodules\x18\x01 \x03(\v2\x15.moduleservice.ModuleR\amodules\"y\n" +
 	"\x13UpdateModuleRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1a\n" +
-	"\bposition\x18\x04 \x01(\x03R\bposition\x12\x1b\n" +
-	"\tmodule_id\x18\x05 \x01(\tR\bmoduleId\"E\n" +
+	"\bposition\x18\x04 \x01(\x03R\bposition\"E\n" +
 	"\x14UpdateModuleResponse\x12-\n" +
 	"\x06module\x18\x01 \x01(\v2\x15.moduleservice.ModuleR\x06module\"%\n" +
 	"\x13DeleteModuleRequest\x12\x0e\n" +

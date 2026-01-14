@@ -51,7 +51,6 @@ message UpdateModuleRequest {
   string title = 2;
   string description = 3;
   int64 position = 4;
-  string module_id = 5;
 }
 
 message UpdateModuleResponse {
