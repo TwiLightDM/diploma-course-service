@@ -12,6 +12,7 @@ type CourseService interface {
 	ReadCourseById(ctx context.Context, id string) (*entities.Course, error)
 	ReadAllCoursesByOwnerId(ctx context.Context, ownerId string) ([]entities.Course, error)
 	UpdateCourse(ctx context.Context, course *entities.Course) (*entities.Course, error)
+	UpdatePublishedAt(ctx context.Context, id string) (*entities.Course, error)
 	DeleteCourse(ctx context.Context, id string) error
 }
 
@@ -27,7 +28,7 @@ func (s *courseService) CreateCourse(ctx context.Context, course *entities.Cours
 	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
 	defer cancel()
 
-	course.Id = uuid.New().String()
+	course.Id = uuid.NewString()
 
 	return s.repo.Create(ctx, course)
 }
@@ -68,6 +69,33 @@ func (s *courseService) UpdateCourse(ctx context.Context, course *entities.Cours
 	}
 
 	return updatedCourse, nil
+}
+
+func (s *courseService) UpdatePublishedAt(ctx context.Context, id string) (*entities.Course, error) {
+	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	defer cancel()
+
+	var err error
+
+	course, err := s.repo.ReadById(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	var t *time.Time
+	if course.PublishedAt != nil {
+		now := time.Now()
+		t = &now
+	} else {
+		t = nil
+	}
+
+	err = s.repo.UpdatePublishedAt(ctx, id, t)
+	if err != nil {
+		return nil, err
+	}
+
+	return course, nil
 }
 
 func (s *courseService) DeleteCourse(ctx context.Context, id string) error {

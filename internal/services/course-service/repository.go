@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
 	"gorm.io/gorm"
+	"time"
 )
 
 type CourseRepository interface {
@@ -12,6 +13,7 @@ type CourseRepository interface {
 	ReadById(ctx context.Context, id string) (*entities.Course, error)
 	ReadAllByOwnerId(ctx context.Context, ownerId string) ([]entities.Course, error)
 	Update(ctx context.Context, course *entities.Course) (*entities.Course, error)
+	UpdatePublishedAt(ctx context.Context, id string, time *time.Time) error
 	Delete(ctx context.Context, id string) error
 	//ReadAllByGroupsIds(ctx context.Context, groupsIds []string) ([]*entities.Course, error)
 }
@@ -74,6 +76,16 @@ func (r *courseRepository) Update(ctx context.Context, course *entities.Course) 
 	}
 
 	return &updatedCourse, nil
+}
+
+func (r *courseRepository) UpdatePublishedAt(ctx context.Context, id string, time *time.Time) error {
+	return r.db.
+		WithContext(ctx).
+		Model(&entities.Course{}).
+		Where("id = ?", id).
+		Updates(map[string]interface{}{
+			"published_at": time,
+		}).Error
 }
 
 func (r *courseRepository) Delete(ctx context.Context, id string) error {

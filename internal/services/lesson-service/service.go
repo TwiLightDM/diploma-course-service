@@ -27,7 +27,7 @@ func (s *lessonService) CreateLesson(ctx context.Context, lesson *entities.Lesso
 	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
 	defer cancel()
 
-	lesson.Id = uuid.New().String()
+	lesson.Id = uuid.NewString()
 
 	return s.repo.Create(ctx, lesson)
 }

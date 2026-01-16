@@ -24,7 +24,7 @@ const (
 	CourseService_ReadAllCoursesByOwnerId_FullMethodName  = "/courseservice.CourseService/ReadAllCoursesByOwnerId"
 	CourseService_ReadAllCoursesByGroupIds_FullMethodName = "/courseservice.CourseService/ReadAllCoursesByGroupIds"
 	CourseService_UpdateCourse_FullMethodName             = "/courseservice.CourseService/UpdateCourse"
-	CourseService_UpdateIsPublished_FullMethodName        = "/courseservice.CourseService/UpdateIsPublished"
+	CourseService_UpdatePublishedAt_FullMethodName        = "/courseservice.CourseService/UpdatePublishedAt"
 	CourseService_DeleteCourse_FullMethodName             = "/courseservice.CourseService/DeleteCourse"
 )
 
@@ -37,7 +37,7 @@ type CourseServiceClient interface {
 	ReadAllCoursesByOwnerId(ctx context.Context, in *ReadAllCoursesByOwnerIdRequest, opts ...grpc.CallOption) (*ReadAllCoursesByOwnerIdResponse, error)
 	ReadAllCoursesByGroupIds(ctx context.Context, in *ReadAllCoursesByGroupIdsRequest, opts ...grpc.CallOption) (*ReadAllCoursesByGroupIdsResponse, error)
 	UpdateCourse(ctx context.Context, in *UpdateCourseRequest, opts ...grpc.CallOption) (*UpdateCourseResponse, error)
-	UpdateIsPublished(ctx context.Context, in *UpdateIsPublishedRequest, opts ...grpc.CallOption) (*UpdateCourseResponse, error)
+	UpdatePublishedAt(ctx context.Context, in *UpdatePublishedAtRequest, opts ...grpc.CallOption) (*UpdateCourseResponse, error)
 	DeleteCourse(ctx context.Context, in *DeleteCourseRequest, opts ...grpc.CallOption) (*DeleteCourseResponse, error)
 }
 
@@ -99,10 +99,10 @@ func (c *courseServiceClient) UpdateCourse(ctx context.Context, in *UpdateCourse
 	return out, nil
 }
 
-func (c *courseServiceClient) UpdateIsPublished(ctx context.Context, in *UpdateIsPublishedRequest, opts ...grpc.CallOption) (*UpdateCourseResponse, error) {
+func (c *courseServiceClient) UpdatePublishedAt(ctx context.Context, in *UpdatePublishedAtRequest, opts ...grpc.CallOption) (*UpdateCourseResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateCourseResponse)
-	err := c.cc.Invoke(ctx, CourseService_UpdateIsPublished_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, CourseService_UpdatePublishedAt_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -128,7 +128,7 @@ type CourseServiceServer interface {
 	ReadAllCoursesByOwnerId(context.Context, *ReadAllCoursesByOwnerIdRequest) (*ReadAllCoursesByOwnerIdResponse, error)
 	ReadAllCoursesByGroupIds(context.Context, *ReadAllCoursesByGroupIdsRequest) (*ReadAllCoursesByGroupIdsResponse, error)
 	UpdateCourse(context.Context, *UpdateCourseRequest) (*UpdateCourseResponse, error)
-	UpdateIsPublished(context.Context, *UpdateIsPublishedRequest) (*UpdateCourseResponse, error)
+	UpdatePublishedAt(context.Context, *UpdatePublishedAtRequest) (*UpdateCourseResponse, error)
 	DeleteCourse(context.Context, *DeleteCourseRequest) (*DeleteCourseResponse, error)
 	mustEmbedUnimplementedCourseServiceServer()
 }
@@ -155,8 +155,8 @@ func (UnimplementedCourseServiceServer) ReadAllCoursesByGroupIds(context.Context
 func (UnimplementedCourseServiceServer) UpdateCourse(context.Context, *UpdateCourseRequest) (*UpdateCourseResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateCourse not implemented")
 }
-func (UnimplementedCourseServiceServer) UpdateIsPublished(context.Context, *UpdateIsPublishedRequest) (*UpdateCourseResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateIsPublished not implemented")
+func (UnimplementedCourseServiceServer) UpdatePublishedAt(context.Context, *UpdatePublishedAtRequest) (*UpdateCourseResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdatePublishedAt not implemented")
 }
 func (UnimplementedCourseServiceServer) DeleteCourse(context.Context, *DeleteCourseRequest) (*DeleteCourseResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteCourse not implemented")
@@ -272,20 +272,20 @@ func _CourseService_UpdateCourse_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CourseService_UpdateIsPublished_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateIsPublishedRequest)
+func _CourseService_UpdatePublishedAt_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePublishedAtRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CourseServiceServer).UpdateIsPublished(ctx, in)
+		return srv.(CourseServiceServer).UpdatePublishedAt(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CourseService_UpdateIsPublished_FullMethodName,
+		FullMethod: CourseService_UpdatePublishedAt_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CourseServiceServer).UpdateIsPublished(ctx, req.(*UpdateIsPublishedRequest))
+		return srv.(CourseServiceServer).UpdatePublishedAt(ctx, req.(*UpdatePublishedAtRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -336,8 +336,8 @@ var CourseService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CourseService_UpdateCourse_Handler,
 		},
 		{
-			MethodName: "UpdateIsPublished",
-			Handler:    _CourseService_UpdateIsPublished_Handler,
+			MethodName: "UpdatePublishedAt",
+			Handler:    _CourseService_UpdatePublishedAt_Handler,
 		},
 		{
 			MethodName: "DeleteCourse",

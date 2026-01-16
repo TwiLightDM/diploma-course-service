@@ -27,7 +27,7 @@ type Course struct {
 	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	AccessType    string                 `protobuf:"bytes,4,opt,name=access_type,json=accessType,proto3" json:"access_type,omitempty"`
-	IsPublished   bool                   `protobuf:"varint,5,opt,name=is_published,json=isPublished,proto3" json:"is_published,omitempty"`
+	PublishedAt   string                 `protobuf:"bytes,5,opt,name=published_at,json=publishedAt,proto3" json:"published_at,omitempty"`
 	OwnerId       string                 `protobuf:"bytes,6,opt,name=owner_id,json=ownerId,proto3" json:"owner_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -91,11 +91,11 @@ func (x *Course) GetAccessType() string {
 	return ""
 }
 
-func (x *Course) GetIsPublished() bool {
+func (x *Course) GetPublishedAt() string {
 	if x != nil {
-		return x.IsPublished
+		return x.PublishedAt
 	}
-	return false
+	return ""
 }
 
 func (x *Course) GetOwnerId() string {
@@ -549,28 +549,27 @@ func (x *UpdateCourseRequest) GetAccessType() string {
 	return ""
 }
 
-type UpdateIsPublishedRequest struct {
+type UpdatePublishedAtRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	IsPublished   bool                   `protobuf:"varint,2,opt,name=is_published,json=isPublished,proto3" json:"is_published,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UpdateIsPublishedRequest) Reset() {
-	*x = UpdateIsPublishedRequest{}
+func (x *UpdatePublishedAtRequest) Reset() {
+	*x = UpdatePublishedAtRequest{}
 	mi := &file_proto_course_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *UpdateIsPublishedRequest) String() string {
+func (x *UpdatePublishedAtRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UpdateIsPublishedRequest) ProtoMessage() {}
+func (*UpdatePublishedAtRequest) ProtoMessage() {}
 
-func (x *UpdateIsPublishedRequest) ProtoReflect() protoreflect.Message {
+func (x *UpdatePublishedAtRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_course_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -582,23 +581,16 @@ func (x *UpdateIsPublishedRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateIsPublishedRequest.ProtoReflect.Descriptor instead.
-func (*UpdateIsPublishedRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use UpdatePublishedAtRequest.ProtoReflect.Descriptor instead.
+func (*UpdatePublishedAtRequest) Descriptor() ([]byte, []int) {
 	return file_proto_course_service_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *UpdateIsPublishedRequest) GetId() string {
+func (x *UpdatePublishedAtRequest) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
-}
-
-func (x *UpdateIsPublishedRequest) GetIsPublished() bool {
-	if x != nil {
-		return x.IsPublished
-	}
-	return false
 }
 
 type UpdateCourseResponse struct {
@@ -736,7 +728,7 @@ const file_proto_course_service_proto_rawDesc = "" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1f\n" +
 	"\vaccess_type\x18\x04 \x01(\tR\n" +
 	"accessType\x12!\n" +
-	"\fis_published\x18\x05 \x01(\bR\visPublished\x12\x19\n" +
+	"\fpublished_at\x18\x05 \x01(\tR\vpublishedAt\x12\x19\n" +
 	"\bowner_id\x18\x06 \x01(\tR\aownerId\"\x89\x01\n" +
 	"\x13CreateCourseRequest\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x12 \n" +
@@ -763,10 +755,9 @@ const file_proto_course_service_proto_rawDesc = "" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1f\n" +
 	"\vaccess_type\x18\x04 \x01(\tR\n" +
-	"accessType\"M\n" +
-	"\x18UpdateIsPublishedRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
-	"\fis_published\x18\x02 \x01(\bR\visPublished\"E\n" +
+	"accessType\"*\n" +
+	"\x18UpdatePublishedAtRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"E\n" +
 	"\x14UpdateCourseResponse\x12-\n" +
 	"\x06course\x18\x01 \x01(\v2\x15.courseservice.CourseR\x06course\"%\n" +
 	"\x13DeleteCourseRequest\x12\x0e\n" +
@@ -779,7 +770,7 @@ const file_proto_course_service_proto_rawDesc = "" +
 	"\x17ReadAllCoursesByOwnerId\x12-.courseservice.ReadAllCoursesByOwnerIdRequest\x1a..courseservice.ReadAllCoursesByOwnerIdResponse\x12{\n" +
 	"\x18ReadAllCoursesByGroupIds\x12..courseservice.ReadAllCoursesByGroupIdsRequest\x1a/.courseservice.ReadAllCoursesByGroupIdsResponse\x12W\n" +
 	"\fUpdateCourse\x12\".courseservice.UpdateCourseRequest\x1a#.courseservice.UpdateCourseResponse\x12a\n" +
-	"\x11UpdateIsPublished\x12'.courseservice.UpdateIsPublishedRequest\x1a#.courseservice.UpdateCourseResponse\x12W\n" +
+	"\x11UpdatePublishedAt\x12'.courseservice.UpdatePublishedAtRequest\x1a#.courseservice.UpdateCourseResponse\x12W\n" +
 	"\fDeleteCourse\x12\".courseservice.DeleteCourseRequest\x1a#.courseservice.DeleteCourseResponseB\x17Z\x15proto/courseservicepbb\x06proto3"
 
 var (
@@ -806,7 +797,7 @@ var file_proto_course_service_proto_goTypes = []any{
 	(*ReadAllCoursesByGroupIdsRequest)(nil),  // 7: courseservice.ReadAllCoursesByGroupIdsRequest
 	(*ReadAllCoursesByGroupIdsResponse)(nil), // 8: courseservice.ReadAllCoursesByGroupIdsResponse
 	(*UpdateCourseRequest)(nil),              // 9: courseservice.UpdateCourseRequest
-	(*UpdateIsPublishedRequest)(nil),         // 10: courseservice.UpdateIsPublishedRequest
+	(*UpdatePublishedAtRequest)(nil),         // 10: courseservice.UpdatePublishedAtRequest
 	(*UpdateCourseResponse)(nil),             // 11: courseservice.UpdateCourseResponse
 	(*DeleteCourseRequest)(nil),              // 12: courseservice.DeleteCourseRequest
 	(*DeleteCourseResponse)(nil),             // 13: courseservice.DeleteCourseResponse
@@ -822,14 +813,14 @@ var file_proto_course_service_proto_depIdxs = []int32{
 	5,  // 7: courseservice.CourseService.ReadAllCoursesByOwnerId:input_type -> courseservice.ReadAllCoursesByOwnerIdRequest
 	7,  // 8: courseservice.CourseService.ReadAllCoursesByGroupIds:input_type -> courseservice.ReadAllCoursesByGroupIdsRequest
 	9,  // 9: courseservice.CourseService.UpdateCourse:input_type -> courseservice.UpdateCourseRequest
-	10, // 10: courseservice.CourseService.UpdateIsPublished:input_type -> courseservice.UpdateIsPublishedRequest
+	10, // 10: courseservice.CourseService.UpdatePublishedAt:input_type -> courseservice.UpdatePublishedAtRequest
 	12, // 11: courseservice.CourseService.DeleteCourse:input_type -> courseservice.DeleteCourseRequest
 	2,  // 12: courseservice.CourseService.CreateCourse:output_type -> courseservice.CreateCourseResponse
 	4,  // 13: courseservice.CourseService.ReadCourse:output_type -> courseservice.ReadCourseResponse
 	6,  // 14: courseservice.CourseService.ReadAllCoursesByOwnerId:output_type -> courseservice.ReadAllCoursesByOwnerIdResponse
 	8,  // 15: courseservice.CourseService.ReadAllCoursesByGroupIds:output_type -> courseservice.ReadAllCoursesByGroupIdsResponse
 	11, // 16: courseservice.CourseService.UpdateCourse:output_type -> courseservice.UpdateCourseResponse
-	11, // 17: courseservice.CourseService.UpdateIsPublished:output_type -> courseservice.UpdateCourseResponse
+	11, // 17: courseservice.CourseService.UpdatePublishedAt:output_type -> courseservice.UpdateCourseResponse
 	13, // 18: courseservice.CourseService.DeleteCourse:output_type -> courseservice.DeleteCourseResponse
 	12, // [12:19] is the sub-list for method output_type
 	5,  // [5:12] is the sub-list for method input_type

@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
 	"github.com/TwiLightDM/diploma-course-service/proto/lessonservicepb"
+	"github.com/google/uuid"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -19,10 +20,11 @@ func NewLessonHandler(service LessonService) *LessonHandler {
 
 func (h *LessonHandler) CreateLesson(ctx context.Context, req *lessonservicepb.CreateLessonRequest) (*lessonservicepb.CreateLessonResponse, error) {
 	lesson := entities.Lesson{
+		Id:          uuid.NewString(),
 		Title:       req.Title,
 		Description: req.Description,
 		Content:     req.Content,
-		ModuleId:    req.CourseId,
+		ModuleId:    req.ModuleId,
 	}
 
 	err := h.service.CreateLesson(ctx, &lesson)
@@ -36,7 +38,7 @@ func (h *LessonHandler) CreateLesson(ctx context.Context, req *lessonservicepb.C
 			Title:       lesson.Title,
 			Description: lesson.Description,
 			Content:     lesson.Content,
-			CourseId:    lesson.ModuleId,
+			ModuleId:    lesson.ModuleId,
 		},
 	}, nil
 }
@@ -54,7 +56,7 @@ func (h *LessonHandler) ReadLesson(ctx context.Context, req *lessonservicepb.Rea
 			Description: lesson.Description,
 			Position:    lesson.Position,
 			Content:     lesson.Content,
-			CourseId:    lesson.ModuleId,
+			ModuleId:    lesson.ModuleId,
 		},
 	}, nil
 }
@@ -73,7 +75,7 @@ func (h *LessonHandler) ReadAllLessonsByModuleId(ctx context.Context, req *lesso
 			Description: lesson.Description,
 			Position:    lesson.Position,
 			Content:     lesson.Content,
-			CourseId:    lesson.ModuleId,
+			ModuleId:    lesson.ModuleId,
 		})
 	}
 
@@ -99,7 +101,7 @@ func (h *LessonHandler) UpdateLesson(ctx context.Context, req *lessonservicepb.U
 			Description: updatedLesson.Description,
 			Position:    updatedLesson.Position,
 			Content:     updatedLesson.Content,
-			CourseId:    updatedLesson.ModuleId,
+			ModuleId:    updatedLesson.ModuleId,
 		},
 	}, nil
 }

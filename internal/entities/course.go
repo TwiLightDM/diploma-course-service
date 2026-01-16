@@ -1,13 +1,16 @@
 package entities
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"time"
+)
 
 type Course struct {
 	Id          string
 	Title       string
 	Description string
 	AccessType  string
-	IsPublished bool
+	PublishedAt *time.Time
 	OwnerId     string
 	DeletedAt   gorm.DeletedAt `gorm:"index"`
 }

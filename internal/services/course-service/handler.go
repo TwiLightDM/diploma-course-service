@@ -6,6 +6,7 @@ import (
 	"github.com/TwiLightDM/diploma-course-service/proto/courseservicepb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"time"
 )
 
 type CourseHandler struct {
@@ -30,13 +31,18 @@ func (h *CourseHandler) CreateCourse(ctx context.Context, req *courseservicepb.C
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
+	var publishedAt string
+	if course.PublishedAt != nil {
+		publishedAt = course.PublishedAt.Format(time.DateTime)
+	}
+
 	return &courseservicepb.CreateCourseResponse{
 		Course: &courseservicepb.Course{
 			Id:          course.Id,
 			Title:       course.Title,
 			Description: course.Description,
 			AccessType:  course.AccessType,
-			IsPublished: course.IsPublished,
+			PublishedAt: publishedAt,
 			OwnerId:     course.OwnerId,
 		},
 	}, nil
@@ -48,14 +54,19 @@ func (h *CourseHandler) ReadCourse(ctx context.Context, req *courseservicepb.Rea
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
+	var publishedAt string
+	if course.PublishedAt != nil {
+		publishedAt = course.PublishedAt.Format(time.DateTime)
+	}
+
 	return &courseservicepb.ReadCourseResponse{
 		Course: &courseservicepb.Course{
 			Id:          course.Id,
 			Title:       course.Title,
 			Description: course.Description,
 			AccessType:  course.AccessType,
+			PublishedAt: publishedAt,
 			OwnerId:     course.OwnerId,
-			IsPublished: course.IsPublished,
 		},
 	}, nil
 }
@@ -68,12 +79,18 @@ func (h *CourseHandler) ReadAllCoursesByOwnerId(ctx context.Context, req *course
 
 	coursesPb := make([]*courseservicepb.Course, 0, len(courses))
 	for _, course := range courses {
+
+		var publishedAt string
+		if course.PublishedAt != nil {
+			publishedAt = course.PublishedAt.Format(time.DateTime)
+		}
+
 		coursesPb = append(coursesPb, &courseservicepb.Course{
 			Id:          course.Id,
 			Title:       course.Title,
 			Description: course.Description,
 			AccessType:  course.AccessType,
-			IsPublished: course.IsPublished,
+			PublishedAt: publishedAt,
 			OwnerId:     course.OwnerId,
 		})
 	}
@@ -90,8 +107,14 @@ func (h *CourseHandler) UpdateCourse(ctx context.Context, req *courseservicepb.U
 		Description: req.Description,
 		AccessType:  req.AccessType,
 	})
+
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	var publishedAt string
+	if updatedCourse.PublishedAt != nil {
+		publishedAt = updatedCourse.PublishedAt.Format(time.DateTime)
 	}
 
 	return &courseservicepb.UpdateCourseResponse{
@@ -100,19 +123,22 @@ func (h *CourseHandler) UpdateCourse(ctx context.Context, req *courseservicepb.U
 			Title:       updatedCourse.Title,
 			Description: updatedCourse.Description,
 			AccessType:  updatedCourse.AccessType,
-			IsPublished: updatedCourse.IsPublished,
+			PublishedAt: publishedAt,
 			OwnerId:     updatedCourse.OwnerId,
 		},
 	}, nil
 }
 
-func (h *CourseHandler) UpdateIsPublished(ctx context.Context, req *courseservicepb.UpdateIsPublishedRequest) (*courseservicepb.UpdateCourseResponse, error) {
-	updatedCourse, err := h.service.UpdateCourse(ctx, &entities.Course{
-		Id:          req.Id,
-		IsPublished: req.IsPublished,
-	})
+func (h *CourseHandler) UpdatePublishedAt(ctx context.Context, req *courseservicepb.UpdatePublishedAtRequest) (*courseservicepb.UpdateCourseResponse, error) {
+	updatedCourse, err := h.service.UpdatePublishedAt(ctx, req.Id)
+
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	var publishedAt string
+	if updatedCourse.PublishedAt != nil {
+		publishedAt = updatedCourse.PublishedAt.Format(time.DateTime)
 	}
 
 	return &courseservicepb.UpdateCourseResponse{
@@ -121,7 +147,7 @@ func (h *CourseHandler) UpdateIsPublished(ctx context.Context, req *courseservic
 			Title:       updatedCourse.Title,
 			Description: updatedCourse.Description,
 			AccessType:  updatedCourse.AccessType,
-			IsPublished: updatedCourse.IsPublished,
+			PublishedAt: publishedAt,
 			OwnerId:     updatedCourse.OwnerId,
 		},
 	}, nil

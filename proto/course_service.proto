@@ -10,7 +10,7 @@ service CourseService {
   rpc ReadAllCoursesByOwnerId(ReadAllCoursesByOwnerIdRequest) returns (ReadAllCoursesByOwnerIdResponse);
   rpc ReadAllCoursesByGroupIds(ReadAllCoursesByGroupIdsRequest) returns (ReadAllCoursesByGroupIdsResponse);
   rpc UpdateCourse(UpdateCourseRequest) returns (UpdateCourseResponse);
-  rpc UpdateIsPublished(UpdateIsPublishedRequest) returns (UpdateCourseResponse);
+  rpc UpdatePublishedAt(UpdatePublishedAtRequest) returns (UpdateCourseResponse);
   rpc DeleteCourse(DeleteCourseRequest) returns (DeleteCourseResponse);
 }
 
@@ -19,7 +19,7 @@ message Course {
   string title = 2;
   string description = 3;
   string access_type = 4;
-  bool is_published = 5;
+  string published_at = 5;
   string owner_id = 6;
 }
 
@@ -65,9 +65,8 @@ message UpdateCourseRequest {
   string access_type = 4;
 }
 
-message UpdateIsPublishedRequest{
+message UpdatePublishedAtRequest{
   string id = 1;
-  bool is_published = 2;
 }
 
 message UpdateCourseResponse {

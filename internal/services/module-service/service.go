@@ -27,7 +27,7 @@ func (s *moduleService) CreateModule(ctx context.Context, module *entities.Modul
 	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
 	defer cancel()
 
-	module.Id = uuid.New().String()
+	module.Id = uuid.NewString()
 
 	return s.repo.Create(ctx, module)
 }
