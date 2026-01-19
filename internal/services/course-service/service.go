@@ -83,7 +83,7 @@ func (s *courseService) UpdatePublishedAt(ctx context.Context, id string) (*enti
 	}
 
 	var t *time.Time
-	if course.PublishedAt != nil {
+	if course.PublishedAt == nil {
 		now := time.Now()
 		t = &now
 	} else {
@@ -94,6 +94,8 @@ func (s *courseService) UpdatePublishedAt(ctx context.Context, id string) (*enti
 	if err != nil {
 		return nil, err
 	}
+
+	course.PublishedAt = t
 
 	return course, nil
 }

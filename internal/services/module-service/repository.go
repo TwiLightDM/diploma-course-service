@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
+	"github.com/TwiLightDM/diploma-course-service/internal/errs"
 	"gorm.io/gorm"
 )
 
@@ -62,7 +63,7 @@ func (r *moduleRepository) ReadById(ctx context.Context, id string) (*entities.M
 		WithContext(ctx).
 		Where("id = ?", id).First(&module).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, nil
+			return nil, errs.ErrRecordNotFound
 		}
 		return nil, err
 	}

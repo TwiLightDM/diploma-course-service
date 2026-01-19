@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
+	"github.com/TwiLightDM/diploma-course-service/internal/errs"
 	"gorm.io/gorm"
 	"time"
 )
@@ -36,7 +37,7 @@ func (r *courseRepository) ReadById(ctx context.Context, id string) (*entities.C
 		WithContext(ctx).
 		Where("id = ?", id).First(&course).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, nil
+			return nil, errs.ErrRecordNotFound
 		}
 		return nil, err
 	}
