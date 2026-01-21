@@ -52,7 +52,8 @@ message UpdateLessonRequest {
   string id = 1;
   string title = 2;
   string description = 3;
-  int64 position = 4;
+  string content = 4;
+  int64 position = 5;
 }
 
 message UpdateLessonResponse {

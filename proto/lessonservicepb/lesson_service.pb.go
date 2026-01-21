@@ -398,7 +398,8 @@ type UpdateLessonRequest struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Position      int64                  `protobuf:"varint,4,opt,name=position,proto3" json:"position,omitempty"`
+	Content       string                 `protobuf:"bytes,4,opt,name=content,proto3" json:"content,omitempty"`
+	Position      int64                  `protobuf:"varint,5,opt,name=position,proto3" json:"position,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -450,6 +451,13 @@ func (x *UpdateLessonRequest) GetTitle() string {
 func (x *UpdateLessonRequest) GetDescription() string {
 	if x != nil {
 		return x.Description
+	}
+	return ""
+}
+
+func (x *UpdateLessonRequest) GetContent() string {
+	if x != nil {
+		return x.Content
 	}
 	return ""
 }
@@ -611,12 +619,13 @@ const file_proto_lesson_service_proto_rawDesc = "" +
 	"\x1fReadAllLessonsByModuleIdRequest\x12\x1b\n" +
 	"\tmodule_id\x18\x01 \x01(\tR\bmoduleId\"S\n" +
 	" ReadAllLessonsByModuleIdResponse\x12/\n" +
-	"\alessons\x18\x01 \x03(\v2\x15.lessonservice.LessonR\alessons\"y\n" +
+	"\alessons\x18\x01 \x03(\v2\x15.lessonservice.LessonR\alessons\"\x93\x01\n" +
 	"\x13UpdateLessonRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1a\n" +
-	"\bposition\x18\x04 \x01(\x03R\bposition\"E\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x18\n" +
+	"\acontent\x18\x04 \x01(\tR\acontent\x12\x1a\n" +
+	"\bposition\x18\x05 \x01(\x03R\bposition\"E\n" +
 	"\x14UpdateLessonResponse\x12-\n" +
 	"\x06lesson\x18\x01 \x01(\v2\x15.lessonservice.LessonR\x06lesson\"%\n" +
 	"\x13DeleteLessonRequest\x12\x0e\n" +
