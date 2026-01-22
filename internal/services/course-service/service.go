@@ -2,15 +2,17 @@ package course_service
 
 import (
 	"context"
+	"time"
+
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
 	"github.com/google/uuid"
-	"time"
 )
 
 type CourseService interface {
 	CreateCourse(ctx context.Context, course *entities.Course) error
 	ReadCourseById(ctx context.Context, id string) (*entities.Course, error)
 	ReadAllCoursesByOwnerId(ctx context.Context, ownerId string) ([]entities.Course, error)
+	ReadAllAvailableCourses(ctx context.Context, groupsIds []string) ([]entities.Course, error)
 	UpdateCourse(ctx context.Context, course *entities.Course) (*entities.Course, error)
 	UpdatePublishedAt(ctx context.Context, id string) (*entities.Course, error)
 	DeleteCourse(ctx context.Context, id string) error
@@ -50,6 +52,18 @@ func (s *courseService) ReadAllCoursesByOwnerId(ctx context.Context, ownerId str
 	defer cancel()
 
 	courses, err := s.repo.ReadAllByOwnerId(ctx, ownerId)
+	if err != nil {
+		return nil, err
+	}
+
+	return courses, nil
+}
+
+func (s *courseService) ReadAllAvailableCourses(ctx context.Context, groupsIds []string) ([]entities.Course, error) {
+	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	defer cancel()
+
+	courses, err := s.repo.ReadAllAvailableCourses(ctx, groupsIds)
 	if err != nil {
 		return nil, err
 	}

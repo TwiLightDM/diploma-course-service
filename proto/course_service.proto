@@ -8,7 +8,7 @@ service CourseService {
   rpc CreateCourse(CreateCourseRequest) returns (CreateCourseResponse);
   rpc ReadCourse(ReadCourseRequest) returns (ReadCourseResponse);
   rpc ReadAllCoursesByOwnerId(ReadAllCoursesByOwnerIdRequest) returns (ReadAllCoursesByOwnerIdResponse);
-  rpc ReadAllCoursesByGroupIds(ReadAllCoursesByGroupIdsRequest) returns (ReadAllCoursesByGroupIdsResponse);
+  rpc ReadAllAvailableCourses(ReadAllAvailableCoursesRequest) returns (ReadAllAvailableCoursesResponse);
   rpc UpdateCourse(UpdateCourseRequest) returns (UpdateCourseResponse);
   rpc UpdatePublishedAt(UpdatePublishedAtRequest) returns (UpdateCourseResponse);
   rpc DeleteCourse(DeleteCourseRequest) returns (DeleteCourseResponse);
@@ -50,11 +50,11 @@ message ReadAllCoursesByOwnerIdResponse {
   repeated Course courses = 1;
 }
 
-message ReadAllCoursesByGroupIdsRequest {
+message ReadAllAvailableCoursesRequest {
   repeated string group_ids = 1;
 }
 
-message ReadAllCoursesByGroupIdsResponse {
+message ReadAllAvailableCoursesResponse {
   repeated Course courses = 1;
 }
 

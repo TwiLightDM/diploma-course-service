@@ -393,27 +393,27 @@ func (x *ReadAllCoursesByOwnerIdResponse) GetCourses() []*Course {
 	return nil
 }
 
-type ReadAllCoursesByGroupIdsRequest struct {
+type ReadAllAvailableCoursesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	GroupIds      []string               `protobuf:"bytes,1,rep,name=group_ids,json=groupIds,proto3" json:"group_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ReadAllCoursesByGroupIdsRequest) Reset() {
-	*x = ReadAllCoursesByGroupIdsRequest{}
+func (x *ReadAllAvailableCoursesRequest) Reset() {
+	*x = ReadAllAvailableCoursesRequest{}
 	mi := &file_proto_course_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ReadAllCoursesByGroupIdsRequest) String() string {
+func (x *ReadAllAvailableCoursesRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ReadAllCoursesByGroupIdsRequest) ProtoMessage() {}
+func (*ReadAllAvailableCoursesRequest) ProtoMessage() {}
 
-func (x *ReadAllCoursesByGroupIdsRequest) ProtoReflect() protoreflect.Message {
+func (x *ReadAllAvailableCoursesRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_course_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -425,39 +425,39 @@ func (x *ReadAllCoursesByGroupIdsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ReadAllCoursesByGroupIdsRequest.ProtoReflect.Descriptor instead.
-func (*ReadAllCoursesByGroupIdsRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use ReadAllAvailableCoursesRequest.ProtoReflect.Descriptor instead.
+func (*ReadAllAvailableCoursesRequest) Descriptor() ([]byte, []int) {
 	return file_proto_course_service_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *ReadAllCoursesByGroupIdsRequest) GetGroupIds() []string {
+func (x *ReadAllAvailableCoursesRequest) GetGroupIds() []string {
 	if x != nil {
 		return x.GroupIds
 	}
 	return nil
 }
 
-type ReadAllCoursesByGroupIdsResponse struct {
+type ReadAllAvailableCoursesResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Courses       []*Course              `protobuf:"bytes,1,rep,name=courses,proto3" json:"courses,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ReadAllCoursesByGroupIdsResponse) Reset() {
-	*x = ReadAllCoursesByGroupIdsResponse{}
+func (x *ReadAllAvailableCoursesResponse) Reset() {
+	*x = ReadAllAvailableCoursesResponse{}
 	mi := &file_proto_course_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ReadAllCoursesByGroupIdsResponse) String() string {
+func (x *ReadAllAvailableCoursesResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ReadAllCoursesByGroupIdsResponse) ProtoMessage() {}
+func (*ReadAllAvailableCoursesResponse) ProtoMessage() {}
 
-func (x *ReadAllCoursesByGroupIdsResponse) ProtoReflect() protoreflect.Message {
+func (x *ReadAllAvailableCoursesResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_course_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -469,12 +469,12 @@ func (x *ReadAllCoursesByGroupIdsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ReadAllCoursesByGroupIdsResponse.ProtoReflect.Descriptor instead.
-func (*ReadAllCoursesByGroupIdsResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use ReadAllAvailableCoursesResponse.ProtoReflect.Descriptor instead.
+func (*ReadAllAvailableCoursesResponse) Descriptor() ([]byte, []int) {
 	return file_proto_course_service_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *ReadAllCoursesByGroupIdsResponse) GetCourses() []*Course {
+func (x *ReadAllAvailableCoursesResponse) GetCourses() []*Course {
 	if x != nil {
 		return x.Courses
 	}
@@ -745,10 +745,10 @@ const file_proto_course_service_proto_rawDesc = "" +
 	"\x1eReadAllCoursesByOwnerIdRequest\x12\x19\n" +
 	"\bowner_id\x18\x01 \x01(\tR\aownerId\"R\n" +
 	"\x1fReadAllCoursesByOwnerIdResponse\x12/\n" +
-	"\acourses\x18\x01 \x03(\v2\x15.courseservice.CourseR\acourses\">\n" +
-	"\x1fReadAllCoursesByGroupIdsRequest\x12\x1b\n" +
-	"\tgroup_ids\x18\x01 \x03(\tR\bgroupIds\"S\n" +
-	" ReadAllCoursesByGroupIdsResponse\x12/\n" +
+	"\acourses\x18\x01 \x03(\v2\x15.courseservice.CourseR\acourses\"=\n" +
+	"\x1eReadAllAvailableCoursesRequest\x12\x1b\n" +
+	"\tgroup_ids\x18\x01 \x03(\tR\bgroupIds\"R\n" +
+	"\x1fReadAllAvailableCoursesResponse\x12/\n" +
 	"\acourses\x18\x01 \x03(\v2\x15.courseservice.CourseR\acourses\"~\n" +
 	"\x13UpdateCourseRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
@@ -762,13 +762,13 @@ const file_proto_course_service_proto_rawDesc = "" +
 	"\x06course\x18\x01 \x01(\v2\x15.courseservice.CourseR\x06course\"%\n" +
 	"\x13DeleteCourseRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"\x16\n" +
-	"\x14DeleteCourseResponse2\xc7\x05\n" +
+	"\x14DeleteCourseResponse2\xc4\x05\n" +
 	"\rCourseService\x12W\n" +
 	"\fCreateCourse\x12\".courseservice.CreateCourseRequest\x1a#.courseservice.CreateCourseResponse\x12Q\n" +
 	"\n" +
 	"ReadCourse\x12 .courseservice.ReadCourseRequest\x1a!.courseservice.ReadCourseResponse\x12x\n" +
-	"\x17ReadAllCoursesByOwnerId\x12-.courseservice.ReadAllCoursesByOwnerIdRequest\x1a..courseservice.ReadAllCoursesByOwnerIdResponse\x12{\n" +
-	"\x18ReadAllCoursesByGroupIds\x12..courseservice.ReadAllCoursesByGroupIdsRequest\x1a/.courseservice.ReadAllCoursesByGroupIdsResponse\x12W\n" +
+	"\x17ReadAllCoursesByOwnerId\x12-.courseservice.ReadAllCoursesByOwnerIdRequest\x1a..courseservice.ReadAllCoursesByOwnerIdResponse\x12x\n" +
+	"\x17ReadAllAvailableCourses\x12-.courseservice.ReadAllAvailableCoursesRequest\x1a..courseservice.ReadAllAvailableCoursesResponse\x12W\n" +
 	"\fUpdateCourse\x12\".courseservice.UpdateCourseRequest\x1a#.courseservice.UpdateCourseResponse\x12a\n" +
 	"\x11UpdatePublishedAt\x12'.courseservice.UpdatePublishedAtRequest\x1a#.courseservice.UpdateCourseResponse\x12W\n" +
 	"\fDeleteCourse\x12\".courseservice.DeleteCourseRequest\x1a#.courseservice.DeleteCourseResponseB\x17Z\x15proto/courseservicepbb\x06proto3"
@@ -787,38 +787,38 @@ func file_proto_course_service_proto_rawDescGZIP() []byte {
 
 var file_proto_course_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_proto_course_service_proto_goTypes = []any{
-	(*Course)(nil),                           // 0: courseservice.Course
-	(*CreateCourseRequest)(nil),              // 1: courseservice.CreateCourseRequest
-	(*CreateCourseResponse)(nil),             // 2: courseservice.CreateCourseResponse
-	(*ReadCourseRequest)(nil),                // 3: courseservice.ReadCourseRequest
-	(*ReadCourseResponse)(nil),               // 4: courseservice.ReadCourseResponse
-	(*ReadAllCoursesByOwnerIdRequest)(nil),   // 5: courseservice.ReadAllCoursesByOwnerIdRequest
-	(*ReadAllCoursesByOwnerIdResponse)(nil),  // 6: courseservice.ReadAllCoursesByOwnerIdResponse
-	(*ReadAllCoursesByGroupIdsRequest)(nil),  // 7: courseservice.ReadAllCoursesByGroupIdsRequest
-	(*ReadAllCoursesByGroupIdsResponse)(nil), // 8: courseservice.ReadAllCoursesByGroupIdsResponse
-	(*UpdateCourseRequest)(nil),              // 9: courseservice.UpdateCourseRequest
-	(*UpdatePublishedAtRequest)(nil),         // 10: courseservice.UpdatePublishedAtRequest
-	(*UpdateCourseResponse)(nil),             // 11: courseservice.UpdateCourseResponse
-	(*DeleteCourseRequest)(nil),              // 12: courseservice.DeleteCourseRequest
-	(*DeleteCourseResponse)(nil),             // 13: courseservice.DeleteCourseResponse
+	(*Course)(nil),                          // 0: courseservice.Course
+	(*CreateCourseRequest)(nil),             // 1: courseservice.CreateCourseRequest
+	(*CreateCourseResponse)(nil),            // 2: courseservice.CreateCourseResponse
+	(*ReadCourseRequest)(nil),               // 3: courseservice.ReadCourseRequest
+	(*ReadCourseResponse)(nil),              // 4: courseservice.ReadCourseResponse
+	(*ReadAllCoursesByOwnerIdRequest)(nil),  // 5: courseservice.ReadAllCoursesByOwnerIdRequest
+	(*ReadAllCoursesByOwnerIdResponse)(nil), // 6: courseservice.ReadAllCoursesByOwnerIdResponse
+	(*ReadAllAvailableCoursesRequest)(nil),  // 7: courseservice.ReadAllAvailableCoursesRequest
+	(*ReadAllAvailableCoursesResponse)(nil), // 8: courseservice.ReadAllAvailableCoursesResponse
+	(*UpdateCourseRequest)(nil),             // 9: courseservice.UpdateCourseRequest
+	(*UpdatePublishedAtRequest)(nil),        // 10: courseservice.UpdatePublishedAtRequest
+	(*UpdateCourseResponse)(nil),            // 11: courseservice.UpdateCourseResponse
+	(*DeleteCourseRequest)(nil),             // 12: courseservice.DeleteCourseRequest
+	(*DeleteCourseResponse)(nil),            // 13: courseservice.DeleteCourseResponse
 }
 var file_proto_course_service_proto_depIdxs = []int32{
 	0,  // 0: courseservice.CreateCourseResponse.course:type_name -> courseservice.Course
 	0,  // 1: courseservice.ReadCourseResponse.course:type_name -> courseservice.Course
 	0,  // 2: courseservice.ReadAllCoursesByOwnerIdResponse.courses:type_name -> courseservice.Course
-	0,  // 3: courseservice.ReadAllCoursesByGroupIdsResponse.courses:type_name -> courseservice.Course
+	0,  // 3: courseservice.ReadAllAvailableCoursesResponse.courses:type_name -> courseservice.Course
 	0,  // 4: courseservice.UpdateCourseResponse.course:type_name -> courseservice.Course
 	1,  // 5: courseservice.CourseService.CreateCourse:input_type -> courseservice.CreateCourseRequest
 	3,  // 6: courseservice.CourseService.ReadCourse:input_type -> courseservice.ReadCourseRequest
 	5,  // 7: courseservice.CourseService.ReadAllCoursesByOwnerId:input_type -> courseservice.ReadAllCoursesByOwnerIdRequest
-	7,  // 8: courseservice.CourseService.ReadAllCoursesByGroupIds:input_type -> courseservice.ReadAllCoursesByGroupIdsRequest
+	7,  // 8: courseservice.CourseService.ReadAllAvailableCourses:input_type -> courseservice.ReadAllAvailableCoursesRequest
 	9,  // 9: courseservice.CourseService.UpdateCourse:input_type -> courseservice.UpdateCourseRequest
 	10, // 10: courseservice.CourseService.UpdatePublishedAt:input_type -> courseservice.UpdatePublishedAtRequest
 	12, // 11: courseservice.CourseService.DeleteCourse:input_type -> courseservice.DeleteCourseRequest
 	2,  // 12: courseservice.CourseService.CreateCourse:output_type -> courseservice.CreateCourseResponse
 	4,  // 13: courseservice.CourseService.ReadCourse:output_type -> courseservice.ReadCourseResponse
 	6,  // 14: courseservice.CourseService.ReadAllCoursesByOwnerId:output_type -> courseservice.ReadAllCoursesByOwnerIdResponse
-	8,  // 15: courseservice.CourseService.ReadAllCoursesByGroupIds:output_type -> courseservice.ReadAllCoursesByGroupIdsResponse
+	8,  // 15: courseservice.CourseService.ReadAllAvailableCourses:output_type -> courseservice.ReadAllAvailableCoursesResponse
 	11, // 16: courseservice.CourseService.UpdateCourse:output_type -> courseservice.UpdateCourseResponse
 	11, // 17: courseservice.CourseService.UpdatePublishedAt:output_type -> courseservice.UpdateCourseResponse
 	13, // 18: courseservice.CourseService.DeleteCourse:output_type -> courseservice.DeleteCourseResponse

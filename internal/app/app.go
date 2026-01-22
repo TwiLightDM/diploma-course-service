@@ -2,19 +2,22 @@ package app
 
 import (
 	"context"
-	"github.com/TwiLightDM/diploma-course-service/internal/config"
-	"github.com/TwiLightDM/diploma-course-service/internal/services/course-service"
-	"github.com/TwiLightDM/diploma-course-service/internal/services/lesson-service"
-	"github.com/TwiLightDM/diploma-course-service/internal/services/module-service"
-	"github.com/TwiLightDM/diploma-course-service/package/databases"
-	"github.com/TwiLightDM/diploma-course-service/proto/courseservicepb"
-	"github.com/TwiLightDM/diploma-course-service/proto/lessonservicepb"
-	"github.com/TwiLightDM/diploma-course-service/proto/moduleservicepb"
 	"log"
 	"net"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/TwiLightDM/diploma-course-service/internal/config"
+	"github.com/TwiLightDM/diploma-course-service/internal/services/course-service"
+	"github.com/TwiLightDM/diploma-course-service/internal/services/group-course-service"
+	"github.com/TwiLightDM/diploma-course-service/internal/services/lesson-service"
+	"github.com/TwiLightDM/diploma-course-service/internal/services/module-service"
+	"github.com/TwiLightDM/diploma-course-service/package/databases"
+	"github.com/TwiLightDM/diploma-course-service/proto/courseservicepb"
+	"github.com/TwiLightDM/diploma-course-service/proto/groupcourseservicepb"
+	"github.com/TwiLightDM/diploma-course-service/proto/lessonservicepb"
+	"github.com/TwiLightDM/diploma-course-service/proto/moduleservicepb"
 
 	"google.golang.org/grpc"
 )
@@ -52,9 +55,14 @@ func Run(cfg *config.Config) error {
 	lessonService := lesson_service.NewLessonService(lessonRepo)
 	lessonHandler := lesson_service.NewLessonHandler(lessonService)
 
+	groupCourseRepo := group_course_service.NewGroupCourseRepository(db)
+	groupCourseService := group_course_service.NewGroupCourseService(groupCourseRepo)
+	groupCourseHandler := group_course_service.NewGroupCourseHandler(groupCourseService)
+
 	courseservicepb.RegisterCourseServiceServer(grpcServer, courseHandler)
 	moduleservicepb.RegisterModuleServiceServer(grpcServer, moduleHandler)
 	lessonservicepb.RegisterLessonServiceServer(grpcServer, lessonHandler)
+	groupcourseservicepb.RegisterGroupCourseServiceServer(grpcServer, groupCourseHandler)
 
 	ctx, stop := signal.NotifyContext(
 		context.Background(),

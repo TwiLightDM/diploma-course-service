@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package groupcourseservice;
+
+option go_package = "proto/groupcourseservicepb";
+
+service GroupCourseService {
+  rpc CreateGroupCourse(CreateGroupCourseRequest) returns (CreateGroupCourseResponse);
+  rpc ReadAllGroupCoursesByCourseId(ReadAllGroupCoursesByCourseIdRequest) returns (ReadAllGroupCoursesByCourseIdResponse);
+  rpc ReadAllGroupCoursesByGroupId(ReadAllGroupCoursesByGroupIdRequest) returns (ReadAllGroupCoursesByGroupIdResponse);
+  rpc DeleteGroupCourse(DeleteGroupCourseRequest) returns (DeleteGroupCourseResponse);
+}
+
+message GroupCourse{
+  string id = 1;
+  string group_id = 2;
+  string course_id = 3;
+}
+
+message CreateGroupCourseRequest{
+  string group_id = 1;
+  string course_id = 2;
+}
+
+message CreateGroupCourseResponse{
+  GroupCourse group_course = 1;
+}
+
+message ReadAllGroupCoursesByCourseIdRequest{
+  string course_id = 1;
+}
+
+message ReadAllGroupCoursesByCourseIdResponse{
+  repeated GroupCourse group_courses = 1;
+}
+
+message ReadAllGroupCoursesByGroupIdRequest{
+  string group_id = 1;
+}
+
+message ReadAllGroupCoursesByGroupIdResponse{
+  repeated GroupCourse group_courses = 1;
+}
+
+message DeleteGroupCourseRequest{
+  string id = 1;
+}
+
+message DeleteGroupCourseResponse{}

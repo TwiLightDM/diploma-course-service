@@ -2,11 +2,12 @@ package course_service
 
 import (
 	"context"
+	"time"
+
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
 	"github.com/TwiLightDM/diploma-course-service/proto/courseservicepb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"time"
 )
 
 type CourseHandler struct {
@@ -77,25 +78,24 @@ func (h *CourseHandler) ReadAllCoursesByOwnerId(ctx context.Context, req *course
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	coursesPb := make([]*courseservicepb.Course, 0, len(courses))
-	for _, course := range courses {
-
-		var publishedAt string
-		if course.PublishedAt != nil {
-			publishedAt = course.PublishedAt.Format(time.DateTime)
-		}
-
-		coursesPb = append(coursesPb, &courseservicepb.Course{
-			Id:          course.Id,
-			Title:       course.Title,
-			Description: course.Description,
-			AccessType:  course.AccessType,
-			PublishedAt: publishedAt,
-			OwnerId:     course.OwnerId,
-		})
-	}
+	coursesPb := h.groupCoursesToPb(courses)
 
 	return &courseservicepb.ReadAllCoursesByOwnerIdResponse{
+		Courses: coursesPb,
+	}, nil
+}
+
+func (h *CourseHandler) ReadAllAvailableCourses(ctx context.Context, req *courseservicepb.ReadAllAvailableCoursesRequest) (*courseservicepb.ReadAllAvailableCoursesResponse, error) {
+	groupIds := req.GroupIds
+
+	courses, err := h.service.ReadAllAvailableCourses(ctx, groupIds)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	coursesPb := h.groupCoursesToPb(courses)
+
+	return &courseservicepb.ReadAllAvailableCoursesResponse{
 		Courses: coursesPb,
 	}, nil
 }
@@ -159,4 +159,26 @@ func (h *CourseHandler) DeleteCourse(ctx context.Context, req *courseservicepb.D
 	}
 
 	return &courseservicepb.DeleteCourseResponse{}, nil
+}
+
+func (h *CourseHandler) groupCoursesToPb(courses []entities.Course) []*courseservicepb.Course {
+	coursesPb := make([]*courseservicepb.Course, 0, len(courses))
+	for _, course := range courses {
+
+		var publishedAt string
+		if course.PublishedAt != nil {
+			publishedAt = course.PublishedAt.Format(time.DateTime)
+		}
+
+		coursesPb = append(coursesPb, &courseservicepb.Course{
+			Id:          course.Id,
+			Title:       course.Title,
+			Description: course.Description,
+			AccessType:  course.AccessType,
+			PublishedAt: publishedAt,
+			OwnerId:     course.OwnerId,
+		})
+	}
+
+	return coursesPb
 }
