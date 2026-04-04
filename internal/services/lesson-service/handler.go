@@ -2,12 +2,21 @@ package lesson_service
 
 import (
 	"context"
+
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
 	"github.com/TwiLightDM/diploma-course-service/proto/lessonservicepb"
 	"github.com/google/uuid"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
+
+type LessonService interface {
+	CreateLesson(ctx context.Context, lesson *entities.Lesson) error
+	ReadLessonById(ctx context.Context, id string) (*entities.Lesson, error)
+	ReadAllLessonsByModuleId(ctx context.Context, moduleId string) ([]entities.Lesson, error)
+	UpdateLesson(ctx context.Context, lesson *entities.Lesson) (*entities.Lesson, error)
+	DeleteLesson(ctx context.Context, id string) error
+}
 
 type LessonHandler struct {
 	lessonservicepb.UnimplementedLessonServiceServer

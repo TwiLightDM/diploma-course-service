@@ -8,14 +8,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type ModuleRepository interface {
-	Create(ctx context.Context, module *entities.Module) error
-	ReadById(ctx context.Context, id string) (*entities.Module, error)
-	ReadAllByCourseId(ctx context.Context, courseId string) ([]entities.Module, error)
-	Update(ctx context.Context, module *entities.Module) (*entities.Module, error)
-	Delete(ctx context.Context, id string) error
-}
-
 type moduleRepository struct {
 	db *gorm.DB
 }

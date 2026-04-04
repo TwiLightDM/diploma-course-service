@@ -10,16 +10,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type CourseRepository interface {
-	Create(ctx context.Context, course *entities.Course) error
-	ReadById(ctx context.Context, id string) (*entities.Course, error)
-	ReadAllByOwnerId(ctx context.Context, ownerId string) ([]entities.Course, error)
-	ReadAllAvailableCourses(ctx context.Context, groupsIds []string) ([]entities.Course, error)
-	Update(ctx context.Context, course *entities.Course) (*entities.Course, error)
-	UpdatePublishedAt(ctx context.Context, id string, time *time.Time) error
-	Delete(ctx context.Context, id string) error
-}
-
 type courseRepository struct {
 	db *gorm.DB
 }
@@ -60,23 +50,14 @@ func (r *courseRepository) ReadAllByOwnerId(ctx context.Context, ownerId string)
 	return courses, nil
 }
 
-func (r *courseRepository) ReadAllAvailableCourses(ctx context.Context, groupsIds []string) ([]entities.Course, error) {
+func (r *courseRepository) ReadAllCourses(ctx context.Context) ([]entities.Course, error) {
 	var courses []entities.Course
-	db := r.db.WithContext(ctx).
-		Model(&entities.Course{}).
-		Joins("left join group_courses on group_courses.course_id = courses.id").
-		Where(
-			r.db.
-				Where("courses.access_type = ?", "public").
-				Or(
-					r.db.
-						Where("courses.access_type = ?", "restricted").
-						Where("group_courses.group_id IN ?", groupsIds),
-				),
-		).
-		Distinct("courses.id")
-
-	if err := db.Find(&courses).Error; err != nil {
+	if err := r.db.
+		WithContext(ctx).
+		Find(&courses).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
 		return nil, err
 	}
 

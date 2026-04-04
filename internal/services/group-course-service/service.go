@@ -8,11 +8,11 @@ import (
 	"github.com/google/uuid"
 )
 
-type GroupCourseService interface {
-	CreateGroupCourse(ctx context.Context, groupCourse *entities.GroupCourse) (*entities.GroupCourse, error)
-	ReadAllGroupCoursesByCourseId(ctx context.Context, courseId string) ([]entities.GroupCourse, error)
-	ReadAllGroupCoursesByGroupId(ctx context.Context, groupId string) ([]entities.GroupCourse, error)
-	DeleteGroupCourse(ctx context.Context, id string) error
+type GroupCourseRepository interface {
+	Create(ctx context.Context, groupCourse *entities.GroupCourse) error
+	ReadAllByCourseId(ctx context.Context, courseId string) ([]entities.GroupCourse, error)
+	ReadAllByGroupId(ctx context.Context, groupId string) ([]entities.GroupCourse, error)
+	Delete(ctx context.Context, id string) error
 }
 
 type groupCourseService struct {

@@ -2,11 +2,20 @@ package module_service
 
 import (
 	"context"
+
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
 	"github.com/TwiLightDM/diploma-course-service/proto/moduleservicepb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
+
+type ModuleService interface {
+	CreateModule(ctx context.Context, module *entities.Module) error
+	ReadModuleById(ctx context.Context, id string) (*entities.Module, error)
+	ReadAllModulesByCourseId(ctx context.Context, courseId string) ([]entities.Module, error)
+	UpdateModule(ctx context.Context, module *entities.Module) (*entities.Module, error)
+	DeleteModule(ctx context.Context, id string) error
+}
 
 type ModuleHandler struct {
 	moduleservicepb.UnimplementedModuleServiceServer

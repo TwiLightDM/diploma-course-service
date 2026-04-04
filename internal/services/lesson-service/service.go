@@ -2,17 +2,18 @@ package lesson_service
 
 import (
 	"context"
+	"time"
+
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
 	"github.com/google/uuid"
-	"time"
 )
 
-type LessonService interface {
-	CreateLesson(ctx context.Context, lesson *entities.Lesson) error
-	ReadLessonById(ctx context.Context, id string) (*entities.Lesson, error)
-	ReadAllLessonsByModuleId(ctx context.Context, moduleId string) ([]entities.Lesson, error)
-	UpdateLesson(ctx context.Context, lesson *entities.Lesson) (*entities.Lesson, error)
-	DeleteLesson(ctx context.Context, id string) error
+type LessonRepository interface {
+	Create(ctx context.Context, lesson *entities.Lesson) error
+	ReadById(ctx context.Context, id string) (*entities.Lesson, error)
+	ReadAllByModuleId(ctx context.Context, moduleId string) ([]entities.Lesson, error)
+	Update(ctx context.Context, lesson *entities.Lesson) (*entities.Lesson, error)
+	Delete(ctx context.Context, id string) error
 }
 
 type lessonService struct {

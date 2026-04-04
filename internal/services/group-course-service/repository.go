@@ -8,13 +8,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type GroupCourseRepository interface {
-	Create(ctx context.Context, groupCourse *entities.GroupCourse) error
-	ReadAllByCourseId(ctx context.Context, courseId string) ([]entities.GroupCourse, error)
-	ReadAllByGroupId(ctx context.Context, groupId string) ([]entities.GroupCourse, error)
-	Delete(ctx context.Context, id string) error
-}
-
 type groupCourseRepository struct {
 	db *gorm.DB
 }

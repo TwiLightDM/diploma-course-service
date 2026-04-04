@@ -9,6 +9,13 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+type GroupCourseService interface {
+	CreateGroupCourse(ctx context.Context, groupCourse *entities.GroupCourse) (*entities.GroupCourse, error)
+	ReadAllGroupCoursesByCourseId(ctx context.Context, courseId string) ([]entities.GroupCourse, error)
+	ReadAllGroupCoursesByGroupId(ctx context.Context, groupId string) ([]entities.GroupCourse, error)
+	DeleteGroupCourse(ctx context.Context, id string) error
+}
+
 type GroupCourseHandler struct {
 	groupcourseservicepb.UnimplementedGroupCourseServiceServer
 	service GroupCourseService
