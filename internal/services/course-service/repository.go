@@ -3,6 +3,7 @@ package course_service
 import (
 	"context"
 	"errors"
+	"strings"
 	"time"
 
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
@@ -19,7 +20,16 @@ func NewCourseRepository(db *gorm.DB) CourseRepository {
 }
 
 func (r *courseRepository) Create(ctx context.Context, course *entities.Course) error {
-	return r.db.WithContext(ctx).Create(course).Error
+	err := r.db.WithContext(ctx).Create(course).Error
+
+	if err != nil {
+		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") ||
+			strings.Contains(err.Error(), "SQLSTATE 23505") {
+			return errs.ErrDublicateKey
+		}
+	}
+
+	return err
 }
 
 func (r *courseRepository) ReadById(ctx context.Context, id string) (*entities.Course, error) {
@@ -52,6 +62,7 @@ func (r *courseRepository) ReadById(ctx context.Context, id string) (*entities.C
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errs.ErrRecordNotFound
 		}
+
 		return nil, err
 	}
 

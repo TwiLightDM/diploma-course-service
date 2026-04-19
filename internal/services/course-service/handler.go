@@ -2,9 +2,11 @@ package course_service
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
+	"github.com/TwiLightDM/diploma-course-service/internal/errs"
 	"github.com/TwiLightDM/diploma-course-service/proto/courseservicepb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -39,6 +41,9 @@ func (h *CourseHandler) CreateCourse(ctx context.Context, req *courseservicepb.C
 
 	err := h.service.CreateCourse(ctx, &course)
 	if err != nil {
+		if errors.Is(err, errs.ErrDublicateKey) {
+			return nil, status.Error(codes.AlreadyExists, err.Error())
+		}
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
