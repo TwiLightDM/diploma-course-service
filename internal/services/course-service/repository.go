@@ -24,14 +24,37 @@ func (r *courseRepository) Create(ctx context.Context, course *entities.Course) 
 
 func (r *courseRepository) ReadById(ctx context.Context, id string) (*entities.Course, error) {
 	var course entities.Course
-	if err := r.db.
+
+	err := r.db.
 		WithContext(ctx).
-		Where("id = ?", id).First(&course).Error; err != nil {
+		Model(&entities.Course{}).
+		Select(`
+			courses.*,
+			(
+				SELECT COUNT(*)
+				FROM modules
+				WHERE modules.course_id = courses.id
+				  AND modules.deleted_at IS NULL
+			) AS amount_of_modules,
+			(
+				SELECT COUNT(*)
+				FROM lessons
+				JOIN modules ON modules.id = lessons.module_id
+				WHERE modules.course_id = courses.id
+				  AND modules.deleted_at IS NULL
+				  AND lessons.deleted_at IS NULL
+			) AS amount_of_lessons
+		`).
+		Where("courses.id = ?", id).
+		First(&course).Error
+
+	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errs.ErrRecordNotFound
 		}
 		return nil, err
 	}
+
 	return &course, nil
 }
 
@@ -39,6 +62,24 @@ func (r *courseRepository) ReadAllByOwnerId(ctx context.Context, ownerId string)
 	var courses []entities.Course
 	if err := r.db.
 		WithContext(ctx).
+		Model(&entities.Course{}).
+		Select(`
+			courses.*,
+			(
+				SELECT COUNT(*)
+				FROM modules
+				WHERE modules.course_id = courses.id
+				  AND modules.deleted_at IS NULL
+			) AS amount_of_modules,
+			(
+				SELECT COUNT(*)
+				FROM lessons
+				JOIN modules ON modules.id = lessons.module_id
+				WHERE modules.course_id = courses.id
+				  AND modules.deleted_at IS NULL
+				  AND lessons.deleted_at IS NULL
+			) AS amount_of_lessons
+		`).
 		Where("owner_id = ?", ownerId).
 		Find(&courses).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -54,6 +95,24 @@ func (r *courseRepository) ReadAllCourses(ctx context.Context) ([]entities.Cours
 	var courses []entities.Course
 	if err := r.db.
 		WithContext(ctx).
+		Model(&entities.Course{}).
+		Select(`
+			courses.*,
+			(
+				SELECT COUNT(*)
+				FROM modules
+				WHERE modules.course_id = courses.id
+				  AND modules.deleted_at IS NULL
+			) AS amount_of_modules,
+			(
+				SELECT COUNT(*)
+				FROM lessons
+				JOIN modules ON modules.id = lessons.module_id
+				WHERE modules.course_id = courses.id
+				  AND modules.deleted_at IS NULL
+				  AND lessons.deleted_at IS NULL
+			) AS amount_of_lessons
+		`).
 		Find(&courses).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, nil

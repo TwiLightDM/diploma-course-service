@@ -46,6 +46,7 @@ func (h *LessonHandler) CreateLesson(ctx context.Context, req *lessonservicepb.C
 			Id:          lesson.Id,
 			Title:       lesson.Title,
 			Description: lesson.Description,
+			Position:    lesson.Position,
 			Content:     lesson.Content,
 			ModuleId:    lesson.ModuleId,
 		},

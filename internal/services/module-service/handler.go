@@ -56,11 +56,12 @@ func (h *ModuleHandler) ReadModule(ctx context.Context, req *moduleservicepb.Rea
 
 	return &moduleservicepb.ReadModuleResponse{
 		Module: &moduleservicepb.Module{
-			Id:          module.Id,
-			Title:       module.Title,
-			Description: module.Description,
-			Position:    module.Position,
-			CourseId:    module.CourseId,
+			Id:              module.Id,
+			Title:           module.Title,
+			Description:     module.Description,
+			Position:        module.Position,
+			CourseId:        module.CourseId,
+			AmountOfLessons: int64(module.AmountOfLessons),
 		},
 	}, nil
 }
@@ -74,11 +75,12 @@ func (h *ModuleHandler) ReadAllModulesByCourseId(ctx context.Context, req *modul
 	modulesPb := make([]*moduleservicepb.Module, 0, len(modules))
 	for _, module := range modules {
 		modulesPb = append(modulesPb, &moduleservicepb.Module{
-			Id:          module.Id,
-			Title:       module.Title,
-			Description: module.Description,
-			Position:    module.Position,
-			CourseId:    module.CourseId,
+			Id:              module.Id,
+			Title:           module.Title,
+			Description:     module.Description,
+			Position:        module.Position,
+			CourseId:        module.CourseId,
+			AmountOfLessons: int64(module.AmountOfLessons),
 		})
 	}
 

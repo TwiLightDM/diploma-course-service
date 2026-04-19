@@ -18,6 +18,7 @@ message Module {
   string description = 3;
   int64 position = 4;
   string course_id = 5;
+  int64 amount_of_lessons = 6;
 }
 
 message CreateModuleRequest {

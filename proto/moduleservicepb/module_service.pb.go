@@ -22,14 +22,15 @@ const (
 )
 
 type Module struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Position      int64                  `protobuf:"varint,4,opt,name=position,proto3" json:"position,omitempty"`
-	CourseId      string                 `protobuf:"bytes,5,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Id              string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Title           string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Description     string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Position        int64                  `protobuf:"varint,4,opt,name=position,proto3" json:"position,omitempty"`
+	CourseId        string                 `protobuf:"bytes,5,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	AmountOfLessons int64                  `protobuf:"varint,6,opt,name=amount_of_lessons,json=amountOfLessons,proto3" json:"amount_of_lessons,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *Module) Reset() {
@@ -95,6 +96,13 @@ func (x *Module) GetCourseId() string {
 		return x.CourseId
 	}
 	return ""
+}
+
+func (x *Module) GetAmountOfLessons() int64 {
+	if x != nil {
+		return x.AmountOfLessons
+	}
+	return 0
 }
 
 type CreateModuleRequest struct {
@@ -573,13 +581,14 @@ var File_proto_module_service_proto protoreflect.FileDescriptor
 
 const file_proto_module_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1aproto/module_service.proto\x12\rmoduleservice\"\x89\x01\n" +
+	"\x1aproto/module_service.proto\x12\rmoduleservice\"\xb5\x01\n" +
 	"\x06Module\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1a\n" +
 	"\bposition\x18\x04 \x01(\x03R\bposition\x12\x1b\n" +
-	"\tcourse_id\x18\x05 \x01(\tR\bcourseId\"j\n" +
+	"\tcourse_id\x18\x05 \x01(\tR\bcourseId\x12*\n" +
+	"\x11amount_of_lessons\x18\x06 \x01(\x03R\x0famountOfLessons\"j\n" +
 	"\x13CreateModuleRequest\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1b\n" +

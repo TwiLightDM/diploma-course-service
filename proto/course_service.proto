@@ -21,6 +21,8 @@ message Course {
   string access_type = 4;
   string published_at = 5;
   string owner_id = 6;
+  int64 amount_of_modules = 7;
+  int64 amount_of_lessons = 8;
 }
 
 message CreateCourseRequest {

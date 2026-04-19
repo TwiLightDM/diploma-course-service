@@ -22,15 +22,17 @@ const (
 )
 
 type Course struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	AccessType    string                 `protobuf:"bytes,4,opt,name=access_type,json=accessType,proto3" json:"access_type,omitempty"`
-	PublishedAt   string                 `protobuf:"bytes,5,opt,name=published_at,json=publishedAt,proto3" json:"published_at,omitempty"`
-	OwnerId       string                 `protobuf:"bytes,6,opt,name=owner_id,json=ownerId,proto3" json:"owner_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Id              string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Title           string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Description     string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	AccessType      string                 `protobuf:"bytes,4,opt,name=access_type,json=accessType,proto3" json:"access_type,omitempty"`
+	PublishedAt     string                 `protobuf:"bytes,5,opt,name=published_at,json=publishedAt,proto3" json:"published_at,omitempty"`
+	OwnerId         string                 `protobuf:"bytes,6,opt,name=owner_id,json=ownerId,proto3" json:"owner_id,omitempty"`
+	AmountOfModules int64                  `protobuf:"varint,7,opt,name=amount_of_modules,json=amountOfModules,proto3" json:"amount_of_modules,omitempty"`
+	AmountOfLessons int64                  `protobuf:"varint,8,opt,name=amount_of_lessons,json=amountOfLessons,proto3" json:"amount_of_lessons,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *Course) Reset() {
@@ -103,6 +105,20 @@ func (x *Course) GetOwnerId() string {
 		return x.OwnerId
 	}
 	return ""
+}
+
+func (x *Course) GetAmountOfModules() int64 {
+	if x != nil {
+		return x.AmountOfModules
+	}
+	return 0
+}
+
+func (x *Course) GetAmountOfLessons() int64 {
+	if x != nil {
+		return x.AmountOfLessons
+	}
+	return 0
 }
 
 type CreateCourseRequest struct {
@@ -713,7 +729,7 @@ var File_proto_course_service_proto protoreflect.FileDescriptor
 
 const file_proto_course_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1aproto/course_service.proto\x12\rcourseservice\"\xaf\x01\n" +
+	"\x1aproto/course_service.proto\x12\rcourseservice\"\x87\x02\n" +
 	"\x06Course\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
@@ -721,7 +737,9 @@ const file_proto_course_service_proto_rawDesc = "" +
 	"\vaccess_type\x18\x04 \x01(\tR\n" +
 	"accessType\x12!\n" +
 	"\fpublished_at\x18\x05 \x01(\tR\vpublishedAt\x12\x19\n" +
-	"\bowner_id\x18\x06 \x01(\tR\aownerId\"\x89\x01\n" +
+	"\bowner_id\x18\x06 \x01(\tR\aownerId\x12*\n" +
+	"\x11amount_of_modules\x18\a \x01(\x03R\x0famountOfModules\x12*\n" +
+	"\x11amount_of_lessons\x18\b \x01(\x03R\x0famountOfLessons\"\x89\x01\n" +
 	"\x13CreateCourseRequest\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1f\n" +

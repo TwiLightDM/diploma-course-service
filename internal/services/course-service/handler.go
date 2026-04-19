@@ -72,12 +72,14 @@ func (h *CourseHandler) ReadCourse(ctx context.Context, req *courseservicepb.Rea
 
 	return &courseservicepb.ReadCourseResponse{
 		Course: &courseservicepb.Course{
-			Id:          course.Id,
-			Title:       course.Title,
-			Description: course.Description,
-			AccessType:  course.AccessType,
-			PublishedAt: publishedAt,
-			OwnerId:     course.OwnerId,
+			Id:              course.Id,
+			Title:           course.Title,
+			Description:     course.Description,
+			AccessType:      course.AccessType,
+			PublishedAt:     publishedAt,
+			OwnerId:         course.OwnerId,
+			AmountOfModules: int64(course.AmountOfModules),
+			AmountOfLessons: int64(course.AmountOfLessons),
 		},
 	}, nil
 }
@@ -179,12 +181,14 @@ func (h *CourseHandler) groupCoursesToPb(courses []entities.Course) []*courseser
 		}
 
 		coursesPb = append(coursesPb, &courseservicepb.Course{
-			Id:          course.Id,
-			Title:       course.Title,
-			Description: course.Description,
-			AccessType:  course.AccessType,
-			PublishedAt: publishedAt,
-			OwnerId:     course.OwnerId,
+			Id:              course.Id,
+			Title:           course.Title,
+			Description:     course.Description,
+			AccessType:      course.AccessType,
+			PublishedAt:     publishedAt,
+			OwnerId:         course.OwnerId,
+			AmountOfModules: int64(course.AmountOfModules),
+			AmountOfLessons: int64(course.AmountOfLessons),
 		})
 	}
 

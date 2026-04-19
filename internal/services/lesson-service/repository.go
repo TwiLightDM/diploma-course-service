@@ -3,6 +3,7 @@ package lesson_service
 import (
 	"context"
 	"errors"
+
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
 	"github.com/TwiLightDM/diploma-course-service/internal/errs"
 	"gorm.io/gorm"

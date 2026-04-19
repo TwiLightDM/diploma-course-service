@@ -3,6 +3,7 @@ package module_service
 import (
 	"context"
 	"errors"
+
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
 	"github.com/TwiLightDM/diploma-course-service/internal/errs"
 	"gorm.io/gorm"
@@ -51,14 +52,28 @@ func (r *moduleRepository) Create(ctx context.Context, module *entities.Module) 
 
 func (r *moduleRepository) ReadById(ctx context.Context, id string) (*entities.Module, error) {
 	var module entities.Module
-	if err := r.db.
+	err := r.db.
 		WithContext(ctx).
-		Where("id = ?", id).First(&module).Error; err != nil {
+		Model(&entities.Module{}).
+		Select(`
+			modules.*,
+			(
+				SELECT COUNT(*)
+				FROM lessons
+				WHERE lessons.module_id = modules.id
+				  AND lessons.deleted_at IS NULL
+			) AS amount_of_lessons
+		`).
+		Where("modules.id = ?", id).
+		First(&module).Error
+
+	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errs.ErrRecordNotFound
 		}
 		return nil, err
 	}
+
 	return &module, nil
 }
 
@@ -66,6 +81,16 @@ func (r *moduleRepository) ReadAllByCourseId(ctx context.Context, courseId strin
 	var modules []entities.Module
 	if err := r.db.
 		WithContext(ctx).
+		Model(&entities.Module{}).
+		Select(`
+			modules.*,
+			(
+				SELECT COUNT(*)
+				FROM lessons
+				WHERE lessons.module_id = modules.id
+				  AND lessons.deleted_at IS NULL
+			) AS amount_of_lessons
+		`).
 		Where("course_id = ?", courseId).
 		Find(&modules).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
