@@ -24,7 +24,7 @@ func NewGroupCourseService(repo GroupCourseRepository) GroupCourseService {
 }
 
 func (s *groupCourseService) CreateGroupCourse(ctx context.Context, groupCourse *entities.GroupCourse) (*entities.GroupCourse, error) {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	groupCourse.Id = uuid.NewString()
@@ -38,7 +38,7 @@ func (s *groupCourseService) CreateGroupCourse(ctx context.Context, groupCourse 
 }
 
 func (s *groupCourseService) ReadAllGroupCoursesByCourseId(ctx context.Context, courseId string) ([]entities.GroupCourse, error) {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	groupCourse, err := s.repo.ReadAllByCourseId(ctx, courseId)
@@ -50,7 +50,7 @@ func (s *groupCourseService) ReadAllGroupCoursesByCourseId(ctx context.Context, 
 }
 
 func (s *groupCourseService) ReadAllGroupCoursesByGroupId(ctx context.Context, groupId string) ([]entities.GroupCourse, error) {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	groupCourses, err := s.repo.ReadAllByGroupId(ctx, groupId)
@@ -62,7 +62,7 @@ func (s *groupCourseService) ReadAllGroupCoursesByGroupId(ctx context.Context, g
 }
 
 func (s *groupCourseService) DeleteGroupCourse(ctx context.Context, id string) error {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	err := s.repo.Delete(ctx, id)

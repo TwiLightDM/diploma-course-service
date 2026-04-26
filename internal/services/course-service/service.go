@@ -27,7 +27,7 @@ func NewCourseService(repo CourseRepository) CourseService {
 }
 
 func (s *courseService) CreateCourse(ctx context.Context, course *entities.Course) error {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	course.Id = uuid.NewString()
@@ -36,7 +36,7 @@ func (s *courseService) CreateCourse(ctx context.Context, course *entities.Cours
 }
 
 func (s *courseService) ReadCourseById(ctx context.Context, id string) (*entities.Course, error) {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	course, err := s.repo.ReadById(ctx, id)
@@ -48,7 +48,7 @@ func (s *courseService) ReadCourseById(ctx context.Context, id string) (*entitie
 }
 
 func (s *courseService) ReadAllCoursesByOwnerId(ctx context.Context, ownerId string) ([]entities.Course, error) {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	courses, err := s.repo.ReadAllByOwnerId(ctx, ownerId)
@@ -60,7 +60,7 @@ func (s *courseService) ReadAllCoursesByOwnerId(ctx context.Context, ownerId str
 }
 
 func (s *courseService) ReadAllCourses(ctx context.Context) ([]entities.Course, error) {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	courses, err := s.repo.ReadAllCourses(ctx)
@@ -72,7 +72,7 @@ func (s *courseService) ReadAllCourses(ctx context.Context) ([]entities.Course, 
 }
 
 func (s *courseService) UpdateCourse(ctx context.Context, course *entities.Course) (*entities.Course, error) {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	var err error
@@ -86,7 +86,7 @@ func (s *courseService) UpdateCourse(ctx context.Context, course *entities.Cours
 }
 
 func (s *courseService) UpdatePublishedAt(ctx context.Context, id string) (*entities.Course, error) {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	var err error
@@ -115,7 +115,7 @@ func (s *courseService) UpdatePublishedAt(ctx context.Context, id string) (*enti
 }
 
 func (s *courseService) DeleteCourse(ctx context.Context, id string) error {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	return s.repo.Delete(ctx, id)

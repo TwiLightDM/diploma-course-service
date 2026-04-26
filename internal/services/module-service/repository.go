@@ -3,6 +3,7 @@ package module_service
 import (
 	"context"
 	"errors"
+	"strings"
 
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
 	"github.com/TwiLightDM/diploma-course-service/internal/errs"
@@ -37,6 +38,10 @@ func (r *moduleRepository) Create(ctx context.Context, module *entities.Module) 
 		Scan(&position).Error
 	if err != nil {
 		tx.Rollback()
+		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") ||
+			strings.Contains(err.Error(), "SQLSTATE 23505") {
+			return errs.ErrDublicateKey
+		}
 		return err
 	}
 

@@ -2,8 +2,10 @@ package module_service
 
 import (
 	"context"
+	"errors"
 
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
+	"github.com/TwiLightDM/diploma-course-service/internal/errs"
 	"github.com/TwiLightDM/diploma-course-service/proto/moduleservicepb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -35,6 +37,9 @@ func (h *ModuleHandler) CreateModule(ctx context.Context, req *moduleservicepb.C
 
 	err := h.service.CreateModule(ctx, &module)
 	if err != nil {
+		if errors.Is(err, errs.ErrDublicateKey) {
+			return nil, status.Error(codes.AlreadyExists, err.Error())
+		}
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 

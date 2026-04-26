@@ -2,8 +2,10 @@ package lesson_service
 
 import (
 	"context"
+	"errors"
 
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
+	"github.com/TwiLightDM/diploma-course-service/internal/errs"
 	"github.com/TwiLightDM/diploma-course-service/proto/lessonservicepb"
 	"github.com/google/uuid"
 	"google.golang.org/grpc/codes"
@@ -38,6 +40,9 @@ func (h *LessonHandler) CreateLesson(ctx context.Context, req *lessonservicepb.C
 
 	err := h.service.CreateLesson(ctx, &lesson)
 	if err != nil {
+		if errors.Is(err, errs.ErrDublicateKey) {
+			return nil, status.Error(codes.AlreadyExists, err.Error())
+		}
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 

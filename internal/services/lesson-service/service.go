@@ -25,7 +25,7 @@ func NewLessonService(repo LessonRepository) LessonService {
 }
 
 func (s *lessonService) CreateLesson(ctx context.Context, lesson *entities.Lesson) error {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	lesson.Id = uuid.NewString()
@@ -34,7 +34,7 @@ func (s *lessonService) CreateLesson(ctx context.Context, lesson *entities.Lesso
 }
 
 func (s *lessonService) ReadLessonById(ctx context.Context, id string) (*entities.Lesson, error) {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	lesson, err := s.repo.ReadById(ctx, id)
@@ -46,7 +46,7 @@ func (s *lessonService) ReadLessonById(ctx context.Context, id string) (*entitie
 }
 
 func (s *lessonService) ReadAllLessonsByModuleId(ctx context.Context, moduleId string) ([]entities.Lesson, error) {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	lessons, err := s.repo.ReadAllByModuleId(ctx, moduleId)
@@ -58,7 +58,7 @@ func (s *lessonService) ReadAllLessonsByModuleId(ctx context.Context, moduleId s
 }
 
 func (s *lessonService) UpdateLesson(ctx context.Context, lesson *entities.Lesson) (*entities.Lesson, error) {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	var err error
@@ -72,7 +72,7 @@ func (s *lessonService) UpdateLesson(ctx context.Context, lesson *entities.Lesso
 }
 
 func (s *lessonService) DeleteLesson(ctx context.Context, id string) error {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	return s.repo.Delete(ctx, id)

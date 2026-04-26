@@ -3,6 +3,7 @@ package lesson_service
 import (
 	"context"
 	"errors"
+	"strings"
 
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
 	"github.com/TwiLightDM/diploma-course-service/internal/errs"
@@ -37,6 +38,10 @@ func (r *lessonRepository) Create(ctx context.Context, lesson *entities.Lesson) 
 		Scan(&position).Error
 	if err != nil {
 		tx.Rollback()
+		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") ||
+			strings.Contains(err.Error(), "SQLSTATE 23505") {
+			return errs.ErrDublicateKey
+		}
 		return err
 	}
 
@@ -44,6 +49,7 @@ func (r *lessonRepository) Create(ctx context.Context, lesson *entities.Lesson) 
 
 	if err = tx.WithContext(ctx).Create(lesson).Error; err != nil {
 		tx.Rollback()
+
 		return err
 	}
 

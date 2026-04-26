@@ -25,7 +25,7 @@ func NewModuleService(repo ModuleRepository) ModuleService {
 }
 
 func (s *moduleService) CreateModule(ctx context.Context, module *entities.Module) error {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	module.Id = uuid.NewString()
@@ -34,7 +34,7 @@ func (s *moduleService) CreateModule(ctx context.Context, module *entities.Modul
 }
 
 func (s *moduleService) ReadModuleById(ctx context.Context, id string) (*entities.Module, error) {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	module, err := s.repo.ReadById(ctx, id)
@@ -46,7 +46,7 @@ func (s *moduleService) ReadModuleById(ctx context.Context, id string) (*entitie
 }
 
 func (s *moduleService) ReadAllModulesByCourseId(ctx context.Context, courseId string) ([]entities.Module, error) {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	modules, err := s.repo.ReadAllByCourseId(ctx, courseId)
@@ -58,7 +58,7 @@ func (s *moduleService) ReadAllModulesByCourseId(ctx context.Context, courseId s
 }
 
 func (s *moduleService) UpdateModule(ctx context.Context, module *entities.Module) (*entities.Module, error) {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	var err error
@@ -72,7 +72,7 @@ func (s *moduleService) UpdateModule(ctx context.Context, module *entities.Modul
 }
 
 func (s *moduleService) DeleteModule(ctx context.Context, id string) error {
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	return s.repo.Delete(ctx, id)
