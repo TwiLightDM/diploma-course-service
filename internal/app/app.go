@@ -11,11 +11,13 @@ import (
 	"github.com/TwiLightDM/diploma-course-service/internal/config"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/course-service"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/group-course-service"
+	lesson_file_service "github.com/TwiLightDM/diploma-course-service/internal/services/lesson-file-service"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/lesson-service"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/module-service"
 	"github.com/TwiLightDM/diploma-course-service/package/databases"
 	"github.com/TwiLightDM/diploma-course-service/proto/courseservicepb"
 	"github.com/TwiLightDM/diploma-course-service/proto/groupcourseservicepb"
+	"github.com/TwiLightDM/diploma-course-service/proto/lessonfileservicepb"
 	"github.com/TwiLightDM/diploma-course-service/proto/lessonservicepb"
 	"github.com/TwiLightDM/diploma-course-service/proto/moduleservicepb"
 
@@ -29,6 +31,16 @@ func Run(cfg *config.Config) error {
 		cfg.DB.User,
 		cfg.DB.Password,
 		cfg.DB.Name,
+	)
+	if err != nil {
+		return err
+	}
+
+	storage, err := databases.NewStorage(
+		cfg.Storage.Endpoint,
+		cfg.Storage.AccessKey,
+		cfg.Storage.SecretKey,
+		cfg.Storage.BucketName,
 	)
 	if err != nil {
 		return err
@@ -55,6 +67,11 @@ func Run(cfg *config.Config) error {
 	lessonService := lesson_service.NewLessonService(lessonRepo)
 	lessonHandler := lesson_service.NewLessonHandler(lessonService)
 
+	lessonFileRepo := lesson_file_service.NewLessonFileRepository(db)
+	lessonFileStore := lesson_file_service.NewLessonFileStorage(storage)
+	lessonFileService := lesson_file_service.NewLessonFileService(lessonFileRepo, lessonFileStore)
+	lessonFileHandler := lesson_file_service.NewLessonFileHandler(lessonFileService)
+
 	groupCourseRepo := group_course_service.NewGroupCourseRepository(db)
 	groupCourseService := group_course_service.NewGroupCourseService(groupCourseRepo)
 	groupCourseHandler := group_course_service.NewGroupCourseHandler(groupCourseService)
@@ -62,6 +79,7 @@ func Run(cfg *config.Config) error {
 	courseservicepb.RegisterCourseServiceServer(grpcServer, courseHandler)
 	moduleservicepb.RegisterModuleServiceServer(grpcServer, moduleHandler)
 	lessonservicepb.RegisterLessonServiceServer(grpcServer, lessonHandler)
+	lessonfileservicepb.RegisterLessonFileServiceServer(grpcServer, lessonFileHandler)
 	groupcourseservicepb.RegisterGroupCourseServiceServer(grpcServer, groupCourseHandler)
 
 	ctx, stop := signal.NotifyContext(

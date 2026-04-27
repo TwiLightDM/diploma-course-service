@@ -29,7 +29,7 @@ func (r *courseRepository) Create(ctx context.Context, course *entities.Course) 
 		}
 	}
 
-	return err
+	return nil
 }
 
 func (r *courseRepository) ReadById(ctx context.Context, id string) (*entities.Course, error) {

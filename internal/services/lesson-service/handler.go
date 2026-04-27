@@ -7,7 +7,6 @@ import (
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
 	"github.com/TwiLightDM/diploma-course-service/internal/errs"
 	"github.com/TwiLightDM/diploma-course-service/proto/lessonservicepb"
-	"github.com/google/uuid"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -31,7 +30,6 @@ func NewLessonHandler(service LessonService) *LessonHandler {
 
 func (h *LessonHandler) CreateLesson(ctx context.Context, req *lessonservicepb.CreateLessonRequest) (*lessonservicepb.CreateLessonResponse, error) {
 	lesson := entities.Lesson{
-		Id:          uuid.NewString(),
 		Title:       req.Title,
 		Description: req.Description,
 		Content:     req.Content,

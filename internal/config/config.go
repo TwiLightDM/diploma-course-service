@@ -16,6 +16,13 @@ type Config struct {
 		Name     string
 	}
 
+	Storage struct {
+		Endpoint   string
+		AccessKey  string
+		SecretKey  string
+		BucketName string
+	}
+
 	GRPCPort string
 }
 
@@ -31,6 +38,11 @@ func Load() *Config {
 	cfg.DB.User = os.Getenv("POSTGRES_USER")
 	cfg.DB.Password = os.Getenv("POSTGRES_PASSWORD")
 	cfg.DB.Name = os.Getenv("POSTGRES_DB")
+
+	cfg.Storage.Endpoint = os.Getenv("MINIO_ENDPOINT")
+	cfg.Storage.AccessKey = os.Getenv("MINIO_ROOT_USER")
+	cfg.Storage.SecretKey = os.Getenv("minio_root_password")
+	cfg.Storage.BucketName = os.Getenv("MINIO_BUCKET")
 
 	cfg.GRPCPort = os.Getenv("GRPC_PORT")
 

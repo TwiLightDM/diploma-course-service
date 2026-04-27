@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package lessonfileservice;
+
+option go_package = "proto/lessonfileservicepb";
+
+service LessonFileService{
+  rpc UploadFile(UploadFileRequest) returns (UploadFileResponse);
+  rpc GetLessonFiles(GetLessonFilesRequest) returns (GetLessonFilesResponse);
+  rpc DeleteFile(DeleteFileRequest) returns (DeleteFileResponse);
+}
+
+message LessonFile {
+  string id = 1;
+  string file_name = 2;
+  string url = 3;
+}
+
+message UploadFileRequest {
+  string lesson_id = 1;
+  string file_name = 2;
+  string content_type = 3;
+  bytes file = 4;
+}
+
+message UploadFileResponse {
+  LessonFile file = 1;
+}
+
+message GetLessonFilesRequest {
+  string lesson_id = 1;
+}
+
+message GetLessonFilesResponse {
+  repeated LessonFile files = 1;
+}
+
+message DeleteFileRequest {
+  string id = 1;
+}
+
+message DeleteFileResponse {}
