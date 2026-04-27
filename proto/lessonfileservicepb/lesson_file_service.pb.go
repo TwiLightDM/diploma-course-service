@@ -86,7 +86,8 @@ type UploadFileRequest struct {
 	LessonId      string                 `protobuf:"bytes,1,opt,name=lesson_id,json=lessonId,proto3" json:"lesson_id,omitempty"`
 	FileName      string                 `protobuf:"bytes,2,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`
 	ContentType   string                 `protobuf:"bytes,3,opt,name=content_type,json=contentType,proto3" json:"content_type,omitempty"`
-	File          []byte                 `protobuf:"bytes,4,opt,name=file,proto3" json:"file,omitempty"`
+	Size          int64                  `protobuf:"varint,4,opt,name=size,proto3" json:"size,omitempty"`
+	File          []byte                 `protobuf:"bytes,5,opt,name=file,proto3" json:"file,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -140,6 +141,13 @@ func (x *UploadFileRequest) GetContentType() string {
 		return x.ContentType
 	}
 	return ""
+}
+
+func (x *UploadFileRequest) GetSize() int64 {
+	if x != nil {
+		return x.Size
+	}
+	return 0
 }
 
 func (x *UploadFileRequest) GetFile() []byte {
@@ -371,12 +379,13 @@ const file_proto_lesson_file_service_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n" +
 	"\vobject_name\x18\x02 \x01(\tR\n" +
 	"objectName\x12\x10\n" +
-	"\x03url\x18\x03 \x01(\tR\x03url\"\x84\x01\n" +
+	"\x03url\x18\x03 \x01(\tR\x03url\"\x98\x01\n" +
 	"\x11UploadFileRequest\x12\x1b\n" +
 	"\tlesson_id\x18\x01 \x01(\tR\blessonId\x12\x1b\n" +
 	"\tfile_name\x18\x02 \x01(\tR\bfileName\x12!\n" +
 	"\fcontent_type\x18\x03 \x01(\tR\vcontentType\x12\x12\n" +
-	"\x04file\x18\x04 \x01(\fR\x04file\"G\n" +
+	"\x04size\x18\x04 \x01(\x03R\x04size\x12\x12\n" +
+	"\x04file\x18\x05 \x01(\fR\x04file\"G\n" +
 	"\x12UploadFileResponse\x121\n" +
 	"\x04file\x18\x01 \x01(\v2\x1d.lessonfileservice.LessonFileR\x04file\"4\n" +
 	"\x15GetLessonFilesRequest\x12\x1b\n" +

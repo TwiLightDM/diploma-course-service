@@ -29,6 +29,7 @@ func (h *LessonFileHandler) CreateLessonFile(ctx context.Context, req *lessonfil
 		FileName:    req.FileName,
 		ContentType: req.ContentType,
 		LessonId:    req.LessonId,
+		Size:        req.Size,
 	}
 	err := h.service.CreateLessonFile(ctx, &lessonFile, req.File)
 	if err != nil {
