@@ -24,7 +24,7 @@ const (
 type LessonFile struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	FileName      string                 `protobuf:"bytes,2,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`
+	ObjectName    string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
 	Url           string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -67,9 +67,9 @@ func (x *LessonFile) GetId() string {
 	return ""
 }
 
-func (x *LessonFile) GetFileName() string {
+func (x *LessonFile) GetObjectName() string {
 	if x != nil {
-		return x.FileName
+		return x.ObjectName
 	}
 	return ""
 }
@@ -365,11 +365,12 @@ var File_proto_lesson_file_service_proto protoreflect.FileDescriptor
 
 const file_proto_lesson_file_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1fproto/lesson_file_service.proto\x12\x11lessonfileservice\"K\n" +
+	"\x1fproto/lesson_file_service.proto\x12\x11lessonfileservice\"O\n" +
 	"\n" +
 	"LessonFile\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
-	"\tfile_name\x18\x02 \x01(\tR\bfileName\x12\x10\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n" +
+	"\vobject_name\x18\x02 \x01(\tR\n" +
+	"objectName\x12\x10\n" +
 	"\x03url\x18\x03 \x01(\tR\x03url\"\x84\x01\n" +
 	"\x11UploadFileRequest\x12\x1b\n" +
 	"\tlesson_id\x18\x01 \x01(\tR\blessonId\x12\x1b\n" +

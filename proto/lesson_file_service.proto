@@ -12,7 +12,7 @@ service LessonFileService{
 
 message LessonFile {
   string id = 1;
-  string file_name = 2;
+  string object_name = 2;
   string url = 3;
 }
 

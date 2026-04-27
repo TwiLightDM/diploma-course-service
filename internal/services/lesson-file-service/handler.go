@@ -37,9 +37,9 @@ func (h *LessonFileHandler) CreateLessonFile(ctx context.Context, req *lessonfil
 
 	return &lessonfileservicepb.UploadFileResponse{
 		File: &lessonfileservicepb.LessonFile{
-			Id:       lessonFile.Id,
-			FileName: lessonFile.FileName,
-			Url:      lessonFile.Url,
+			Id:         lessonFile.Id,
+			ObjectName: lessonFile.ObjectName,
+			Url:        lessonFile.Url,
 		},
 	}, nil
 }
@@ -53,9 +53,9 @@ func (h *LessonFileHandler) ReadAllLessonFilesByModuleId(ctx context.Context, re
 	lessonFilesPb := make([]*lessonfileservicepb.LessonFile, 0, len(lessonFiles))
 	for _, lessonFile := range lessonFiles {
 		lessonFilesPb = append(lessonFilesPb, &lessonfileservicepb.LessonFile{
-			Id:       lessonFile.Id,
-			FileName: lessonFile.FileName,
-			Url:      lessonFile.Url,
+			Id:         lessonFile.Id,
+			ObjectName: lessonFile.ObjectName,
+			Url:        lessonFile.Url,
 		})
 	}
 
