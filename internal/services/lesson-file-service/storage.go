@@ -6,7 +6,6 @@ import (
 
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
 	"github.com/TwiLightDM/diploma-course-service/package/databases"
-	"golang.org/x/sync/errgroup"
 )
 
 type lessonFileStorage struct {
@@ -34,29 +33,12 @@ func (s *lessonFileStorage) Upload(ctx context.Context, lessonFile *entities.Les
 }
 
 func (s *lessonFileStorage) ReadAllByLessonId(ctx context.Context, lessonFiles []entities.LessonFile) error {
-	urls := make([]string, len(lessonFiles))
-	g, ctx := errgroup.WithContext(ctx)
-
+	var err error
 	for i := range lessonFiles {
-		g.Go(func(i int) func() error {
-			return func() error {
-				url, err := s.storage.GetPresignedURL(ctx, lessonFiles[i].ObjectName)
-				if err != nil {
-					return err
-				}
-
-				lessonFiles[i].Url = url
-				return nil
-			}
-		}(i))
-	}
-
-	if err := g.Wait(); err != nil {
-		return err
-	}
-
-	for i := range lessonFiles {
-		lessonFiles[i].Url = urls[i]
+		lessonFiles[i].Url, err = s.storage.GetPresignedURL(ctx, lessonFiles[i].ObjectName)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

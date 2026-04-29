@@ -55,7 +55,7 @@ func (s *Storage) Upload(ctx context.Context, objectName, contentType string, si
 }
 
 func (s *Storage) GetPresignedURL(ctx context.Context, objectName string) (string, error) {
-	url, err := s.client.PresignedGetObject(ctx, s.bucketName, objectName, 10*time.Minute, nil)
+	url, err := s.client.PresignedGetObject(ctx, s.bucketName, objectName, 15*time.Minute, nil)
 	if err != nil {
 		return "", fmt.Errorf("presigned url error: %w", err)
 	}

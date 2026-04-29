@@ -74,12 +74,10 @@ func (s *lessonFileService) GetLessonFiles(ctx context.Context, lessonId string)
 func (s *lessonFileService) DeleteFile(ctx context.Context, id, objectName string) error {
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
-
 	err := s.repo.Delete(ctx, id)
 	if err != nil {
 		return err
 	}
-
 	err = s.store.Delete(ctx, objectName)
 	if err != nil {
 		return err
