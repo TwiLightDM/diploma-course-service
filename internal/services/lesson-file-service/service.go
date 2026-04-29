@@ -19,7 +19,7 @@ type LessonFileStorage interface {
 	Upload(ctx context.Context, lessonFile *entities.LessonFile, file []byte) error
 	ReadAllByLessonId(ctx context.Context, lessonFiles []entities.LessonFile) error
 	ReadByObjectName(ctx context.Context, objectName string) (string, error)
-	Delete(ctx context.Context, id string) error
+	Delete(ctx context.Context, objectName string) error
 }
 
 type lessonFileService struct {
@@ -31,7 +31,7 @@ func NewLessonFileService(repo LessonFileRepository, store LessonFileStorage) Le
 	return &lessonFileService{repo: repo, store: store}
 }
 
-func (s *lessonFileService) CreateLessonFile(ctx context.Context, lessonFile *entities.LessonFile, file []byte) error {
+func (s *lessonFileService) UploadFile(ctx context.Context, lessonFile *entities.LessonFile, file []byte) error {
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
@@ -54,7 +54,7 @@ func (s *lessonFileService) CreateLessonFile(ctx context.Context, lessonFile *en
 	return nil
 }
 
-func (s *lessonFileService) ReadAllLessonFilesByLessonId(ctx context.Context, lessonId string) ([]entities.LessonFile, error) {
+func (s *lessonFileService) GetLessonFiles(ctx context.Context, lessonId string) ([]entities.LessonFile, error) {
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
@@ -71,7 +71,7 @@ func (s *lessonFileService) ReadAllLessonFilesByLessonId(ctx context.Context, le
 	return lessonFiles, nil
 }
 
-func (s *lessonFileService) DeleteLessonFile(ctx context.Context, id string) error {
+func (s *lessonFileService) DeleteFile(ctx context.Context, id, objectName string) error {
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
@@ -80,7 +80,7 @@ func (s *lessonFileService) DeleteLessonFile(ctx context.Context, id string) err
 		return err
 	}
 
-	err = s.store.Delete(ctx, id)
+	err = s.store.Delete(ctx, objectName)
 	if err != nil {
 		return err
 	}

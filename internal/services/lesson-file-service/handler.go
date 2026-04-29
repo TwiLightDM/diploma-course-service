@@ -10,9 +10,9 @@ import (
 )
 
 type LessonFileService interface {
-	CreateLessonFile(ctx context.Context, lessonFile *entities.LessonFile, file []byte) error
-	ReadAllLessonFilesByLessonId(ctx context.Context, lessonId string) ([]entities.LessonFile, error)
-	DeleteLessonFile(ctx context.Context, id string) error
+	UploadFile(ctx context.Context, lessonFile *entities.LessonFile, file []byte) error
+	GetLessonFiles(ctx context.Context, lessonId string) ([]entities.LessonFile, error)
+	DeleteFile(ctx context.Context, id, objectName string) error
 }
 
 type LessonFileHandler struct {
@@ -24,14 +24,14 @@ func NewLessonFileHandler(service LessonFileService) *LessonFileHandler {
 	return &LessonFileHandler{service: service}
 }
 
-func (h *LessonFileHandler) CreateLessonFile(ctx context.Context, req *lessonfileservicepb.UploadFileRequest) (*lessonfileservicepb.UploadFileResponse, error) {
+func (h *LessonFileHandler) UploadFile(ctx context.Context, req *lessonfileservicepb.UploadFileRequest) (*lessonfileservicepb.UploadFileResponse, error) {
 	lessonFile := entities.LessonFile{
 		FileName:    req.FileName,
 		ContentType: req.ContentType,
 		LessonId:    req.LessonId,
 		Size:        req.Size,
 	}
-	err := h.service.CreateLessonFile(ctx, &lessonFile, req.File)
+	err := h.service.UploadFile(ctx, &lessonFile, req.File)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
@@ -45,8 +45,8 @@ func (h *LessonFileHandler) CreateLessonFile(ctx context.Context, req *lessonfil
 	}, nil
 }
 
-func (h *LessonFileHandler) ReadAllLessonFilesByModuleId(ctx context.Context, req *lessonfileservicepb.GetLessonFilesRequest) (*lessonfileservicepb.GetLessonFilesResponse, error) {
-	lessonFiles, err := h.service.ReadAllLessonFilesByLessonId(ctx, req.LessonId)
+func (h *LessonFileHandler) GetLessonFiles(ctx context.Context, req *lessonfileservicepb.GetLessonFilesRequest) (*lessonfileservicepb.GetLessonFilesResponse, error) {
+	lessonFiles, err := h.service.GetLessonFiles(ctx, req.LessonId)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
@@ -65,8 +65,8 @@ func (h *LessonFileHandler) ReadAllLessonFilesByModuleId(ctx context.Context, re
 	}, nil
 }
 
-func (h *LessonFileHandler) DeleteLessonFile(ctx context.Context, req *lessonfileservicepb.DeleteFileRequest) (*lessonfileservicepb.DeleteFileResponse, error) {
-	if err := h.service.DeleteLessonFile(ctx, req.Id); err != nil {
+func (h *LessonFileHandler) DeleteFile(ctx context.Context, req *lessonfileservicepb.DeleteFileRequest) (*lessonfileservicepb.DeleteFileResponse, error) {
+	if err := h.service.DeleteFile(ctx, req.Id, req.ObjectName); err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 

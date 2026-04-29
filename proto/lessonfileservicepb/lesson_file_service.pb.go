@@ -292,6 +292,7 @@ func (x *GetLessonFilesResponse) GetFiles() []*LessonFile {
 type DeleteFileRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ObjectName    string                 `protobuf:"bytes,2,opt,name=objectName,proto3" json:"objectName,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -329,6 +330,13 @@ func (*DeleteFileRequest) Descriptor() ([]byte, []int) {
 func (x *DeleteFileRequest) GetId() string {
 	if x != nil {
 		return x.Id
+	}
+	return ""
+}
+
+func (x *DeleteFileRequest) GetObjectName() string {
+	if x != nil {
+		return x.ObjectName
 	}
 	return ""
 }
@@ -391,9 +399,12 @@ const file_proto_lesson_file_service_proto_rawDesc = "" +
 	"\x15GetLessonFilesRequest\x12\x1b\n" +
 	"\tlesson_id\x18\x01 \x01(\tR\blessonId\"M\n" +
 	"\x16GetLessonFilesResponse\x123\n" +
-	"\x05files\x18\x01 \x03(\v2\x1d.lessonfileservice.LessonFileR\x05files\"#\n" +
+	"\x05files\x18\x01 \x03(\v2\x1d.lessonfileservice.LessonFileR\x05files\"C\n" +
 	"\x11DeleteFileRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\x14\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1e\n" +
+	"\n" +
+	"objectName\x18\x02 \x01(\tR\n" +
+	"objectName\"\x14\n" +
 	"\x12DeleteFileResponse2\xb0\x02\n" +
 	"\x11LessonFileService\x12Y\n" +
 	"\n" +

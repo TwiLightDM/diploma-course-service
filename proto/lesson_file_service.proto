@@ -38,6 +38,7 @@ message GetLessonFilesResponse {
 
 message DeleteFileRequest {
   string id = 1;
+  string objectName = 2;
 }
 
 message DeleteFileResponse {}

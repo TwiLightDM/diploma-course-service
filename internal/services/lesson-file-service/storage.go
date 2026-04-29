@@ -71,6 +71,6 @@ func (s *lessonFileStorage) ReadByObjectName(ctx context.Context, objectName str
 	return url, nil
 }
 
-func (s *lessonFileStorage) Delete(ctx context.Context, id string) error {
-	return s.storage.Delete(ctx, id)
+func (s *lessonFileStorage) Delete(ctx context.Context, objectName string) error {
+	return s.storage.Delete(ctx, objectName)
 }
