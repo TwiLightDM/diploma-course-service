@@ -10,4 +10,5 @@ type Lesson struct {
 	Position    int64
 	ModuleId    string
 	DeletedAt   gorm.DeletedAt `gorm:"index"`
+	Files       []LessonFile   `gorm:"foreignKey:LessonId"`
 }

@@ -21,6 +21,66 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type LessonFile struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ObjectName    string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
+	Url           string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LessonFile) Reset() {
+	*x = LessonFile{}
+	mi := &file_proto_lesson_service_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LessonFile) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LessonFile) ProtoMessage() {}
+
+func (x *LessonFile) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_lesson_service_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LessonFile.ProtoReflect.Descriptor instead.
+func (*LessonFile) Descriptor() ([]byte, []int) {
+	return file_proto_lesson_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *LessonFile) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *LessonFile) GetObjectName() string {
+	if x != nil {
+		return x.ObjectName
+	}
+	return ""
+}
+
+func (x *LessonFile) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
 type Lesson struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -29,13 +89,14 @@ type Lesson struct {
 	Content       string                 `protobuf:"bytes,4,opt,name=content,proto3" json:"content,omitempty"`
 	Position      int64                  `protobuf:"varint,5,opt,name=position,proto3" json:"position,omitempty"`
 	ModuleId      string                 `protobuf:"bytes,6,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
+	Files         []*LessonFile          `protobuf:"bytes,7,rep,name=files,proto3" json:"files,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Lesson) Reset() {
 	*x = Lesson{}
-	mi := &file_proto_lesson_service_proto_msgTypes[0]
+	mi := &file_proto_lesson_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -47,7 +108,7 @@ func (x *Lesson) String() string {
 func (*Lesson) ProtoMessage() {}
 
 func (x *Lesson) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_lesson_service_proto_msgTypes[0]
+	mi := &file_proto_lesson_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,7 +121,7 @@ func (x *Lesson) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Lesson.ProtoReflect.Descriptor instead.
 func (*Lesson) Descriptor() ([]byte, []int) {
-	return file_proto_lesson_service_proto_rawDescGZIP(), []int{0}
+	return file_proto_lesson_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Lesson) GetId() string {
@@ -105,6 +166,13 @@ func (x *Lesson) GetModuleId() string {
 	return ""
 }
 
+func (x *Lesson) GetFiles() []*LessonFile {
+	if x != nil {
+		return x.Files
+	}
+	return nil
+}
+
 type CreateLessonRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Title         string                 `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
@@ -117,7 +185,7 @@ type CreateLessonRequest struct {
 
 func (x *CreateLessonRequest) Reset() {
 	*x = CreateLessonRequest{}
-	mi := &file_proto_lesson_service_proto_msgTypes[1]
+	mi := &file_proto_lesson_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -129,7 +197,7 @@ func (x *CreateLessonRequest) String() string {
 func (*CreateLessonRequest) ProtoMessage() {}
 
 func (x *CreateLessonRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_lesson_service_proto_msgTypes[1]
+	mi := &file_proto_lesson_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -142,7 +210,7 @@ func (x *CreateLessonRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateLessonRequest.ProtoReflect.Descriptor instead.
 func (*CreateLessonRequest) Descriptor() ([]byte, []int) {
-	return file_proto_lesson_service_proto_rawDescGZIP(), []int{1}
+	return file_proto_lesson_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CreateLessonRequest) GetTitle() string {
@@ -182,7 +250,7 @@ type CreateLessonResponse struct {
 
 func (x *CreateLessonResponse) Reset() {
 	*x = CreateLessonResponse{}
-	mi := &file_proto_lesson_service_proto_msgTypes[2]
+	mi := &file_proto_lesson_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -194,7 +262,7 @@ func (x *CreateLessonResponse) String() string {
 func (*CreateLessonResponse) ProtoMessage() {}
 
 func (x *CreateLessonResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_lesson_service_proto_msgTypes[2]
+	mi := &file_proto_lesson_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -207,7 +275,7 @@ func (x *CreateLessonResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateLessonResponse.ProtoReflect.Descriptor instead.
 func (*CreateLessonResponse) Descriptor() ([]byte, []int) {
-	return file_proto_lesson_service_proto_rawDescGZIP(), []int{2}
+	return file_proto_lesson_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CreateLessonResponse) GetLesson() *Lesson {
@@ -226,7 +294,7 @@ type ReadLessonRequest struct {
 
 func (x *ReadLessonRequest) Reset() {
 	*x = ReadLessonRequest{}
-	mi := &file_proto_lesson_service_proto_msgTypes[3]
+	mi := &file_proto_lesson_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -238,7 +306,7 @@ func (x *ReadLessonRequest) String() string {
 func (*ReadLessonRequest) ProtoMessage() {}
 
 func (x *ReadLessonRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_lesson_service_proto_msgTypes[3]
+	mi := &file_proto_lesson_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -251,7 +319,7 @@ func (x *ReadLessonRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReadLessonRequest.ProtoReflect.Descriptor instead.
 func (*ReadLessonRequest) Descriptor() ([]byte, []int) {
-	return file_proto_lesson_service_proto_rawDescGZIP(), []int{3}
+	return file_proto_lesson_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ReadLessonRequest) GetId() string {
@@ -270,7 +338,7 @@ type ReadLessonResponse struct {
 
 func (x *ReadLessonResponse) Reset() {
 	*x = ReadLessonResponse{}
-	mi := &file_proto_lesson_service_proto_msgTypes[4]
+	mi := &file_proto_lesson_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -282,7 +350,7 @@ func (x *ReadLessonResponse) String() string {
 func (*ReadLessonResponse) ProtoMessage() {}
 
 func (x *ReadLessonResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_lesson_service_proto_msgTypes[4]
+	mi := &file_proto_lesson_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -295,7 +363,7 @@ func (x *ReadLessonResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReadLessonResponse.ProtoReflect.Descriptor instead.
 func (*ReadLessonResponse) Descriptor() ([]byte, []int) {
-	return file_proto_lesson_service_proto_rawDescGZIP(), []int{4}
+	return file_proto_lesson_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ReadLessonResponse) GetLesson() *Lesson {
@@ -314,7 +382,7 @@ type ReadAllLessonsByModuleIdRequest struct {
 
 func (x *ReadAllLessonsByModuleIdRequest) Reset() {
 	*x = ReadAllLessonsByModuleIdRequest{}
-	mi := &file_proto_lesson_service_proto_msgTypes[5]
+	mi := &file_proto_lesson_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -326,7 +394,7 @@ func (x *ReadAllLessonsByModuleIdRequest) String() string {
 func (*ReadAllLessonsByModuleIdRequest) ProtoMessage() {}
 
 func (x *ReadAllLessonsByModuleIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_lesson_service_proto_msgTypes[5]
+	mi := &file_proto_lesson_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -339,7 +407,7 @@ func (x *ReadAllLessonsByModuleIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReadAllLessonsByModuleIdRequest.ProtoReflect.Descriptor instead.
 func (*ReadAllLessonsByModuleIdRequest) Descriptor() ([]byte, []int) {
-	return file_proto_lesson_service_proto_rawDescGZIP(), []int{5}
+	return file_proto_lesson_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ReadAllLessonsByModuleIdRequest) GetModuleId() string {
@@ -358,7 +426,7 @@ type ReadAllLessonsByModuleIdResponse struct {
 
 func (x *ReadAllLessonsByModuleIdResponse) Reset() {
 	*x = ReadAllLessonsByModuleIdResponse{}
-	mi := &file_proto_lesson_service_proto_msgTypes[6]
+	mi := &file_proto_lesson_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -370,7 +438,7 @@ func (x *ReadAllLessonsByModuleIdResponse) String() string {
 func (*ReadAllLessonsByModuleIdResponse) ProtoMessage() {}
 
 func (x *ReadAllLessonsByModuleIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_lesson_service_proto_msgTypes[6]
+	mi := &file_proto_lesson_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -383,7 +451,7 @@ func (x *ReadAllLessonsByModuleIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReadAllLessonsByModuleIdResponse.ProtoReflect.Descriptor instead.
 func (*ReadAllLessonsByModuleIdResponse) Descriptor() ([]byte, []int) {
-	return file_proto_lesson_service_proto_rawDescGZIP(), []int{6}
+	return file_proto_lesson_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ReadAllLessonsByModuleIdResponse) GetLessons() []*Lesson {
@@ -406,7 +474,7 @@ type UpdateLessonRequest struct {
 
 func (x *UpdateLessonRequest) Reset() {
 	*x = UpdateLessonRequest{}
-	mi := &file_proto_lesson_service_proto_msgTypes[7]
+	mi := &file_proto_lesson_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -418,7 +486,7 @@ func (x *UpdateLessonRequest) String() string {
 func (*UpdateLessonRequest) ProtoMessage() {}
 
 func (x *UpdateLessonRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_lesson_service_proto_msgTypes[7]
+	mi := &file_proto_lesson_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -431,7 +499,7 @@ func (x *UpdateLessonRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateLessonRequest.ProtoReflect.Descriptor instead.
 func (*UpdateLessonRequest) Descriptor() ([]byte, []int) {
-	return file_proto_lesson_service_proto_rawDescGZIP(), []int{7}
+	return file_proto_lesson_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *UpdateLessonRequest) GetId() string {
@@ -478,7 +546,7 @@ type UpdateLessonResponse struct {
 
 func (x *UpdateLessonResponse) Reset() {
 	*x = UpdateLessonResponse{}
-	mi := &file_proto_lesson_service_proto_msgTypes[8]
+	mi := &file_proto_lesson_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -490,7 +558,7 @@ func (x *UpdateLessonResponse) String() string {
 func (*UpdateLessonResponse) ProtoMessage() {}
 
 func (x *UpdateLessonResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_lesson_service_proto_msgTypes[8]
+	mi := &file_proto_lesson_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -503,7 +571,7 @@ func (x *UpdateLessonResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateLessonResponse.ProtoReflect.Descriptor instead.
 func (*UpdateLessonResponse) Descriptor() ([]byte, []int) {
-	return file_proto_lesson_service_proto_rawDescGZIP(), []int{8}
+	return file_proto_lesson_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *UpdateLessonResponse) GetLesson() *Lesson {
@@ -522,7 +590,7 @@ type DeleteLessonRequest struct {
 
 func (x *DeleteLessonRequest) Reset() {
 	*x = DeleteLessonRequest{}
-	mi := &file_proto_lesson_service_proto_msgTypes[9]
+	mi := &file_proto_lesson_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -534,7 +602,7 @@ func (x *DeleteLessonRequest) String() string {
 func (*DeleteLessonRequest) ProtoMessage() {}
 
 func (x *DeleteLessonRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_lesson_service_proto_msgTypes[9]
+	mi := &file_proto_lesson_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -547,7 +615,7 @@ func (x *DeleteLessonRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteLessonRequest.ProtoReflect.Descriptor instead.
 func (*DeleteLessonRequest) Descriptor() ([]byte, []int) {
-	return file_proto_lesson_service_proto_rawDescGZIP(), []int{9}
+	return file_proto_lesson_service_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *DeleteLessonRequest) GetId() string {
@@ -565,7 +633,7 @@ type DeleteLessonResponse struct {
 
 func (x *DeleteLessonResponse) Reset() {
 	*x = DeleteLessonResponse{}
-	mi := &file_proto_lesson_service_proto_msgTypes[10]
+	mi := &file_proto_lesson_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -577,7 +645,7 @@ func (x *DeleteLessonResponse) String() string {
 func (*DeleteLessonResponse) ProtoMessage() {}
 
 func (x *DeleteLessonResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_lesson_service_proto_msgTypes[10]
+	mi := &file_proto_lesson_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -590,21 +658,28 @@ func (x *DeleteLessonResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteLessonResponse.ProtoReflect.Descriptor instead.
 func (*DeleteLessonResponse) Descriptor() ([]byte, []int) {
-	return file_proto_lesson_service_proto_rawDescGZIP(), []int{10}
+	return file_proto_lesson_service_proto_rawDescGZIP(), []int{11}
 }
 
 var File_proto_lesson_service_proto protoreflect.FileDescriptor
 
 const file_proto_lesson_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1aproto/lesson_service.proto\x12\rlessonservice\"\xa3\x01\n" +
+	"\x1aproto/lesson_service.proto\x12\rlessonservice\"O\n" +
+	"\n" +
+	"LessonFile\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n" +
+	"\vobject_name\x18\x02 \x01(\tR\n" +
+	"objectName\x12\x10\n" +
+	"\x03url\x18\x03 \x01(\tR\x03url\"\xd4\x01\n" +
 	"\x06Lesson\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x18\n" +
 	"\acontent\x18\x04 \x01(\tR\acontent\x12\x1a\n" +
 	"\bposition\x18\x05 \x01(\x03R\bposition\x12\x1b\n" +
-	"\tmodule_id\x18\x06 \x01(\tR\bmoduleId\"\x84\x01\n" +
+	"\tmodule_id\x18\x06 \x01(\tR\bmoduleId\x12/\n" +
+	"\x05files\x18\a \x03(\v2\x19.lessonservice.LessonFileR\x05files\"\x84\x01\n" +
 	"\x13CreateLessonRequest\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x18\n" +
@@ -651,40 +726,42 @@ func file_proto_lesson_service_proto_rawDescGZIP() []byte {
 	return file_proto_lesson_service_proto_rawDescData
 }
 
-var file_proto_lesson_service_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_proto_lesson_service_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_proto_lesson_service_proto_goTypes = []any{
-	(*Lesson)(nil),                           // 0: lessonservice.Lesson
-	(*CreateLessonRequest)(nil),              // 1: lessonservice.CreateLessonRequest
-	(*CreateLessonResponse)(nil),             // 2: lessonservice.CreateLessonResponse
-	(*ReadLessonRequest)(nil),                // 3: lessonservice.ReadLessonRequest
-	(*ReadLessonResponse)(nil),               // 4: lessonservice.ReadLessonResponse
-	(*ReadAllLessonsByModuleIdRequest)(nil),  // 5: lessonservice.ReadAllLessonsByModuleIdRequest
-	(*ReadAllLessonsByModuleIdResponse)(nil), // 6: lessonservice.ReadAllLessonsByModuleIdResponse
-	(*UpdateLessonRequest)(nil),              // 7: lessonservice.UpdateLessonRequest
-	(*UpdateLessonResponse)(nil),             // 8: lessonservice.UpdateLessonResponse
-	(*DeleteLessonRequest)(nil),              // 9: lessonservice.DeleteLessonRequest
-	(*DeleteLessonResponse)(nil),             // 10: lessonservice.DeleteLessonResponse
+	(*LessonFile)(nil),                       // 0: lessonservice.LessonFile
+	(*Lesson)(nil),                           // 1: lessonservice.Lesson
+	(*CreateLessonRequest)(nil),              // 2: lessonservice.CreateLessonRequest
+	(*CreateLessonResponse)(nil),             // 3: lessonservice.CreateLessonResponse
+	(*ReadLessonRequest)(nil),                // 4: lessonservice.ReadLessonRequest
+	(*ReadLessonResponse)(nil),               // 5: lessonservice.ReadLessonResponse
+	(*ReadAllLessonsByModuleIdRequest)(nil),  // 6: lessonservice.ReadAllLessonsByModuleIdRequest
+	(*ReadAllLessonsByModuleIdResponse)(nil), // 7: lessonservice.ReadAllLessonsByModuleIdResponse
+	(*UpdateLessonRequest)(nil),              // 8: lessonservice.UpdateLessonRequest
+	(*UpdateLessonResponse)(nil),             // 9: lessonservice.UpdateLessonResponse
+	(*DeleteLessonRequest)(nil),              // 10: lessonservice.DeleteLessonRequest
+	(*DeleteLessonResponse)(nil),             // 11: lessonservice.DeleteLessonResponse
 }
 var file_proto_lesson_service_proto_depIdxs = []int32{
-	0,  // 0: lessonservice.CreateLessonResponse.lesson:type_name -> lessonservice.Lesson
-	0,  // 1: lessonservice.ReadLessonResponse.lesson:type_name -> lessonservice.Lesson
-	0,  // 2: lessonservice.ReadAllLessonsByModuleIdResponse.lessons:type_name -> lessonservice.Lesson
-	0,  // 3: lessonservice.UpdateLessonResponse.lesson:type_name -> lessonservice.Lesson
-	1,  // 4: lessonservice.LessonService.CreateLesson:input_type -> lessonservice.CreateLessonRequest
-	3,  // 5: lessonservice.LessonService.ReadLesson:input_type -> lessonservice.ReadLessonRequest
-	5,  // 6: lessonservice.LessonService.ReadAllLessonsByModuleId:input_type -> lessonservice.ReadAllLessonsByModuleIdRequest
-	7,  // 7: lessonservice.LessonService.UpdateLesson:input_type -> lessonservice.UpdateLessonRequest
-	9,  // 8: lessonservice.LessonService.DeleteLesson:input_type -> lessonservice.DeleteLessonRequest
-	2,  // 9: lessonservice.LessonService.CreateLesson:output_type -> lessonservice.CreateLessonResponse
-	4,  // 10: lessonservice.LessonService.ReadLesson:output_type -> lessonservice.ReadLessonResponse
-	6,  // 11: lessonservice.LessonService.ReadAllLessonsByModuleId:output_type -> lessonservice.ReadAllLessonsByModuleIdResponse
-	8,  // 12: lessonservice.LessonService.UpdateLesson:output_type -> lessonservice.UpdateLessonResponse
-	10, // 13: lessonservice.LessonService.DeleteLesson:output_type -> lessonservice.DeleteLessonResponse
-	9,  // [9:14] is the sub-list for method output_type
-	4,  // [4:9] is the sub-list for method input_type
-	4,  // [4:4] is the sub-list for extension type_name
-	4,  // [4:4] is the sub-list for extension extendee
-	0,  // [0:4] is the sub-list for field type_name
+	0,  // 0: lessonservice.Lesson.files:type_name -> lessonservice.LessonFile
+	1,  // 1: lessonservice.CreateLessonResponse.lesson:type_name -> lessonservice.Lesson
+	1,  // 2: lessonservice.ReadLessonResponse.lesson:type_name -> lessonservice.Lesson
+	1,  // 3: lessonservice.ReadAllLessonsByModuleIdResponse.lessons:type_name -> lessonservice.Lesson
+	1,  // 4: lessonservice.UpdateLessonResponse.lesson:type_name -> lessonservice.Lesson
+	2,  // 5: lessonservice.LessonService.CreateLesson:input_type -> lessonservice.CreateLessonRequest
+	4,  // 6: lessonservice.LessonService.ReadLesson:input_type -> lessonservice.ReadLessonRequest
+	6,  // 7: lessonservice.LessonService.ReadAllLessonsByModuleId:input_type -> lessonservice.ReadAllLessonsByModuleIdRequest
+	8,  // 8: lessonservice.LessonService.UpdateLesson:input_type -> lessonservice.UpdateLessonRequest
+	10, // 9: lessonservice.LessonService.DeleteLesson:input_type -> lessonservice.DeleteLessonRequest
+	3,  // 10: lessonservice.LessonService.CreateLesson:output_type -> lessonservice.CreateLessonResponse
+	5,  // 11: lessonservice.LessonService.ReadLesson:output_type -> lessonservice.ReadLessonResponse
+	7,  // 12: lessonservice.LessonService.ReadAllLessonsByModuleId:output_type -> lessonservice.ReadAllLessonsByModuleIdResponse
+	9,  // 13: lessonservice.LessonService.UpdateLesson:output_type -> lessonservice.UpdateLessonResponse
+	11, // 14: lessonservice.LessonService.DeleteLesson:output_type -> lessonservice.DeleteLessonResponse
+	10, // [10:15] is the sub-list for method output_type
+	5,  // [5:10] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_proto_lesson_service_proto_init() }
@@ -698,7 +775,7 @@ func file_proto_lesson_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_lesson_service_proto_rawDesc), len(file_proto_lesson_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

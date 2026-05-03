@@ -11,7 +11,7 @@ import (
 	"github.com/TwiLightDM/diploma-course-service/internal/config"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/course-service"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/group-course-service"
-	lesson_file_service "github.com/TwiLightDM/diploma-course-service/internal/services/lesson-file-service"
+	"github.com/TwiLightDM/diploma-course-service/internal/services/lesson-file-service"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/lesson-service"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/module-service"
 	"github.com/TwiLightDM/diploma-course-service/package/databases"
@@ -64,7 +64,8 @@ func Run(cfg *config.Config) error {
 	moduleHandler := module_service.NewModuleHandler(moduleService)
 
 	lessonRepo := lesson_service.NewLessonRepository(db)
-	lessonService := lesson_service.NewLessonService(lessonRepo)
+	lessonStore := lesson_service.NewLessonStorage(storage)
+	lessonService := lesson_service.NewLessonService(lessonRepo, lessonStore)
 	lessonHandler := lesson_service.NewLessonHandler(lessonService)
 
 	lessonFileRepo := lesson_file_service.NewLessonFileRepository(db)

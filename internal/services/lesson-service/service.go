@@ -16,12 +16,18 @@ type LessonRepository interface {
 	Delete(ctx context.Context, id string) error
 }
 
-type lessonService struct {
-	repo LessonRepository
+type LessonStorage interface {
+	ReadAllByLessonId(ctx context.Context, lessons []entities.Lesson) error
+	ReadByObjectName(ctx context.Context, objectName string) (string, error)
 }
 
-func NewLessonService(repo LessonRepository) LessonService {
-	return &lessonService{repo: repo}
+type lessonService struct {
+	repo  LessonRepository
+	store LessonStorage
+}
+
+func NewLessonService(repo LessonRepository, store LessonStorage) LessonService {
+	return &lessonService{repo: repo, store: store}
 }
 
 func (s *lessonService) CreateLesson(ctx context.Context, lesson *entities.Lesson) error {
@@ -42,6 +48,13 @@ func (s *lessonService) ReadLessonById(ctx context.Context, id string) (*entitie
 		return nil, err
 	}
 
+	for i := range lesson.Files {
+		lesson.Files[i].Url, err = s.store.ReadByObjectName(ctx, lesson.Files[i].ObjectName)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	return lesson, nil
 }
 
@@ -53,6 +66,8 @@ func (s *lessonService) ReadAllLessonsByModuleId(ctx context.Context, moduleId s
 	if err != nil {
 		return nil, err
 	}
+
+	err = s.store.ReadAllByLessonId(ctx, lessons)
 
 	return lessons, nil
 }
@@ -66,6 +81,13 @@ func (s *lessonService) UpdateLesson(ctx context.Context, lesson *entities.Lesso
 	updatedLesson, err := s.repo.Update(ctx, lesson)
 	if err != nil {
 		return nil, err
+	}
+
+	for i := range lesson.Files {
+		lesson.Files[i].Url, err = s.store.ReadByObjectName(ctx, lesson.Files[i].ObjectName)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return updatedLesson, nil

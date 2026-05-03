@@ -62,6 +62,15 @@ func (h *LessonHandler) ReadLesson(ctx context.Context, req *lessonservicepb.Rea
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
+	files := make([]*lessonservicepb.LessonFile, 0, len(lesson.Files))
+	for _, f := range lesson.Files {
+		files = append(files, &lessonservicepb.LessonFile{
+			Id:         f.Id,
+			ObjectName: f.ObjectName,
+			Url:        f.Url,
+		})
+	}
+
 	return &lessonservicepb.ReadLessonResponse{
 		Lesson: &lessonservicepb.Lesson{
 			Id:          lesson.Id,
@@ -70,6 +79,7 @@ func (h *LessonHandler) ReadLesson(ctx context.Context, req *lessonservicepb.Rea
 			Position:    lesson.Position,
 			Content:     lesson.Content,
 			ModuleId:    lesson.ModuleId,
+			Files:       files,
 		},
 	}, nil
 }
@@ -82,6 +92,16 @@ func (h *LessonHandler) ReadAllLessonsByModuleId(ctx context.Context, req *lesso
 
 	lessonsPb := make([]*lessonservicepb.Lesson, 0, len(lessons))
 	for _, lesson := range lessons {
+		files := make([]*lessonservicepb.LessonFile, 0, len(lesson.Files))
+
+		for _, f := range lesson.Files {
+			files = append(files, &lessonservicepb.LessonFile{
+				Id:         f.Id,
+				ObjectName: f.ObjectName,
+				Url:        f.Url,
+			})
+		}
+
 		lessonsPb = append(lessonsPb, &lessonservicepb.Lesson{
 			Id:          lesson.Id,
 			Title:       lesson.Title,
@@ -89,6 +109,7 @@ func (h *LessonHandler) ReadAllLessonsByModuleId(ctx context.Context, req *lesso
 			Position:    lesson.Position,
 			Content:     lesson.Content,
 			ModuleId:    lesson.ModuleId,
+			Files:       files,
 		})
 	}
 

@@ -12,6 +12,12 @@ service LessonService {
   rpc DeleteLesson(DeleteLessonRequest) returns (DeleteLessonResponse);
 }
 
+message LessonFile {
+  string id = 1;
+  string object_name = 2;
+  string url = 3;
+}
+
 message Lesson {
   string id = 1;
   string title = 2;
@@ -19,6 +25,7 @@ message Lesson {
   string content = 4;
   int64 position = 5;
   string module_id = 6;
+  repeated LessonFile files = 7;
 }
 
 message CreateLessonRequest {

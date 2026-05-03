@@ -60,6 +60,7 @@ func (r *lessonRepository) ReadById(ctx context.Context, id string) (*entities.L
 	var lesson entities.Lesson
 	if err := r.db.
 		WithContext(ctx).
+		Preload("Files").
 		Where("id = ?", id).First(&lesson).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errs.ErrRecordNotFound
@@ -73,6 +74,7 @@ func (r *lessonRepository) ReadAllByModuleId(ctx context.Context, moduleId strin
 	var lessons []entities.Lesson
 	if err := r.db.
 		WithContext(ctx).
+		Preload("Files").
 		Where("module_id = ?", moduleId).
 		Find(&lessons).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
