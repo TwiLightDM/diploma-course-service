@@ -40,7 +40,7 @@ func (r *moduleRepository) Create(ctx context.Context, module *entities.Module) 
 		tx.Rollback()
 		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") ||
 			strings.Contains(err.Error(), "SQLSTATE 23505") {
-			return errs.ErrDublicateKey
+			return errs.ErrDuplicateKey
 		}
 		return err
 	}

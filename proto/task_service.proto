@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package taskservice;
+
+option go_package = "proto/taskservicepb";
+
+service TaskService {
+  rpc CreateTask(CreateTaskRequest) returns (CreateTaskResponse);
+  rpc ReadTask(ReadTaskRequest) returns (ReadTaskResponse);
+  rpc ReadAllTasksByCourseId(ReadAllTasksByCourseIdRequest) returns (ReadAllTasksByCourseIdResponse);
+  rpc ReadAllTasksByModuleId(ReadAllTasksByModuleIdRequest) returns (ReadAllTasksByModuleIdResponse);
+  rpc UpdateTask(UpdateTaskRequest) returns (UpdateTaskResponse);
+  rpc DeleteTask(DeleteTaskRequest) returns (DeleteTaskResponse);
+}
+
+enum TaskType {
+  TASK_TYPE_UNSPECIFIED = 0;
+  TASK_TYPE_TEXT_INPUT = 1;
+  TASK_TYPE_CHOICE = 2;
+}
+
+message TaskOption {
+  string id = 1;
+  string text = 2;
+  bool is_correct = 3;
+}
+
+message Task {
+  string id = 1;
+
+  string title = 2;
+
+  string course_id = 3;
+  string module_id = 4;
+
+  TaskType type = 5;
+
+  string correct_text_answer = 6;
+
+  repeated TaskOption options = 7;
+}
+
+message CreateTaskRequest {
+  string title = 1;
+
+  string course_id = 3;
+  string module_id = 4;
+
+  TaskType type = 5;
+
+  string correct_text_answer = 6;
+
+  repeated TaskOption options = 7;
+}
+
+message CreateTaskResponse {
+  Task task = 1;
+}
+
+message ReadTaskRequest {
+  string id = 1;
+}
+
+message ReadTaskResponse {
+  Task task = 1;
+}
+
+message ReadAllTasksByCourseIdRequest {
+  string course_id = 1;
+}
+
+message ReadAllTasksByCourseIdResponse {
+  repeated Task tasks = 1;
+}
+
+message ReadAllTasksByModuleIdRequest {
+  string module_id = 1;
+}
+
+message ReadAllTasksByModuleIdResponse {
+  repeated Task tasks = 1;
+}
+
+message UpdateTaskRequest {
+  string id = 1;
+
+  string title = 2;
+
+  string course_id = 3;
+  string module_id = 4;
+
+  TaskType type = 5;
+
+  string correct_text_answer = 6;
+
+  repeated TaskOption options = 7;
+}
+
+message UpdateTaskResponse {
+  Task task = 1;
+}
+
+message DeleteTaskRequest {
+  string id = 1;
+}
+
+message DeleteTaskResponse {
+}

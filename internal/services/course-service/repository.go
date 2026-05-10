@@ -25,7 +25,7 @@ func (r *courseRepository) Create(ctx context.Context, course *entities.Course) 
 	if err != nil {
 		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") ||
 			strings.Contains(err.Error(), "SQLSTATE 23505") {
-			return errs.ErrDublicateKey
+			return errs.ErrDuplicateKey
 		}
 	}
 

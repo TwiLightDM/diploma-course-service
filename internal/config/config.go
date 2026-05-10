@@ -8,7 +8,7 @@ import (
 )
 
 type Config struct {
-	DB struct {
+	Postgres struct {
 		Host     string
 		Port     string
 		User     string
@@ -23,6 +23,14 @@ type Config struct {
 		BucketName string
 	}
 
+	Mongo struct {
+		Host     string
+		Port     string
+		User     string
+		Password string
+		Name     string
+	}
+
 	GRPCPort string
 }
 
@@ -33,16 +41,22 @@ func Load() *Config {
 
 	cfg := &Config{}
 
-	cfg.DB.Host = os.Getenv("POSTGRES_HOST")
-	cfg.DB.Port = os.Getenv("POSTGRES_PORT")
-	cfg.DB.User = os.Getenv("POSTGRES_USER")
-	cfg.DB.Password = os.Getenv("POSTGRES_PASSWORD")
-	cfg.DB.Name = os.Getenv("POSTGRES_DB")
+	cfg.Postgres.Host = os.Getenv("POSTGRES_HOST")
+	cfg.Postgres.Port = os.Getenv("POSTGRES_PORT")
+	cfg.Postgres.User = os.Getenv("POSTGRES_USER")
+	cfg.Postgres.Password = os.Getenv("POSTGRES_PASSWORD")
+	cfg.Postgres.Name = os.Getenv("POSTGRES_DB")
 
 	cfg.Storage.Endpoint = os.Getenv("MINIO_ENDPOINT")
 	cfg.Storage.AccessKey = os.Getenv("MINIO_ROOT_USER")
 	cfg.Storage.SecretKey = os.Getenv("minio_root_password")
 	cfg.Storage.BucketName = os.Getenv("MINIO_BUCKET")
+
+	cfg.Mongo.Host = os.Getenv("MONGO_HOST")
+	cfg.Mongo.Port = os.Getenv("MONGO_PORT")
+	cfg.Mongo.User = os.Getenv("MONGO_INITDB_ROOT_USERNAME")
+	cfg.Mongo.Password = os.Getenv("MONGO_INITDB_ROOT_PASSWORD")
+	cfg.Mongo.Name = os.Getenv("MONGO_DB")
 
 	cfg.GRPCPort = os.Getenv("GRPC_PORT")
 

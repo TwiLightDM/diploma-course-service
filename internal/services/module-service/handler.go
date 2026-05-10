@@ -37,7 +37,7 @@ func (h *ModuleHandler) CreateModule(ctx context.Context, req *moduleservicepb.C
 
 	err := h.service.CreateModule(ctx, &module)
 	if err != nil {
-		if errors.Is(err, errs.ErrDublicateKey) {
+		if errors.Is(err, errs.ErrDuplicateKey) {
 			return nil, status.Error(codes.AlreadyExists, err.Error())
 		}
 		return nil, status.Error(codes.Internal, err.Error())

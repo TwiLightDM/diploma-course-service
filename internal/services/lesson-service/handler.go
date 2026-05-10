@@ -38,7 +38,7 @@ func (h *LessonHandler) CreateLesson(ctx context.Context, req *lessonservicepb.C
 
 	err := h.service.CreateLesson(ctx, &lesson)
 	if err != nil {
-		if errors.Is(err, errs.ErrDublicateKey) {
+		if errors.Is(err, errs.ErrDuplicateKey) {
 			return nil, status.Error(codes.AlreadyExists, err.Error())
 		}
 		return nil, status.Error(codes.Internal, err.Error())

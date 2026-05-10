@@ -41,7 +41,7 @@ func (h *CourseHandler) CreateCourse(ctx context.Context, req *courseservicepb.C
 
 	err := h.service.CreateCourse(ctx, &course)
 	if err != nil {
-		if errors.Is(err, errs.ErrDublicateKey) {
+		if errors.Is(err, errs.ErrDuplicateKey) {
 			return nil, status.Error(codes.AlreadyExists, err.Error())
 		}
 		return nil, status.Error(codes.Internal, err.Error())

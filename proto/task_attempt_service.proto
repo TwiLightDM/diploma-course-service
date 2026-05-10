@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package taskattemptservice;
+
+option go_package = "proto/taskattemptservicepb";
+
+service TaskAttemptService {
+  rpc SubmitTaskAttempt(SubmitTaskAttemptRequest) returns (SubmitTaskAttemptResponse);
+  rpc ReadTaskAttempt(ReadTaskAttemptRequest) returns (ReadTaskAttemptResponse);
+  rpc ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId(ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdRequest) returns (ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdResponse);
+}
+
+message TaskAttemptAnswer {
+  string task_id = 1;
+
+  string text_answer = 2;
+  repeated string selected_option_ids = 3;
+
+  bool is_correct = 4;
+}
+
+message TaskAttempt {
+  string id = 1;
+
+  string user_id = 2;
+  string course_id = 3;
+  string module_id = 4;
+
+  int64 attempt_number = 5;
+
+  repeated TaskAttemptAnswer answers = 6;
+
+  int64 correct_answers = 7;
+  int64 total_questions = 8;
+  double score = 9;
+
+}
+
+message SubmitTaskAttemptRequest {
+  string user_id = 1;
+
+  string course_id = 2;
+  string module_id = 3;
+
+  repeated TaskAttemptAnswer answers = 4;
+}
+
+message SubmitTaskAttemptResponse {
+  TaskAttempt task_attempt = 1;
+}
+
+message ReadTaskAttemptRequest {
+  string id = 1;
+}
+
+message ReadTaskAttemptResponse {
+  TaskAttempt task_attempt = 1;
+}
+
+message ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdRequest {
+  string user_id = 1;
+  string module_id = 2;
+  string course_id = 3;
+}
+
+message ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdResponse {
+  repeated TaskAttempt task_attempts = 1;
+}
