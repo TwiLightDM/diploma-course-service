@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TaskAttemptService_SubmitTaskAttempt_FullMethodName                                = "/taskattemptservice.TaskAttemptService/SubmitTaskAttempt"
-	TaskAttemptService_ReadTaskAttempt_FullMethodName                                  = "/taskattemptservice.TaskAttemptService/ReadTaskAttempt"
-	TaskAttemptService_ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId_FullMethodName = "/taskattemptservice.TaskAttemptService/ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId"
+	TaskAttemptService_SubmitTaskAttempt_FullMethodName                      = "/taskattemptservice.TaskAttemptService/SubmitTaskAttempt"
+	TaskAttemptService_ReadTaskAttempt_FullMethodName                        = "/taskattemptservice.TaskAttemptService/ReadTaskAttempt"
+	TaskAttemptService_ReadAllTaskAttemptsByUserIdAndModuleId_FullMethodName = "/taskattemptservice.TaskAttemptService/ReadAllTaskAttemptsByUserIdAndModuleId"
+	TaskAttemptService_ReadAllTaskAttemptsByUserIdAndCourseId_FullMethodName = "/taskattemptservice.TaskAttemptService/ReadAllTaskAttemptsByUserIdAndCourseId"
 )
 
 // TaskAttemptServiceClient is the client API for TaskAttemptService service.
@@ -30,7 +31,8 @@ const (
 type TaskAttemptServiceClient interface {
 	SubmitTaskAttempt(ctx context.Context, in *SubmitTaskAttemptRequest, opts ...grpc.CallOption) (*SubmitTaskAttemptResponse, error)
 	ReadTaskAttempt(ctx context.Context, in *ReadTaskAttemptRequest, opts ...grpc.CallOption) (*ReadTaskAttemptResponse, error)
-	ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId(ctx context.Context, in *ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdRequest, opts ...grpc.CallOption) (*ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdResponse, error)
+	ReadAllTaskAttemptsByUserIdAndModuleId(ctx context.Context, in *ReadAllTaskAttemptsByUserIdAndModuleIdRequest, opts ...grpc.CallOption) (*ReadAllTaskAttemptsByUserIdAndModuleIdResponse, error)
+	ReadAllTaskAttemptsByUserIdAndCourseId(ctx context.Context, in *ReadAllTaskAttemptsByUserIdAndCourseIdRequest, opts ...grpc.CallOption) (*ReadAllTaskAttemptsByUserIdAndCourseIdResponse, error)
 }
 
 type taskAttemptServiceClient struct {
@@ -61,10 +63,20 @@ func (c *taskAttemptServiceClient) ReadTaskAttempt(ctx context.Context, in *Read
 	return out, nil
 }
 
-func (c *taskAttemptServiceClient) ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId(ctx context.Context, in *ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdRequest, opts ...grpc.CallOption) (*ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdResponse, error) {
+func (c *taskAttemptServiceClient) ReadAllTaskAttemptsByUserIdAndModuleId(ctx context.Context, in *ReadAllTaskAttemptsByUserIdAndModuleIdRequest, opts ...grpc.CallOption) (*ReadAllTaskAttemptsByUserIdAndModuleIdResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdResponse)
-	err := c.cc.Invoke(ctx, TaskAttemptService_ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId_FullMethodName, in, out, cOpts...)
+	out := new(ReadAllTaskAttemptsByUserIdAndModuleIdResponse)
+	err := c.cc.Invoke(ctx, TaskAttemptService_ReadAllTaskAttemptsByUserIdAndModuleId_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taskAttemptServiceClient) ReadAllTaskAttemptsByUserIdAndCourseId(ctx context.Context, in *ReadAllTaskAttemptsByUserIdAndCourseIdRequest, opts ...grpc.CallOption) (*ReadAllTaskAttemptsByUserIdAndCourseIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReadAllTaskAttemptsByUserIdAndCourseIdResponse)
+	err := c.cc.Invoke(ctx, TaskAttemptService_ReadAllTaskAttemptsByUserIdAndCourseId_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +89,8 @@ func (c *taskAttemptServiceClient) ReadAllTaskAttemptsByUserIdAndModuleIdOrCours
 type TaskAttemptServiceServer interface {
 	SubmitTaskAttempt(context.Context, *SubmitTaskAttemptRequest) (*SubmitTaskAttemptResponse, error)
 	ReadTaskAttempt(context.Context, *ReadTaskAttemptRequest) (*ReadTaskAttemptResponse, error)
-	ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId(context.Context, *ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdRequest) (*ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdResponse, error)
+	ReadAllTaskAttemptsByUserIdAndModuleId(context.Context, *ReadAllTaskAttemptsByUserIdAndModuleIdRequest) (*ReadAllTaskAttemptsByUserIdAndModuleIdResponse, error)
+	ReadAllTaskAttemptsByUserIdAndCourseId(context.Context, *ReadAllTaskAttemptsByUserIdAndCourseIdRequest) (*ReadAllTaskAttemptsByUserIdAndCourseIdResponse, error)
 	mustEmbedUnimplementedTaskAttemptServiceServer()
 }
 
@@ -94,8 +107,11 @@ func (UnimplementedTaskAttemptServiceServer) SubmitTaskAttempt(context.Context, 
 func (UnimplementedTaskAttemptServiceServer) ReadTaskAttempt(context.Context, *ReadTaskAttemptRequest) (*ReadTaskAttemptResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ReadTaskAttempt not implemented")
 }
-func (UnimplementedTaskAttemptServiceServer) ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId(context.Context, *ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdRequest) (*ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId not implemented")
+func (UnimplementedTaskAttemptServiceServer) ReadAllTaskAttemptsByUserIdAndModuleId(context.Context, *ReadAllTaskAttemptsByUserIdAndModuleIdRequest) (*ReadAllTaskAttemptsByUserIdAndModuleIdResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReadAllTaskAttemptsByUserIdAndModuleId not implemented")
+}
+func (UnimplementedTaskAttemptServiceServer) ReadAllTaskAttemptsByUserIdAndCourseId(context.Context, *ReadAllTaskAttemptsByUserIdAndCourseIdRequest) (*ReadAllTaskAttemptsByUserIdAndCourseIdResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReadAllTaskAttemptsByUserIdAndCourseId not implemented")
 }
 func (UnimplementedTaskAttemptServiceServer) mustEmbedUnimplementedTaskAttemptServiceServer() {}
 func (UnimplementedTaskAttemptServiceServer) testEmbeddedByValue()                            {}
@@ -154,20 +170,38 @@ func _TaskAttemptService_ReadTaskAttempt_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TaskAttemptService_ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdRequest)
+func _TaskAttemptService_ReadAllTaskAttemptsByUserIdAndModuleId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadAllTaskAttemptsByUserIdAndModuleIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TaskAttemptServiceServer).ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId(ctx, in)
+		return srv.(TaskAttemptServiceServer).ReadAllTaskAttemptsByUserIdAndModuleId(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TaskAttemptService_ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId_FullMethodName,
+		FullMethod: TaskAttemptService_ReadAllTaskAttemptsByUserIdAndModuleId_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TaskAttemptServiceServer).ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId(ctx, req.(*ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdRequest))
+		return srv.(TaskAttemptServiceServer).ReadAllTaskAttemptsByUserIdAndModuleId(ctx, req.(*ReadAllTaskAttemptsByUserIdAndModuleIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TaskAttemptService_ReadAllTaskAttemptsByUserIdAndCourseId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadAllTaskAttemptsByUserIdAndCourseIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskAttemptServiceServer).ReadAllTaskAttemptsByUserIdAndCourseId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskAttemptService_ReadAllTaskAttemptsByUserIdAndCourseId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskAttemptServiceServer).ReadAllTaskAttemptsByUserIdAndCourseId(ctx, req.(*ReadAllTaskAttemptsByUserIdAndCourseIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -188,8 +222,12 @@ var TaskAttemptService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TaskAttemptService_ReadTaskAttempt_Handler,
 		},
 		{
-			MethodName: "ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId",
-			Handler:    _TaskAttemptService_ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId_Handler,
+			MethodName: "ReadAllTaskAttemptsByUserIdAndModuleId",
+			Handler:    _TaskAttemptService_ReadAllTaskAttemptsByUserIdAndModuleId_Handler,
+		},
+		{
+			MethodName: "ReadAllTaskAttemptsByUserIdAndCourseId",
+			Handler:    _TaskAttemptService_ReadAllTaskAttemptsByUserIdAndCourseId_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
-	"github.com/TwiLightDM/diploma-course-service/internal/errs"
 	"github.com/google/uuid"
 )
 
@@ -101,19 +100,18 @@ func (s *taskAttemptService) ReadTaskAttemptById(ctx context.Context, id string)
 	return s.repo.ReadById(ctx, id)
 }
 
-func (s *taskAttemptService) ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId(ctx context.Context, userId, moduleId, courseId string) ([]entities.TaskAttempt, error) {
+func (s *taskAttemptService) ReadAllTaskAttemptsByUserIdAndModuleId(ctx context.Context, userId, moduleId string) ([]entities.TaskAttempt, error) {
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
-	if moduleId != "" {
-		return s.repo.ReadAllByUserIdAndModuleId(ctx, userId, moduleId)
-	}
+	return s.repo.ReadAllByUserIdAndModuleId(ctx, userId, moduleId)
+}
 
-	if courseId != "" {
-		return s.repo.ReadAllByUserIdAndCourseId(ctx, userId, courseId)
-	}
+func (s *taskAttemptService) ReadAllTaskAttemptsByUserIdAndCourseId(ctx context.Context, userId, courseId string) ([]entities.TaskAttempt, error) {
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
+	defer cancel()
 
-	return nil, errs.ErrModuleIdAndCourseIdNotFound
+	return s.repo.ReadAllByUserIdAndCourseId(ctx, userId, courseId)
 }
 
 func compareStringSlices(a, b []string) bool {

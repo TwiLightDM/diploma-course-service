@@ -7,7 +7,8 @@ option go_package = "proto/taskattemptservicepb";
 service TaskAttemptService {
   rpc SubmitTaskAttempt(SubmitTaskAttemptRequest) returns (SubmitTaskAttemptResponse);
   rpc ReadTaskAttempt(ReadTaskAttemptRequest) returns (ReadTaskAttemptResponse);
-  rpc ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId(ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdRequest) returns (ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdResponse);
+  rpc ReadAllTaskAttemptsByUserIdAndModuleId(ReadAllTaskAttemptsByUserIdAndModuleIdRequest) returns (ReadAllTaskAttemptsByUserIdAndModuleIdResponse);
+  rpc ReadAllTaskAttemptsByUserIdAndCourseId(ReadAllTaskAttemptsByUserIdAndCourseIdRequest) returns (ReadAllTaskAttemptsByUserIdAndCourseIdResponse);
 }
 
 message TaskAttemptAnswer {
@@ -57,12 +58,20 @@ message ReadTaskAttemptResponse {
   TaskAttempt task_attempt = 1;
 }
 
-message ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdRequest {
+message ReadAllTaskAttemptsByUserIdAndModuleIdRequest {
   string user_id = 1;
   string module_id = 2;
-  string course_id = 3;
 }
 
-message ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdResponse {
+message ReadAllTaskAttemptsByUserIdAndModuleIdResponse {
+  repeated TaskAttempt task_attempts = 1;
+}
+
+message ReadAllTaskAttemptsByUserIdAndCourseIdRequest {
+  string user_id = 1;
+  string course_id = 2;
+}
+
+message ReadAllTaskAttemptsByUserIdAndCourseIdResponse {
   repeated TaskAttempt task_attempts = 1;
 }

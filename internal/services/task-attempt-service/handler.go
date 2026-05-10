@@ -12,7 +12,8 @@ import (
 type TaskAttemptService interface {
 	SubmitTaskAttempt(ctx context.Context, taskAttempt *entities.TaskAttempt) (*entities.TaskAttempt, error)
 	ReadTaskAttemptById(ctx context.Context, id string) (*entities.TaskAttempt, error)
-	ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId(ctx context.Context, userId, moduleId, courseId string) ([]entities.TaskAttempt, error)
+	ReadAllTaskAttemptsByUserIdAndModuleId(ctx context.Context, userId, moduleId string) ([]entities.TaskAttempt, error)
+	ReadAllTaskAttemptsByUserIdAndCourseId(ctx context.Context, userId, courseId string) ([]entities.TaskAttempt, error)
 }
 
 type TaskAttemptHandler struct {
@@ -65,8 +66,8 @@ func (h *TaskAttemptHandler) ReadTaskAttempt(ctx context.Context, req *taskattem
 	}, nil
 }
 
-func (h *TaskAttemptHandler) ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId(ctx context.Context, req *taskattemptservicepb.ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdRequest) (*taskattemptservicepb.ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdResponse, error) {
-	taskAttempts, err := h.service.ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId(ctx, req.UserId, req.ModuleId, req.CourseId)
+func (h *TaskAttemptHandler) ReadAllTaskAttemptsByUserIdAndModuleId(ctx context.Context, req *taskattemptservicepb.ReadAllTaskAttemptsByUserIdAndModuleIdRequest) (*taskattemptservicepb.ReadAllTaskAttemptsByUserIdAndModuleIdResponse, error) {
+	taskAttempts, err := h.service.ReadAllTaskAttemptsByUserIdAndModuleId(ctx, req.UserId, req.ModuleId)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
@@ -76,7 +77,23 @@ func (h *TaskAttemptHandler) ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseId(ct
 		taskAttemptsPb = append(taskAttemptsPb, mapTaskAttemptToProto(&taskAttempt))
 	}
 
-	return &taskattemptservicepb.ReadAllTaskAttemptsByUserIdAndModuleIdOrCourseIdResponse{
+	return &taskattemptservicepb.ReadAllTaskAttemptsByUserIdAndModuleIdResponse{
+		TaskAttempts: taskAttemptsPb,
+	}, nil
+}
+
+func (h *TaskAttemptHandler) ReadAllTaskAttemptsByUserIdAndCourseId(ctx context.Context, req *taskattemptservicepb.ReadAllTaskAttemptsByUserIdAndCourseIdRequest) (*taskattemptservicepb.ReadAllTaskAttemptsByUserIdAndCourseIdResponse, error) {
+	taskAttempts, err := h.service.ReadAllTaskAttemptsByUserIdAndCourseId(ctx, req.UserId, req.CourseId)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	taskAttemptsPb := make([]*taskattemptservicepb.TaskAttempt, 0, len(taskAttempts))
+	for _, taskAttempt := range taskAttempts {
+		taskAttemptsPb = append(taskAttemptsPb, mapTaskAttemptToProto(&taskAttempt))
+	}
+
+	return &taskattemptservicepb.ReadAllTaskAttemptsByUserIdAndCourseIdResponse{
 		TaskAttempts: taskAttemptsPb,
 	}, nil
 }
