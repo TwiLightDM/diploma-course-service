@@ -23,6 +23,8 @@ const (
 	TaskAttemptService_ReadTaskAttempt_FullMethodName                        = "/taskattemptservice.TaskAttemptService/ReadTaskAttempt"
 	TaskAttemptService_ReadAllTaskAttemptsByUserIdAndModuleId_FullMethodName = "/taskattemptservice.TaskAttemptService/ReadAllTaskAttemptsByUserIdAndModuleId"
 	TaskAttemptService_ReadAllTaskAttemptsByUserIdAndCourseId_FullMethodName = "/taskattemptservice.TaskAttemptService/ReadAllTaskAttemptsByUserIdAndCourseId"
+	TaskAttemptService_ReadAllTaskAttemptsByCourseId_FullMethodName          = "/taskattemptservice.TaskAttemptService/ReadAllTaskAttemptsByCourseId"
+	TaskAttemptService_ReadAllTaskAttemptsByModuleId_FullMethodName          = "/taskattemptservice.TaskAttemptService/ReadAllTaskAttemptsByModuleId"
 )
 
 // TaskAttemptServiceClient is the client API for TaskAttemptService service.
@@ -33,6 +35,8 @@ type TaskAttemptServiceClient interface {
 	ReadTaskAttempt(ctx context.Context, in *ReadTaskAttemptRequest, opts ...grpc.CallOption) (*ReadTaskAttemptResponse, error)
 	ReadAllTaskAttemptsByUserIdAndModuleId(ctx context.Context, in *ReadAllTaskAttemptsByUserIdAndModuleIdRequest, opts ...grpc.CallOption) (*ReadAllTaskAttemptsByUserIdAndModuleIdResponse, error)
 	ReadAllTaskAttemptsByUserIdAndCourseId(ctx context.Context, in *ReadAllTaskAttemptsByUserIdAndCourseIdRequest, opts ...grpc.CallOption) (*ReadAllTaskAttemptsByUserIdAndCourseIdResponse, error)
+	ReadAllTaskAttemptsByCourseId(ctx context.Context, in *ReadAllTaskAttemptsByCourseIdRequest, opts ...grpc.CallOption) (*ReadAllTaskAttemptsByCourseIdResponse, error)
+	ReadAllTaskAttemptsByModuleId(ctx context.Context, in *ReadAllTaskAttemptsByModuleIdRequest, opts ...grpc.CallOption) (*ReadAllTaskAttemptsByModuleIdResponse, error)
 }
 
 type taskAttemptServiceClient struct {
@@ -83,6 +87,26 @@ func (c *taskAttemptServiceClient) ReadAllTaskAttemptsByUserIdAndCourseId(ctx co
 	return out, nil
 }
 
+func (c *taskAttemptServiceClient) ReadAllTaskAttemptsByCourseId(ctx context.Context, in *ReadAllTaskAttemptsByCourseIdRequest, opts ...grpc.CallOption) (*ReadAllTaskAttemptsByCourseIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReadAllTaskAttemptsByCourseIdResponse)
+	err := c.cc.Invoke(ctx, TaskAttemptService_ReadAllTaskAttemptsByCourseId_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taskAttemptServiceClient) ReadAllTaskAttemptsByModuleId(ctx context.Context, in *ReadAllTaskAttemptsByModuleIdRequest, opts ...grpc.CallOption) (*ReadAllTaskAttemptsByModuleIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReadAllTaskAttemptsByModuleIdResponse)
+	err := c.cc.Invoke(ctx, TaskAttemptService_ReadAllTaskAttemptsByModuleId_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TaskAttemptServiceServer is the server API for TaskAttemptService service.
 // All implementations must embed UnimplementedTaskAttemptServiceServer
 // for forward compatibility.
@@ -91,6 +115,8 @@ type TaskAttemptServiceServer interface {
 	ReadTaskAttempt(context.Context, *ReadTaskAttemptRequest) (*ReadTaskAttemptResponse, error)
 	ReadAllTaskAttemptsByUserIdAndModuleId(context.Context, *ReadAllTaskAttemptsByUserIdAndModuleIdRequest) (*ReadAllTaskAttemptsByUserIdAndModuleIdResponse, error)
 	ReadAllTaskAttemptsByUserIdAndCourseId(context.Context, *ReadAllTaskAttemptsByUserIdAndCourseIdRequest) (*ReadAllTaskAttemptsByUserIdAndCourseIdResponse, error)
+	ReadAllTaskAttemptsByCourseId(context.Context, *ReadAllTaskAttemptsByCourseIdRequest) (*ReadAllTaskAttemptsByCourseIdResponse, error)
+	ReadAllTaskAttemptsByModuleId(context.Context, *ReadAllTaskAttemptsByModuleIdRequest) (*ReadAllTaskAttemptsByModuleIdResponse, error)
 	mustEmbedUnimplementedTaskAttemptServiceServer()
 }
 
@@ -112,6 +138,12 @@ func (UnimplementedTaskAttemptServiceServer) ReadAllTaskAttemptsByUserIdAndModul
 }
 func (UnimplementedTaskAttemptServiceServer) ReadAllTaskAttemptsByUserIdAndCourseId(context.Context, *ReadAllTaskAttemptsByUserIdAndCourseIdRequest) (*ReadAllTaskAttemptsByUserIdAndCourseIdResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ReadAllTaskAttemptsByUserIdAndCourseId not implemented")
+}
+func (UnimplementedTaskAttemptServiceServer) ReadAllTaskAttemptsByCourseId(context.Context, *ReadAllTaskAttemptsByCourseIdRequest) (*ReadAllTaskAttemptsByCourseIdResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReadAllTaskAttemptsByCourseId not implemented")
+}
+func (UnimplementedTaskAttemptServiceServer) ReadAllTaskAttemptsByModuleId(context.Context, *ReadAllTaskAttemptsByModuleIdRequest) (*ReadAllTaskAttemptsByModuleIdResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReadAllTaskAttemptsByModuleId not implemented")
 }
 func (UnimplementedTaskAttemptServiceServer) mustEmbedUnimplementedTaskAttemptServiceServer() {}
 func (UnimplementedTaskAttemptServiceServer) testEmbeddedByValue()                            {}
@@ -206,6 +238,42 @@ func _TaskAttemptService_ReadAllTaskAttemptsByUserIdAndCourseId_Handler(srv inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaskAttemptService_ReadAllTaskAttemptsByCourseId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadAllTaskAttemptsByCourseIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskAttemptServiceServer).ReadAllTaskAttemptsByCourseId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskAttemptService_ReadAllTaskAttemptsByCourseId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskAttemptServiceServer).ReadAllTaskAttemptsByCourseId(ctx, req.(*ReadAllTaskAttemptsByCourseIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TaskAttemptService_ReadAllTaskAttemptsByModuleId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadAllTaskAttemptsByModuleIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskAttemptServiceServer).ReadAllTaskAttemptsByModuleId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskAttemptService_ReadAllTaskAttemptsByModuleId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskAttemptServiceServer).ReadAllTaskAttemptsByModuleId(ctx, req.(*ReadAllTaskAttemptsByModuleIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TaskAttemptService_ServiceDesc is the grpc.ServiceDesc for TaskAttemptService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -228,6 +296,14 @@ var TaskAttemptService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ReadAllTaskAttemptsByUserIdAndCourseId",
 			Handler:    _TaskAttemptService_ReadAllTaskAttemptsByUserIdAndCourseId_Handler,
+		},
+		{
+			MethodName: "ReadAllTaskAttemptsByCourseId",
+			Handler:    _TaskAttemptService_ReadAllTaskAttemptsByCourseId_Handler,
+		},
+		{
+			MethodName: "ReadAllTaskAttemptsByModuleId",
+			Handler:    _TaskAttemptService_ReadAllTaskAttemptsByModuleId_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

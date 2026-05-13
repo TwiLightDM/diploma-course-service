@@ -99,6 +99,50 @@ func (r *taskAttemptRepository) ReadAllByUserIdAndCourseId(ctx context.Context, 
 	return taskAttempts, nil
 }
 
+func (r *taskAttemptRepository) ReadAllByModuleId(ctx context.Context, moduleId string) ([]entities.TaskAttempt, error) {
+	cursor, err := r.collection.Find(
+		ctx,
+		bson.M{
+			"module_id": moduleId,
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	defer cursor.Close(ctx)
+
+	var taskAttempts []entities.TaskAttempt
+
+	if err = cursor.All(ctx, &taskAttempts); err != nil {
+		return nil, err
+	}
+
+	return taskAttempts, nil
+}
+
+func (r *taskAttemptRepository) ReadAllByCourseId(ctx context.Context, courseId string) ([]entities.TaskAttempt, error) {
+	cursor, err := r.collection.Find(
+		ctx,
+		bson.M{
+			"course_id": courseId,
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	defer cursor.Close(ctx)
+
+	var taskAttempts []entities.TaskAttempt
+
+	if err = cursor.All(ctx, &taskAttempts); err != nil {
+		return nil, err
+	}
+
+	return taskAttempts, nil
+}
+
 func (r *taskAttemptRepository) GetLastAttemptNumber(ctx context.Context, userId string, courseId string, moduleId string) (int, error) {
 	filter := bson.M{
 		"user_id": userId,

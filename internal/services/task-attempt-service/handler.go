@@ -14,6 +14,8 @@ type TaskAttemptService interface {
 	ReadTaskAttemptById(ctx context.Context, id string) (*entities.TaskAttempt, error)
 	ReadAllTaskAttemptsByUserIdAndModuleId(ctx context.Context, userId, moduleId string) ([]entities.TaskAttempt, error)
 	ReadAllTaskAttemptsByUserIdAndCourseId(ctx context.Context, userId, courseId string) ([]entities.TaskAttempt, error)
+	ReadAllTaskAttemptsByModuleId(ctx context.Context, moduleId string) ([]entities.TaskAttempt, error)
+	ReadAllTaskAttemptsByCourseId(ctx context.Context, courseId string) ([]entities.TaskAttempt, error)
 }
 
 type TaskAttemptHandler struct {
@@ -94,6 +96,38 @@ func (h *TaskAttemptHandler) ReadAllTaskAttemptsByUserIdAndCourseId(ctx context.
 	}
 
 	return &taskattemptservicepb.ReadAllTaskAttemptsByUserIdAndCourseIdResponse{
+		TaskAttempts: taskAttemptsPb,
+	}, nil
+}
+
+func (h *TaskAttemptHandler) ReadAllTaskAttemptsByModuleId(ctx context.Context, req *taskattemptservicepb.ReadAllTaskAttemptsByModuleIdRequest) (*taskattemptservicepb.ReadAllTaskAttemptsByModuleIdResponse, error) {
+	taskAttempts, err := h.service.ReadAllTaskAttemptsByModuleId(ctx, req.ModuleId)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	taskAttemptsPb := make([]*taskattemptservicepb.TaskAttempt, 0, len(taskAttempts))
+	for _, taskAttempt := range taskAttempts {
+		taskAttemptsPb = append(taskAttemptsPb, mapTaskAttemptToProto(&taskAttempt))
+	}
+
+	return &taskattemptservicepb.ReadAllTaskAttemptsByModuleIdResponse{
+		TaskAttempts: taskAttemptsPb,
+	}, nil
+}
+
+func (h *TaskAttemptHandler) ReadAllTaskAttemptsByCourseId(ctx context.Context, req *taskattemptservicepb.ReadAllTaskAttemptsByCourseIdRequest) (*taskattemptservicepb.ReadAllTaskAttemptsByCourseIdResponse, error) {
+	taskAttempts, err := h.service.ReadAllTaskAttemptsByCourseId(ctx, req.CourseId)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	taskAttemptsPb := make([]*taskattemptservicepb.TaskAttempt, 0, len(taskAttempts))
+	for _, taskAttempt := range taskAttempts {
+		taskAttemptsPb = append(taskAttemptsPb, mapTaskAttemptToProto(&taskAttempt))
+	}
+
+	return &taskattemptservicepb.ReadAllTaskAttemptsByCourseIdResponse{
 		TaskAttempts: taskAttemptsPb,
 	}, nil
 }

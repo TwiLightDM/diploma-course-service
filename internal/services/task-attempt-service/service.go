@@ -13,6 +13,8 @@ type TaskAttemptRepository interface {
 	ReadById(ctx context.Context, id string) (*entities.TaskAttempt, error)
 	ReadAllByUserIdAndModuleId(ctx context.Context, userId, moduleId string) ([]entities.TaskAttempt, error)
 	ReadAllByUserIdAndCourseId(ctx context.Context, userId, courseId string) ([]entities.TaskAttempt, error)
+	ReadAllByModuleId(ctx context.Context, moduleId string) ([]entities.TaskAttempt, error)
+	ReadAllByCourseId(ctx context.Context, courseId string) ([]entities.TaskAttempt, error)
 	GetLastAttemptNumber(ctx context.Context, userId string, courseId string, moduleId string) (int, error)
 }
 
@@ -112,6 +114,20 @@ func (s *taskAttemptService) ReadAllTaskAttemptsByUserIdAndCourseId(ctx context.
 	defer cancel()
 
 	return s.repo.ReadAllByUserIdAndCourseId(ctx, userId, courseId)
+}
+
+func (s *taskAttemptService) ReadAllTaskAttemptsByModuleId(ctx context.Context, moduleId string) ([]entities.TaskAttempt, error) {
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
+	defer cancel()
+
+	return s.repo.ReadAllByModuleId(ctx, moduleId)
+}
+
+func (s *taskAttemptService) ReadAllTaskAttemptsByCourseId(ctx context.Context, courseId string) ([]entities.TaskAttempt, error) {
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
+	defer cancel()
+
+	return s.repo.ReadAllByCourseId(ctx, courseId)
 }
 
 func compareStringSlices(a, b []string) bool {

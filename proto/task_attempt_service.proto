@@ -9,6 +9,8 @@ service TaskAttemptService {
   rpc ReadTaskAttempt(ReadTaskAttemptRequest) returns (ReadTaskAttemptResponse);
   rpc ReadAllTaskAttemptsByUserIdAndModuleId(ReadAllTaskAttemptsByUserIdAndModuleIdRequest) returns (ReadAllTaskAttemptsByUserIdAndModuleIdResponse);
   rpc ReadAllTaskAttemptsByUserIdAndCourseId(ReadAllTaskAttemptsByUserIdAndCourseIdRequest) returns (ReadAllTaskAttemptsByUserIdAndCourseIdResponse);
+  rpc ReadAllTaskAttemptsByCourseId(ReadAllTaskAttemptsByCourseIdRequest) returns (ReadAllTaskAttemptsByCourseIdResponse);
+  rpc ReadAllTaskAttemptsByModuleId(ReadAllTaskAttemptsByModuleIdRequest) returns (ReadAllTaskAttemptsByModuleIdResponse);
 }
 
 message TaskAttemptAnswer {
@@ -73,5 +75,21 @@ message ReadAllTaskAttemptsByUserIdAndCourseIdRequest {
 }
 
 message ReadAllTaskAttemptsByUserIdAndCourseIdResponse {
+  repeated TaskAttempt task_attempts = 1;
+}
+
+message ReadAllTaskAttemptsByCourseIdRequest {
+  string course_id = 1;
+}
+
+message ReadAllTaskAttemptsByCourseIdResponse {
+  repeated TaskAttempt task_attempts = 1;
+}
+
+message ReadAllTaskAttemptsByModuleIdRequest {
+  string module_id = 1;
+}
+
+message ReadAllTaskAttemptsByModuleIdResponse {
   repeated TaskAttempt task_attempts = 1;
 }

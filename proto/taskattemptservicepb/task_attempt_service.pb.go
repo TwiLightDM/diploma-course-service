@@ -589,6 +589,182 @@ func (x *ReadAllTaskAttemptsByUserIdAndCourseIdResponse) GetTaskAttempts() []*Ta
 	return nil
 }
 
+type ReadAllTaskAttemptsByCourseIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReadAllTaskAttemptsByCourseIdRequest) Reset() {
+	*x = ReadAllTaskAttemptsByCourseIdRequest{}
+	mi := &file_proto_task_attempt_service_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReadAllTaskAttemptsByCourseIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReadAllTaskAttemptsByCourseIdRequest) ProtoMessage() {}
+
+func (x *ReadAllTaskAttemptsByCourseIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_task_attempt_service_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReadAllTaskAttemptsByCourseIdRequest.ProtoReflect.Descriptor instead.
+func (*ReadAllTaskAttemptsByCourseIdRequest) Descriptor() ([]byte, []int) {
+	return file_proto_task_attempt_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *ReadAllTaskAttemptsByCourseIdRequest) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
+}
+
+type ReadAllTaskAttemptsByCourseIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TaskAttempts  []*TaskAttempt         `protobuf:"bytes,1,rep,name=task_attempts,json=taskAttempts,proto3" json:"task_attempts,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReadAllTaskAttemptsByCourseIdResponse) Reset() {
+	*x = ReadAllTaskAttemptsByCourseIdResponse{}
+	mi := &file_proto_task_attempt_service_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReadAllTaskAttemptsByCourseIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReadAllTaskAttemptsByCourseIdResponse) ProtoMessage() {}
+
+func (x *ReadAllTaskAttemptsByCourseIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_task_attempt_service_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReadAllTaskAttemptsByCourseIdResponse.ProtoReflect.Descriptor instead.
+func (*ReadAllTaskAttemptsByCourseIdResponse) Descriptor() ([]byte, []int) {
+	return file_proto_task_attempt_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ReadAllTaskAttemptsByCourseIdResponse) GetTaskAttempts() []*TaskAttempt {
+	if x != nil {
+		return x.TaskAttempts
+	}
+	return nil
+}
+
+type ReadAllTaskAttemptsByModuleIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ModuleId      string                 `protobuf:"bytes,1,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReadAllTaskAttemptsByModuleIdRequest) Reset() {
+	*x = ReadAllTaskAttemptsByModuleIdRequest{}
+	mi := &file_proto_task_attempt_service_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReadAllTaskAttemptsByModuleIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReadAllTaskAttemptsByModuleIdRequest) ProtoMessage() {}
+
+func (x *ReadAllTaskAttemptsByModuleIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_task_attempt_service_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReadAllTaskAttemptsByModuleIdRequest.ProtoReflect.Descriptor instead.
+func (*ReadAllTaskAttemptsByModuleIdRequest) Descriptor() ([]byte, []int) {
+	return file_proto_task_attempt_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *ReadAllTaskAttemptsByModuleIdRequest) GetModuleId() string {
+	if x != nil {
+		return x.ModuleId
+	}
+	return ""
+}
+
+type ReadAllTaskAttemptsByModuleIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TaskAttempts  []*TaskAttempt         `protobuf:"bytes,1,rep,name=task_attempts,json=taskAttempts,proto3" json:"task_attempts,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReadAllTaskAttemptsByModuleIdResponse) Reset() {
+	*x = ReadAllTaskAttemptsByModuleIdResponse{}
+	mi := &file_proto_task_attempt_service_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReadAllTaskAttemptsByModuleIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReadAllTaskAttemptsByModuleIdResponse) ProtoMessage() {}
+
+func (x *ReadAllTaskAttemptsByModuleIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_task_attempt_service_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReadAllTaskAttemptsByModuleIdResponse.ProtoReflect.Descriptor instead.
+func (*ReadAllTaskAttemptsByModuleIdResponse) Descriptor() ([]byte, []int) {
+	return file_proto_task_attempt_service_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *ReadAllTaskAttemptsByModuleIdResponse) GetTaskAttempts() []*TaskAttempt {
+	if x != nil {
+		return x.TaskAttempts
+	}
+	return nil
+}
+
 var File_proto_task_attempt_service_proto protoreflect.FileDescriptor
 
 const file_proto_task_attempt_service_proto_rawDesc = "" +
@@ -631,12 +807,22 @@ const file_proto_task_attempt_service_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
 	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\"v\n" +
 	".ReadAllTaskAttemptsByUserIdAndCourseIdResponse\x12D\n" +
-	"\rtask_attempts\x18\x01 \x03(\v2\x1f.taskattemptservice.TaskAttemptR\ftaskAttempts2\xd6\x04\n" +
+	"\rtask_attempts\x18\x01 \x03(\v2\x1f.taskattemptservice.TaskAttemptR\ftaskAttempts\"C\n" +
+	"$ReadAllTaskAttemptsByCourseIdRequest\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\"m\n" +
+	"%ReadAllTaskAttemptsByCourseIdResponse\x12D\n" +
+	"\rtask_attempts\x18\x01 \x03(\v2\x1f.taskattemptservice.TaskAttemptR\ftaskAttempts\"C\n" +
+	"$ReadAllTaskAttemptsByModuleIdRequest\x12\x1b\n" +
+	"\tmodule_id\x18\x01 \x01(\tR\bmoduleId\"m\n" +
+	"%ReadAllTaskAttemptsByModuleIdResponse\x12D\n" +
+	"\rtask_attempts\x18\x01 \x03(\v2\x1f.taskattemptservice.TaskAttemptR\ftaskAttempts2\x84\a\n" +
 	"\x12TaskAttemptService\x12p\n" +
 	"\x11SubmitTaskAttempt\x12,.taskattemptservice.SubmitTaskAttemptRequest\x1a-.taskattemptservice.SubmitTaskAttemptResponse\x12j\n" +
 	"\x0fReadTaskAttempt\x12*.taskattemptservice.ReadTaskAttemptRequest\x1a+.taskattemptservice.ReadTaskAttemptResponse\x12\xaf\x01\n" +
 	"&ReadAllTaskAttemptsByUserIdAndModuleId\x12A.taskattemptservice.ReadAllTaskAttemptsByUserIdAndModuleIdRequest\x1aB.taskattemptservice.ReadAllTaskAttemptsByUserIdAndModuleIdResponse\x12\xaf\x01\n" +
-	"&ReadAllTaskAttemptsByUserIdAndCourseId\x12A.taskattemptservice.ReadAllTaskAttemptsByUserIdAndCourseIdRequest\x1aB.taskattemptservice.ReadAllTaskAttemptsByUserIdAndCourseIdResponseB\x1cZ\x1aproto/taskattemptservicepbb\x06proto3"
+	"&ReadAllTaskAttemptsByUserIdAndCourseId\x12A.taskattemptservice.ReadAllTaskAttemptsByUserIdAndCourseIdRequest\x1aB.taskattemptservice.ReadAllTaskAttemptsByUserIdAndCourseIdResponse\x12\x94\x01\n" +
+	"\x1dReadAllTaskAttemptsByCourseId\x128.taskattemptservice.ReadAllTaskAttemptsByCourseIdRequest\x1a9.taskattemptservice.ReadAllTaskAttemptsByCourseIdResponse\x12\x94\x01\n" +
+	"\x1dReadAllTaskAttemptsByModuleId\x128.taskattemptservice.ReadAllTaskAttemptsByModuleIdRequest\x1a9.taskattemptservice.ReadAllTaskAttemptsByModuleIdResponseB\x1cZ\x1aproto/taskattemptservicepbb\x06proto3"
 
 var (
 	file_proto_task_attempt_service_proto_rawDescOnce sync.Once
@@ -650,7 +836,7 @@ func file_proto_task_attempt_service_proto_rawDescGZIP() []byte {
 	return file_proto_task_attempt_service_proto_rawDescData
 }
 
-var file_proto_task_attempt_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_proto_task_attempt_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_proto_task_attempt_service_proto_goTypes = []any{
 	(*TaskAttemptAnswer)(nil),                              // 0: taskattemptservice.TaskAttemptAnswer
 	(*TaskAttempt)(nil),                                    // 1: taskattemptservice.TaskAttempt
@@ -662,6 +848,10 @@ var file_proto_task_attempt_service_proto_goTypes = []any{
 	(*ReadAllTaskAttemptsByUserIdAndModuleIdResponse)(nil), // 7: taskattemptservice.ReadAllTaskAttemptsByUserIdAndModuleIdResponse
 	(*ReadAllTaskAttemptsByUserIdAndCourseIdRequest)(nil),  // 8: taskattemptservice.ReadAllTaskAttemptsByUserIdAndCourseIdRequest
 	(*ReadAllTaskAttemptsByUserIdAndCourseIdResponse)(nil), // 9: taskattemptservice.ReadAllTaskAttemptsByUserIdAndCourseIdResponse
+	(*ReadAllTaskAttemptsByCourseIdRequest)(nil),           // 10: taskattemptservice.ReadAllTaskAttemptsByCourseIdRequest
+	(*ReadAllTaskAttemptsByCourseIdResponse)(nil),          // 11: taskattemptservice.ReadAllTaskAttemptsByCourseIdResponse
+	(*ReadAllTaskAttemptsByModuleIdRequest)(nil),           // 12: taskattemptservice.ReadAllTaskAttemptsByModuleIdRequest
+	(*ReadAllTaskAttemptsByModuleIdResponse)(nil),          // 13: taskattemptservice.ReadAllTaskAttemptsByModuleIdResponse
 }
 var file_proto_task_attempt_service_proto_depIdxs = []int32{
 	0,  // 0: taskattemptservice.TaskAttempt.answers:type_name -> taskattemptservice.TaskAttemptAnswer
@@ -670,19 +860,25 @@ var file_proto_task_attempt_service_proto_depIdxs = []int32{
 	1,  // 3: taskattemptservice.ReadTaskAttemptResponse.task_attempt:type_name -> taskattemptservice.TaskAttempt
 	1,  // 4: taskattemptservice.ReadAllTaskAttemptsByUserIdAndModuleIdResponse.task_attempts:type_name -> taskattemptservice.TaskAttempt
 	1,  // 5: taskattemptservice.ReadAllTaskAttemptsByUserIdAndCourseIdResponse.task_attempts:type_name -> taskattemptservice.TaskAttempt
-	2,  // 6: taskattemptservice.TaskAttemptService.SubmitTaskAttempt:input_type -> taskattemptservice.SubmitTaskAttemptRequest
-	4,  // 7: taskattemptservice.TaskAttemptService.ReadTaskAttempt:input_type -> taskattemptservice.ReadTaskAttemptRequest
-	6,  // 8: taskattemptservice.TaskAttemptService.ReadAllTaskAttemptsByUserIdAndModuleId:input_type -> taskattemptservice.ReadAllTaskAttemptsByUserIdAndModuleIdRequest
-	8,  // 9: taskattemptservice.TaskAttemptService.ReadAllTaskAttemptsByUserIdAndCourseId:input_type -> taskattemptservice.ReadAllTaskAttemptsByUserIdAndCourseIdRequest
-	3,  // 10: taskattemptservice.TaskAttemptService.SubmitTaskAttempt:output_type -> taskattemptservice.SubmitTaskAttemptResponse
-	5,  // 11: taskattemptservice.TaskAttemptService.ReadTaskAttempt:output_type -> taskattemptservice.ReadTaskAttemptResponse
-	7,  // 12: taskattemptservice.TaskAttemptService.ReadAllTaskAttemptsByUserIdAndModuleId:output_type -> taskattemptservice.ReadAllTaskAttemptsByUserIdAndModuleIdResponse
-	9,  // 13: taskattemptservice.TaskAttemptService.ReadAllTaskAttemptsByUserIdAndCourseId:output_type -> taskattemptservice.ReadAllTaskAttemptsByUserIdAndCourseIdResponse
-	10, // [10:14] is the sub-list for method output_type
-	6,  // [6:10] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	1,  // 6: taskattemptservice.ReadAllTaskAttemptsByCourseIdResponse.task_attempts:type_name -> taskattemptservice.TaskAttempt
+	1,  // 7: taskattemptservice.ReadAllTaskAttemptsByModuleIdResponse.task_attempts:type_name -> taskattemptservice.TaskAttempt
+	2,  // 8: taskattemptservice.TaskAttemptService.SubmitTaskAttempt:input_type -> taskattemptservice.SubmitTaskAttemptRequest
+	4,  // 9: taskattemptservice.TaskAttemptService.ReadTaskAttempt:input_type -> taskattemptservice.ReadTaskAttemptRequest
+	6,  // 10: taskattemptservice.TaskAttemptService.ReadAllTaskAttemptsByUserIdAndModuleId:input_type -> taskattemptservice.ReadAllTaskAttemptsByUserIdAndModuleIdRequest
+	8,  // 11: taskattemptservice.TaskAttemptService.ReadAllTaskAttemptsByUserIdAndCourseId:input_type -> taskattemptservice.ReadAllTaskAttemptsByUserIdAndCourseIdRequest
+	10, // 12: taskattemptservice.TaskAttemptService.ReadAllTaskAttemptsByCourseId:input_type -> taskattemptservice.ReadAllTaskAttemptsByCourseIdRequest
+	12, // 13: taskattemptservice.TaskAttemptService.ReadAllTaskAttemptsByModuleId:input_type -> taskattemptservice.ReadAllTaskAttemptsByModuleIdRequest
+	3,  // 14: taskattemptservice.TaskAttemptService.SubmitTaskAttempt:output_type -> taskattemptservice.SubmitTaskAttemptResponse
+	5,  // 15: taskattemptservice.TaskAttemptService.ReadTaskAttempt:output_type -> taskattemptservice.ReadTaskAttemptResponse
+	7,  // 16: taskattemptservice.TaskAttemptService.ReadAllTaskAttemptsByUserIdAndModuleId:output_type -> taskattemptservice.ReadAllTaskAttemptsByUserIdAndModuleIdResponse
+	9,  // 17: taskattemptservice.TaskAttemptService.ReadAllTaskAttemptsByUserIdAndCourseId:output_type -> taskattemptservice.ReadAllTaskAttemptsByUserIdAndCourseIdResponse
+	11, // 18: taskattemptservice.TaskAttemptService.ReadAllTaskAttemptsByCourseId:output_type -> taskattemptservice.ReadAllTaskAttemptsByCourseIdResponse
+	13, // 19: taskattemptservice.TaskAttemptService.ReadAllTaskAttemptsByModuleId:output_type -> taskattemptservice.ReadAllTaskAttemptsByModuleIdResponse
+	14, // [14:20] is the sub-list for method output_type
+	8,  // [8:14] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_proto_task_attempt_service_proto_init() }
@@ -696,7 +892,7 @@ func file_proto_task_attempt_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_task_attempt_service_proto_rawDesc), len(file_proto_task_attempt_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
