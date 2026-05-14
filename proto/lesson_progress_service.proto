@@ -1,0 +1,124 @@
+syntax = "proto3";
+
+package lessonprogressservice;
+
+option go_package = "proto/lessonprogressservicepb";
+
+service LessonProgressService {
+  rpc CreateLessonProgress(CreateLessonProgressRequest) returns (CreateLessonProgressResponse);
+  rpc ReadLessonProgressByUserId(ReadLessonProgressByUserIdRequest) returns (ReadLessonProgressByUserIdResponse);
+  rpc ReadLessonProgressByUserIdAndLessonId(ReadLessonProgressByUserIdAndLessonIdRequest) returns (ReadLessonProgressByUserIdAndLessonIdResponse);
+
+  rpc ReadModuleProgressByUserId(ReadModuleProgressByUserIdRequest) returns (ReadModuleProgressByUserIdResponse);
+  rpc ReadModuleStatistics(ReadModuleStatisticsRequest) returns (ReadModuleStatisticsResponse);
+
+  rpc ReadCourseProgressByUserId(ReadCourseProgressByUserIdRequest) returns (ReadCourseProgressByUserIdResponse);
+  rpc ReadCourseStatistics(ReadCourseStatisticsRequest) returns (ReadCourseStatisticsResponse);
+}
+
+message LessonProgress {
+  string user_id = 1;
+  string lesson_id = 2;
+}
+
+message CreateLessonProgressRequest {
+  string user_id = 1;
+  string lesson_id = 2;
+}
+
+message CreateLessonProgressResponse {
+  LessonProgress lesson_progress = 1;
+}
+
+message ReadLessonProgressByUserIdRequest {
+  string user_id = 1;
+}
+
+message ReadLessonProgressByUserIdResponse {
+  repeated LessonProgress lesson_progresses = 1;
+}
+
+message ReadLessonProgressByUserIdAndLessonIdRequest {
+  string user_id = 1;
+  string lesson_id = 2;
+}
+
+message ReadLessonProgressByUserIdAndLessonIdResponse {
+  LessonProgress lesson_progress = 1;
+}
+
+message ModuleProgress {
+  string module_id = 1;
+  int64 total_lessons = 2;
+  int64 completed_lessons = 3;
+  double progress_percent = 4;
+  repeated string completed_lesson_ids = 5;
+}
+
+message UserModuleProgress {
+  string user_id = 1;
+  int64 completed_lessons = 2;
+  int64 total_lessons = 3;
+  double progress_percent = 4;
+  bool completed = 5;
+}
+
+message ModuleStatistics {
+  string module_id = 1;
+  repeated UserModuleProgress users_progress = 2;
+}
+
+message ReadModuleProgressByUserIdRequest {
+  string user_id = 1;
+  string module_id = 2;
+}
+
+message ReadModuleProgressByUserIdResponse {
+  ModuleProgress module_progress = 1;
+}
+
+message ReadModuleStatisticsRequest {
+  string module_id = 1;
+}
+
+message ReadModuleStatisticsResponse {
+  ModuleStatistics module_statistics = 1;
+}
+
+message CourseProgress {
+  string course_id = 1;
+  int64 total_lessons = 2;
+  int64 completed_lessons = 3;
+  double progress_percent = 4;
+  repeated string completed_lesson_ids = 5;
+}
+
+message UserCourseProgress {
+  string user_id = 1;
+  int64 completed_lessons = 2;
+  int64 total_lessons = 3;
+  double progress_percent = 4;
+  bool completed = 5;
+}
+
+message ReadCourseProgressByUserIdRequest {
+  string user_id = 1;
+  string course_id = 2;
+}
+
+message ReadCourseProgressByUserIdResponse {
+  CourseProgress course_progress = 1;
+}
+
+message CourseStatistics {
+  string course_id = 1;
+  repeated UserCourseProgress users_progress = 2;
+}
+
+message ReadCourseStatisticsRequest {
+  string course_id = 1;
+}
+
+message ReadCourseStatisticsResponse {
+  CourseStatistics course_statistics = 1;
+}

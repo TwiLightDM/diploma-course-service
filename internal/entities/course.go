@@ -16,4 +16,6 @@ type Course struct {
 	DeletedAt       gorm.DeletedAt `gorm:"index"`
 	AmountOfModules int            `gorm:"->"`
 	AmountOfLessons int            `gorm:"->"`
+
+	Modules []Module `gorm:"foreignKey:CourseId"`
 }

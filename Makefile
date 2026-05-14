@@ -6,3 +6,4 @@ proto-gen:
 	protoc --go_out=. --go-grpc_out=. proto/group_course_service.proto
 	protoc --go_out=. --go-grpc_out=. proto/task_service.proto
 	protoc --go_out=. --go-grpc_out=. proto/task_attempt_service.proto
+	protoc --go_out=. --go-grpc_out=. proto/lesson_progress_service.proto

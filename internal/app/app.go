@@ -12,14 +12,16 @@ import (
 	"github.com/TwiLightDM/diploma-course-service/internal/services/course-service"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/group-course-service"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/lesson-file-service"
+	"github.com/TwiLightDM/diploma-course-service/internal/services/lesson-progress-service"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/lesson-service"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/module-service"
-	task_attempt_service "github.com/TwiLightDM/diploma-course-service/internal/services/task-attempt-service"
+	"github.com/TwiLightDM/diploma-course-service/internal/services/task-attempt-service"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/task-service"
 	"github.com/TwiLightDM/diploma-course-service/package/databases"
 	"github.com/TwiLightDM/diploma-course-service/proto/courseservicepb"
 	"github.com/TwiLightDM/diploma-course-service/proto/groupcourseservicepb"
 	"github.com/TwiLightDM/diploma-course-service/proto/lessonfileservicepb"
+	"github.com/TwiLightDM/diploma-course-service/proto/lessonprogressservicepb"
 	"github.com/TwiLightDM/diploma-course-service/proto/lessonservicepb"
 	"github.com/TwiLightDM/diploma-course-service/proto/moduleservicepb"
 	"github.com/TwiLightDM/diploma-course-service/proto/taskattemptservicepb"
@@ -100,6 +102,10 @@ func Run(cfg *config.Config) error {
 	groupCourseService := group_course_service.NewGroupCourseService(groupCourseRepo)
 	groupCourseHandler := group_course_service.NewGroupCourseHandler(groupCourseService)
 
+	lessonProgressRepo := lesson_progress_service.NewLessonProgressRepository(postgres)
+	lessonProgressService := lesson_progress_service.NewLessonProgressService(lessonProgressRepo)
+	lessonProgressHandler := lesson_progress_service.NewLessonProgressHandler(lessonProgressService)
+
 	courseservicepb.RegisterCourseServiceServer(grpcServer, courseHandler)
 	moduleservicepb.RegisterModuleServiceServer(grpcServer, moduleHandler)
 	lessonservicepb.RegisterLessonServiceServer(grpcServer, lessonHandler)
@@ -107,6 +113,7 @@ func Run(cfg *config.Config) error {
 	taskservicepb.RegisterTaskServiceServer(grpcServer, taskHandler)
 	taskattemptservicepb.RegisterTaskAttemptServiceServer(grpcServer, taskAttemptHandler)
 	groupcourseservicepb.RegisterGroupCourseServiceServer(grpcServer, groupCourseHandler)
+	lessonprogressservicepb.RegisterLessonProgressServiceServer(grpcServer, lessonProgressHandler)
 
 	ctx, stop := signal.NotifyContext(
 		context.Background(),

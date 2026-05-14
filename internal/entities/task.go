@@ -14,12 +14,11 @@ type TaskOption struct {
 }
 
 type Task struct {
-	Id string `bson:"_id"`
-
-	Title string `bson:"title"`
-
+	Id       string `bson:"_id"`
 	CourseId string `bson:"course_id"`
 	ModuleId string `bson:"module_id"`
+
+	Title string `bson:"title"`
 
 	Type TaskType `bson:"type"`
 
