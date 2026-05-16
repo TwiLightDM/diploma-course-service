@@ -9,6 +9,9 @@ import (
 	"syscall"
 
 	"github.com/TwiLightDM/diploma-course-service/internal/config"
+	"github.com/TwiLightDM/diploma-course-service/internal/services/completed-course-service"
+	"github.com/TwiLightDM/diploma-course-service/internal/services/completed-module-service"
+	"github.com/TwiLightDM/diploma-course-service/internal/services/completed-theory-course-service"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/course-service"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/group-course-service"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/lesson-file-service"
@@ -18,6 +21,9 @@ import (
 	"github.com/TwiLightDM/diploma-course-service/internal/services/task-attempt-service"
 	"github.com/TwiLightDM/diploma-course-service/internal/services/task-service"
 	"github.com/TwiLightDM/diploma-course-service/package/databases"
+	"github.com/TwiLightDM/diploma-course-service/proto/completedcourseservicepb"
+	"github.com/TwiLightDM/diploma-course-service/proto/completedmoduleservicepb"
+	"github.com/TwiLightDM/diploma-course-service/proto/completedtheorycourseservicepb"
 	"github.com/TwiLightDM/diploma-course-service/proto/courseservicepb"
 	"github.com/TwiLightDM/diploma-course-service/proto/groupcourseservicepb"
 	"github.com/TwiLightDM/diploma-course-service/proto/lessonfileservicepb"
@@ -106,6 +112,18 @@ func Run(cfg *config.Config) error {
 	lessonProgressService := lesson_progress_service.NewLessonProgressService(lessonProgressRepo)
 	lessonProgressHandler := lesson_progress_service.NewLessonProgressHandler(lessonProgressService)
 
+	completedCourseRepo := completed_course_service.NewCompletedCourseRepository(postgres)
+	completedCourseService := completed_course_service.NewCompletedCourseService(completedCourseRepo)
+	completedCourseHandler := completed_course_service.NewCompletedCourseHandler(completedCourseService)
+
+	completedModuleRepo := completed_module_service.NewCompletedModuleRepository(postgres)
+	completedModuleService := completed_module_service.NewCompletedModuleService(completedModuleRepo)
+	completedModuleHandler := completed_module_service.NewCompletedModuleHandler(completedModuleService)
+
+	completedTheoryCourseRepo := completed_theory_course_service.NewCompletedTheoryCourseRepository(postgres)
+	completedTheoryCourseService := completed_theory_course_service.NewCompletedTheoryCourseService(completedTheoryCourseRepo)
+	completedTheoryCourseHandler := completed_theory_course_service.NewCompletedTheoryCourseHandler(completedTheoryCourseService)
+
 	courseservicepb.RegisterCourseServiceServer(grpcServer, courseHandler)
 	moduleservicepb.RegisterModuleServiceServer(grpcServer, moduleHandler)
 	lessonservicepb.RegisterLessonServiceServer(grpcServer, lessonHandler)
@@ -114,6 +132,9 @@ func Run(cfg *config.Config) error {
 	taskattemptservicepb.RegisterTaskAttemptServiceServer(grpcServer, taskAttemptHandler)
 	groupcourseservicepb.RegisterGroupCourseServiceServer(grpcServer, groupCourseHandler)
 	lessonprogressservicepb.RegisterLessonProgressServiceServer(grpcServer, lessonProgressHandler)
+	completedcourseservicepb.RegisterCompletedCourseServiceServer(grpcServer, completedCourseHandler)
+	completedmoduleservicepb.RegisterCompletedModuleServiceServer(grpcServer, completedModuleHandler)
+	completedtheorycourseservicepb.RegisterCompletedTheoryCourseServiceServer(grpcServer, completedTheoryCourseHandler)
 
 	ctx, stop := signal.NotifyContext(
 		context.Background(),

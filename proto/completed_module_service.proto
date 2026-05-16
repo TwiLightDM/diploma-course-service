@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package completedmoduleservice;
+
+option go_package = "proto/completedmoduleservicepb";
+
+service CompletedModuleService {
+  rpc CreateCompletedModule(CreateCompletedModuleRequest) returns (CreateCompletedModuleResponse);
+  rpc ReadCompletedModuleByUserIdAndModuleId(ReadCompletedModuleByUserIdAndModuleIdRequest) returns (ReadCompletedModuleByUserIdAndModuleIdResponse);
+  rpc ReadAllCompletedModulesByModuleId(ReadAllCompletedModulesByModuleIdRequest) returns (ReadAllCompletedModulesByModuleIdResponse);
+  rpc ReadAllCompletedModulesByUserId(ReadAllCompletedModulesByUserIdRequest) returns (ReadAllCompletedModulesByUserIdResponse);
+}
+
+message CompletedModule{
+  string user_id = 1;
+  string module_id = 2;
+}
+
+message CreateCompletedModuleRequest{
+  string user_id = 1;
+  string module_id = 2;
+}
+
+message CreateCompletedModuleResponse{
+    CompletedModule completed_module = 1;
+}
+
+message ReadCompletedModuleByUserIdAndModuleIdRequest{
+  string user_id = 1;
+  string module_id = 2;
+}
+
+message ReadCompletedModuleByUserIdAndModuleIdResponse{
+  CompletedModule completed_module = 1;
+}
+
+message ReadAllCompletedModulesByModuleIdRequest{
+  string module_id = 1;
+}
+
+message ReadAllCompletedModulesByModuleIdResponse{
+  repeated CompletedModule completed_modules = 1;
+}
+
+message ReadAllCompletedModulesByUserIdRequest{
+  string user_id = 1;
+}
+
+message ReadAllCompletedModulesByUserIdResponse{
+  repeated CompletedModule completed_modules = 1;
+}

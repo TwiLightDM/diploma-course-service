@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package completedtheorycourseservice;
+
+option go_package = "proto/completedtheorycourseservicepb";
+
+service CompletedTheoryCourseService {
+  rpc CreateCompletedTheoryCourse(CreateCompletedTheoryCourseRequest) returns (CreateCompletedTheoryCourseResponse);
+  rpc ReadCompletedTheoryCourseByUserIdAndCourseId(ReadCompletedTheoryCourseByUserIdAndCourseIdRequest) returns (ReadCompletedTheoryCourseByUserIdAndCourseIdResponse);
+  rpc ReadAllCompletedTheoryCoursesByCourseId(ReadAllCompletedTheoryCoursesByCourseIdRequest) returns (ReadAllCompletedTheoryCoursesByCourseIdResponse);
+  rpc ReadAllCompletedTheoryCoursesByUserId(ReadAllCompletedTheoryCoursesByUserIdRequest) returns (ReadAllCompletedTheoryCoursesByUserIdResponse);
+}
+
+message CompletedTheoryCourse{
+  string user_id = 1;
+  string course_id = 2;
+}
+
+message CreateCompletedTheoryCourseRequest{
+  string user_id = 1;
+  string course_id = 2;
+}
+
+message CreateCompletedTheoryCourseResponse{
+  CompletedTheoryCourse completed_theory_course = 1;
+}
+
+message ReadCompletedTheoryCourseByUserIdAndCourseIdRequest{
+  string user_id = 1;
+  string course_id = 2;
+}
+
+message ReadCompletedTheoryCourseByUserIdAndCourseIdResponse{
+  CompletedTheoryCourse completed_theory_course = 1;
+}
+
+message ReadAllCompletedTheoryCoursesByCourseIdRequest{
+  string course_id = 1;
+}
+
+message ReadAllCompletedTheoryCoursesByCourseIdResponse{
+  repeated CompletedTheoryCourse completed_theory_courses = 1;
+}
+
+message ReadAllCompletedTheoryCoursesByUserIdRequest{
+  string user_id = 1;
+}
+
+message ReadAllCompletedTheoryCoursesByUserIdResponse{
+  repeated CompletedTheoryCourse completed_theory_courses = 1;
+}

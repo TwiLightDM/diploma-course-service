@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package completedcourseservice;
+
+option go_package = "proto/completedcourseservicepb";
+
+service CompletedCourseService {
+  rpc CreateCompletedCourse(CreateCompletedCourseRequest) returns (CreateCompletedCourseResponse);
+  rpc ReadCompletedCourseByUserIdAndCourseId(ReadCompletedCourseByUserIdAndCourseIdRequest) returns (ReadCompletedCourseByUserIdAndCourseIdResponse);
+  rpc ReadAllCompletedCoursesByCourseId(ReadAllCompletedCoursesByCourseIdRequest) returns (ReadAllCompletedCoursesByCourseIdResponse);
+  rpc ReadAllCompletedCoursesByUserId(ReadAllCompletedCoursesByUserIdRequest) returns (ReadAllCompletedCoursesByUserIdResponse);
+}
+
+message CompletedCourse{
+  string user_id = 1;
+  string course_id = 2;
+}
+
+message CreateCompletedCourseRequest{
+  string user_id = 1;
+  string course_id = 2;
+}
+
+message CreateCompletedCourseResponse{
+  CompletedCourse completed_course = 1;
+}
+
+message ReadCompletedCourseByUserIdAndCourseIdRequest{
+  string user_id = 1;
+  string course_id = 2;
+}
+
+message ReadCompletedCourseByUserIdAndCourseIdResponse{
+  CompletedCourse completed_course = 1;
+}
+
+message ReadAllCompletedCoursesByCourseIdRequest{
+  string course_id = 1;
+}
+
+message ReadAllCompletedCoursesByCourseIdResponse{
+  repeated CompletedCourse completed_courses = 1;
+}
+
+message ReadAllCompletedCoursesByUserIdRequest{
+  string user_id = 1;
+}
+
+message ReadAllCompletedCoursesByUserIdResponse{
+  repeated CompletedCourse completed_courses = 1;
+}
