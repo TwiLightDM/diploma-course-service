@@ -31,6 +31,12 @@ type Config struct {
 		Name     string
 	}
 
+	Redis struct {
+		Host     string
+		Port     string
+		Password string
+	}
+
 	GRPCPort string
 }
 
@@ -57,6 +63,10 @@ func Load() *Config {
 	cfg.Mongo.User = os.Getenv("MONGO_INITDB_ROOT_USERNAME")
 	cfg.Mongo.Password = os.Getenv("MONGO_INITDB_ROOT_PASSWORD")
 	cfg.Mongo.Name = os.Getenv("MONGO_DB")
+
+	cfg.Redis.Host = os.Getenv("REDIS_HOST")
+	cfg.Redis.Port = os.Getenv("REDIS_PORT")
+	cfg.Redis.Password = os.Getenv("REDIS_PASSWORD")
 
 	cfg.GRPCPort = os.Getenv("GRPC_PORT")
 

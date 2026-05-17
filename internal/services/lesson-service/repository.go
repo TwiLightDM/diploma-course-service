@@ -2,21 +2,30 @@ package lesson_service
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"strings"
+	"time"
 
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
 	"github.com/TwiLightDM/diploma-course-service/internal/errs"
+	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
 type lessonRepository struct {
-	db *gorm.DB
+	db    *gorm.DB
+	redis *redis.Client
 }
 
-func NewLessonRepository(db *gorm.DB) LessonRepository {
-	return &lessonRepository{db: db}
+func NewLessonRepository(db *gorm.DB, redis *redis.Client) LessonRepository {
+	return &lessonRepository{
+		db:    db,
+		redis: redis,
+	}
 }
+
+const lessonCacheTTL = 10 * time.Minute
 
 func (r *lessonRepository) Create(ctx context.Context, lesson *entities.Lesson) error {
 	tx := r.db.Begin()
@@ -53,41 +62,84 @@ func (r *lessonRepository) Create(ctx context.Context, lesson *entities.Lesson) 
 		return err
 	}
 
-	return tx.Commit().Error
+	if err = tx.Commit().Error; err != nil {
+		return err
+	}
+
+	_ = r.redis.Del(ctx, "lessons:module:"+lesson.ModuleId).Err()
+
+	return nil
 }
 
 func (r *lessonRepository) ReadById(ctx context.Context, id string) (*entities.Lesson, error) {
+	cacheKey := "lesson:" + id
+
+	cachedLesson, err := r.redis.Get(ctx, cacheKey).Result()
+	if err == nil {
+		var lesson entities.Lesson
+
+		if json.Unmarshal([]byte(cachedLesson), &lesson) == nil {
+			return &lesson, nil
+		}
+	}
+
 	var lesson entities.Lesson
-	if err := r.db.
+
+	if err = r.db.
 		WithContext(ctx).
 		Preload("Files").
-		Where("id = ?", id).First(&lesson).Error; err != nil {
+		Where("id = ?", id).
+		First(&lesson).Error; err != nil {
+
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errs.ErrRecordNotFound
 		}
+
 		return nil, err
 	}
+
+	data, _ := json.Marshal(lesson)
+	_ = r.redis.Set(ctx, cacheKey, data, lessonCacheTTL).Err()
+
 	return &lesson, nil
 }
 
 func (r *lessonRepository) ReadAllByModuleId(ctx context.Context, moduleId string) ([]entities.Lesson, error) {
+	cacheKey := "lessons:module:" + moduleId
+
+	cachedLessons, err := r.redis.Get(ctx, cacheKey).Result()
+	if err == nil {
+		var lessons []entities.Lesson
+
+		if json.Unmarshal([]byte(cachedLessons), &lessons) == nil {
+			return lessons, nil
+		}
+	}
+
 	var lessons []entities.Lesson
-	if err := r.db.
+
+	if err = r.db.
 		WithContext(ctx).
 		Preload("Files").
 		Where("module_id = ?", moduleId).
 		Find(&lessons).Error; err != nil {
+
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, nil
 		}
+
 		return nil, err
 	}
+
+	data, _ := json.Marshal(lessons)
+	_ = r.redis.Set(ctx, cacheKey, data, lessonCacheTTL).Err()
 
 	return lessons, nil
 }
 
 func (r *lessonRepository) Update(ctx context.Context, lesson *entities.Lesson) (*entities.Lesson, error) {
 	var updatedLesson entities.Lesson
+
 	err := r.db.
 		WithContext(ctx).
 		Model(&entities.Lesson{}).
@@ -103,9 +155,33 @@ func (r *lessonRepository) Update(ctx context.Context, lesson *entities.Lesson) 
 		return nil, err
 	}
 
+	_ = r.redis.Del(ctx,
+		"lesson:"+lesson.Id,
+		"lessons:module:"+lesson.ModuleId,
+	).Err()
+
 	return &updatedLesson, nil
 }
 
 func (r *lessonRepository) Delete(ctx context.Context, id string) error {
-	return r.db.WithContext(ctx).Where("id = ?", id).Delete(&entities.Lesson{}).Error
+	lesson, err := r.ReadById(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	err = r.db.
+		WithContext(ctx).
+		Where("id = ?", id).
+		Delete(&entities.Lesson{}).Error
+
+	if err != nil {
+		return err
+	}
+
+	_ = r.redis.Del(ctx,
+		"lesson:"+id,
+		"lessons:module:"+lesson.ModuleId,
+	).Err()
+
+	return nil
 }

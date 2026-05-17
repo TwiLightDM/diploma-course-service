@@ -2,21 +2,30 @@ package module_service
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"strings"
+	"time"
 
 	"github.com/TwiLightDM/diploma-course-service/internal/entities"
 	"github.com/TwiLightDM/diploma-course-service/internal/errs"
+	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
 type moduleRepository struct {
-	db *gorm.DB
+	db    *gorm.DB
+	redis *redis.Client
 }
 
-func NewModuleRepository(db *gorm.DB) ModuleRepository {
-	return &moduleRepository{db: db}
+func NewModuleRepository(db *gorm.DB, redis *redis.Client) ModuleRepository {
+	return &moduleRepository{
+		db:    db,
+		redis: redis,
+	}
 }
+
+const moduleCacheTTL = 10 * time.Minute
 
 func (r *moduleRepository) Create(ctx context.Context, module *entities.Module) error {
 	tx := r.db.Begin()
@@ -52,12 +61,30 @@ func (r *moduleRepository) Create(ctx context.Context, module *entities.Module) 
 		return err
 	}
 
-	return tx.Commit().Error
+	if err = tx.Commit().Error; err != nil {
+		return err
+	}
+
+	_ = r.redis.Del(ctx, "modules:course:"+module.CourseId).Err()
+
+	return nil
 }
 
 func (r *moduleRepository) ReadById(ctx context.Context, id string) (*entities.Module, error) {
+	cacheKey := "module:" + id
+
+	cachedModule, err := r.redis.Get(ctx, cacheKey).Result()
+	if err == nil {
+		var module entities.Module
+
+		if json.Unmarshal([]byte(cachedModule), &module) == nil {
+			return &module, nil
+		}
+	}
+
 	var module entities.Module
-	err := r.db.
+
+	err = r.db.
 		WithContext(ctx).
 		Model(&entities.Module{}).
 		Select(`
@@ -76,15 +103,31 @@ func (r *moduleRepository) ReadById(ctx context.Context, id string) (*entities.M
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errs.ErrRecordNotFound
 		}
+
 		return nil, err
 	}
+
+	data, _ := json.Marshal(module)
+	_ = r.redis.Set(ctx, cacheKey, data, moduleCacheTTL).Err()
 
 	return &module, nil
 }
 
 func (r *moduleRepository) ReadAllByCourseId(ctx context.Context, courseId string) ([]entities.Module, error) {
+	cacheKey := "modules:course:" + courseId
+
+	cachedModules, err := r.redis.Get(ctx, cacheKey).Result()
+	if err == nil {
+		var modules []entities.Module
+
+		if json.Unmarshal([]byte(cachedModules), &modules) == nil {
+			return modules, nil
+		}
+	}
+
 	var modules []entities.Module
-	if err := r.db.
+
+	if err = r.db.
 		WithContext(ctx).
 		Model(&entities.Module{}).
 		Select(`
@@ -98,17 +141,23 @@ func (r *moduleRepository) ReadAllByCourseId(ctx context.Context, courseId strin
 		`).
 		Where("course_id = ?", courseId).
 		Find(&modules).Error; err != nil {
+
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, nil
 		}
+
 		return nil, err
 	}
+
+	data, _ := json.Marshal(modules)
+	_ = r.redis.Set(ctx, cacheKey, data, moduleCacheTTL).Err()
 
 	return modules, nil
 }
 
 func (r *moduleRepository) Update(ctx context.Context, module *entities.Module) (*entities.Module, error) {
 	var updatedModule entities.Module
+
 	err := r.db.
 		WithContext(ctx).
 		Model(&entities.Module{}).
@@ -124,9 +173,33 @@ func (r *moduleRepository) Update(ctx context.Context, module *entities.Module) 
 		return nil, err
 	}
 
+	_ = r.redis.Del(ctx,
+		"module:"+module.Id,
+		"modules:course:"+module.CourseId,
+	).Err()
+
 	return &updatedModule, nil
 }
 
 func (r *moduleRepository) Delete(ctx context.Context, id string) error {
-	return r.db.WithContext(ctx).Where("id = ?", id).Delete(&entities.Module{}).Error
+	module, err := r.ReadById(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	err = r.db.
+		WithContext(ctx).
+		Where("id = ?", id).
+		Delete(&entities.Module{}).Error
+
+	if err != nil {
+		return err
+	}
+
+	_ = r.redis.Del(ctx,
+		"module:"+id,
+		"modules:course:"+module.CourseId,
+	).Err()
+
+	return nil
 }

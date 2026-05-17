@@ -69,6 +69,16 @@ func Run(cfg *config.Config) error {
 		return err
 	}
 
+	redis, err := databases.InitRedis(
+		cfg.Redis.Host,
+		cfg.Redis.Port,
+		cfg.Redis.Password,
+		0,
+	)
+	if err != nil {
+		return err
+	}
+
 	listener, err := net.Listen("tcp", cfg.GRPCPort)
 	if err != nil {
 		return err
@@ -78,15 +88,15 @@ func Run(cfg *config.Config) error {
 
 	grpcServer := grpc.NewServer()
 
-	courseRepo := course_service.NewCourseRepository(postgres)
+	courseRepo := course_service.NewCourseRepository(postgres, redis)
 	courseService := course_service.NewCourseService(courseRepo)
 	courseHandler := course_service.NewCourseHandler(courseService)
 
-	moduleRepo := module_service.NewModuleRepository(postgres)
+	moduleRepo := module_service.NewModuleRepository(postgres, redis)
 	moduleService := module_service.NewModuleService(moduleRepo)
 	moduleHandler := module_service.NewModuleHandler(moduleService)
 
-	lessonRepo := lesson_service.NewLessonRepository(postgres)
+	lessonRepo := lesson_service.NewLessonRepository(postgres, redis)
 	lessonStore := lesson_service.NewLessonStorage(storage)
 	lessonService := lesson_service.NewLessonService(lessonRepo, lessonStore)
 	lessonHandler := lesson_service.NewLessonHandler(lessonService)
@@ -165,6 +175,12 @@ func Run(cfg *config.Config) error {
 		log.Println("Error while disconnecting mongo:", err)
 	}
 	log.Println("Closing mongo connection...")
+
+	if err = redis.Close(); err != nil {
+		log.Println("Error while disconnecting redis:", err)
+	} else {
+		log.Println("Closing redis connection...")
+	}
 
 	log.Println("Course-service stopped gracefully")
 	return nil
