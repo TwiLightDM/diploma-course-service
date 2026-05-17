@@ -71,6 +71,7 @@ func (r *courseRepository) ReadById(ctx context.Context, id string) (*entities.C
 
 func (r *courseRepository) ReadAllByOwnerId(ctx context.Context, ownerId string) ([]entities.Course, error) {
 	var courses []entities.Course
+
 	if err := r.db.
 		WithContext(ctx).
 		Model(&entities.Course{}).
@@ -92,10 +93,14 @@ func (r *courseRepository) ReadAllByOwnerId(ctx context.Context, ownerId string)
 			) AS amount_of_lessons
 		`).
 		Where("owner_id = ?", ownerId).
+		Order("published_at IS NOT NULL").
+		Order("published_at DESC").
 		Find(&courses).Error; err != nil {
+
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, nil
 		}
+
 		return nil, err
 	}
 
