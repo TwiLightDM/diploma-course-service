@@ -17,6 +17,7 @@ type CourseService interface {
 	ReadCourseById(ctx context.Context, id string) (*entities.Course, error)
 	ReadAllCoursesByOwnerId(ctx context.Context, ownerId string) ([]entities.Course, error)
 	ReadAllCourses(ctx context.Context) ([]entities.Course, error)
+	ReadAllAvailableCourses(ctx context.Context, userId string) ([]entities.Course, error)
 	UpdateCourse(ctx context.Context, course *entities.Course) (*entities.Course, error)
 	UpdatePublishedAt(ctx context.Context, id string) (*entities.Course, error)
 	DeleteCourse(ctx context.Context, id string) error
@@ -111,6 +112,19 @@ func (h *CourseHandler) ReadAllCourses(ctx context.Context, _ *courseservicepb.R
 	coursesPb := h.groupCoursesToPb(courses)
 
 	return &courseservicepb.ReadAllCoursesResponse{
+		Courses: coursesPb,
+	}, nil
+}
+
+func (h *CourseHandler) ReadAllAvailableCourses(ctx context.Context, req *courseservicepb.ReadAllAvailableCoursesRequest) (*courseservicepb.ReadAllAvailableCoursesResponse, error) {
+	courses, err := h.service.ReadAllAvailableCourses(ctx, req.UserId)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	coursesPb := h.groupCoursesToPb(courses)
+
+	return &courseservicepb.ReadAllAvailableCoursesResponse{
 		Courses: coursesPb,
 	}, nil
 }

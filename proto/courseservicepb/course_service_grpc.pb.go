@@ -23,6 +23,7 @@ const (
 	CourseService_ReadCourse_FullMethodName              = "/courseservice.CourseService/ReadCourse"
 	CourseService_ReadAllCoursesByOwnerId_FullMethodName = "/courseservice.CourseService/ReadAllCoursesByOwnerId"
 	CourseService_ReadAllCourses_FullMethodName          = "/courseservice.CourseService/ReadAllCourses"
+	CourseService_ReadAllAvailableCourses_FullMethodName = "/courseservice.CourseService/ReadAllAvailableCourses"
 	CourseService_UpdateCourse_FullMethodName            = "/courseservice.CourseService/UpdateCourse"
 	CourseService_UpdatePublishedAt_FullMethodName       = "/courseservice.CourseService/UpdatePublishedAt"
 	CourseService_DeleteCourse_FullMethodName            = "/courseservice.CourseService/DeleteCourse"
@@ -36,6 +37,7 @@ type CourseServiceClient interface {
 	ReadCourse(ctx context.Context, in *ReadCourseRequest, opts ...grpc.CallOption) (*ReadCourseResponse, error)
 	ReadAllCoursesByOwnerId(ctx context.Context, in *ReadAllCoursesByOwnerIdRequest, opts ...grpc.CallOption) (*ReadAllCoursesByOwnerIdResponse, error)
 	ReadAllCourses(ctx context.Context, in *ReadAllCoursesRequest, opts ...grpc.CallOption) (*ReadAllCoursesResponse, error)
+	ReadAllAvailableCourses(ctx context.Context, in *ReadAllAvailableCoursesRequest, opts ...grpc.CallOption) (*ReadAllAvailableCoursesResponse, error)
 	UpdateCourse(ctx context.Context, in *UpdateCourseRequest, opts ...grpc.CallOption) (*UpdateCourseResponse, error)
 	UpdatePublishedAt(ctx context.Context, in *UpdatePublishedAtRequest, opts ...grpc.CallOption) (*UpdateCourseResponse, error)
 	DeleteCourse(ctx context.Context, in *DeleteCourseRequest, opts ...grpc.CallOption) (*DeleteCourseResponse, error)
@@ -89,6 +91,16 @@ func (c *courseServiceClient) ReadAllCourses(ctx context.Context, in *ReadAllCou
 	return out, nil
 }
 
+func (c *courseServiceClient) ReadAllAvailableCourses(ctx context.Context, in *ReadAllAvailableCoursesRequest, opts ...grpc.CallOption) (*ReadAllAvailableCoursesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReadAllAvailableCoursesResponse)
+	err := c.cc.Invoke(ctx, CourseService_ReadAllAvailableCourses_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *courseServiceClient) UpdateCourse(ctx context.Context, in *UpdateCourseRequest, opts ...grpc.CallOption) (*UpdateCourseResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateCourseResponse)
@@ -127,6 +139,7 @@ type CourseServiceServer interface {
 	ReadCourse(context.Context, *ReadCourseRequest) (*ReadCourseResponse, error)
 	ReadAllCoursesByOwnerId(context.Context, *ReadAllCoursesByOwnerIdRequest) (*ReadAllCoursesByOwnerIdResponse, error)
 	ReadAllCourses(context.Context, *ReadAllCoursesRequest) (*ReadAllCoursesResponse, error)
+	ReadAllAvailableCourses(context.Context, *ReadAllAvailableCoursesRequest) (*ReadAllAvailableCoursesResponse, error)
 	UpdateCourse(context.Context, *UpdateCourseRequest) (*UpdateCourseResponse, error)
 	UpdatePublishedAt(context.Context, *UpdatePublishedAtRequest) (*UpdateCourseResponse, error)
 	DeleteCourse(context.Context, *DeleteCourseRequest) (*DeleteCourseResponse, error)
@@ -151,6 +164,9 @@ func (UnimplementedCourseServiceServer) ReadAllCoursesByOwnerId(context.Context,
 }
 func (UnimplementedCourseServiceServer) ReadAllCourses(context.Context, *ReadAllCoursesRequest) (*ReadAllCoursesResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ReadAllCourses not implemented")
+}
+func (UnimplementedCourseServiceServer) ReadAllAvailableCourses(context.Context, *ReadAllAvailableCoursesRequest) (*ReadAllAvailableCoursesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReadAllAvailableCourses not implemented")
 }
 func (UnimplementedCourseServiceServer) UpdateCourse(context.Context, *UpdateCourseRequest) (*UpdateCourseResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateCourse not implemented")
@@ -254,6 +270,24 @@ func _CourseService_ReadAllCourses_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CourseService_ReadAllAvailableCourses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadAllAvailableCoursesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CourseServiceServer).ReadAllAvailableCourses(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CourseService_ReadAllAvailableCourses_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CourseServiceServer).ReadAllAvailableCourses(ctx, req.(*ReadAllAvailableCoursesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CourseService_UpdateCourse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateCourseRequest)
 	if err := dec(in); err != nil {
@@ -330,6 +364,10 @@ var CourseService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ReadAllCourses",
 			Handler:    _CourseService_ReadAllCourses_Handler,
+		},
+		{
+			MethodName: "ReadAllAvailableCourses",
+			Handler:    _CourseService_ReadAllAvailableCourses_Handler,
 		},
 		{
 			MethodName: "UpdateCourse",

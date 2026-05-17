@@ -134,6 +134,58 @@ func (r *courseRepository) ReadAllCourses(ctx context.Context) ([]entities.Cours
 	return courses, nil
 }
 
+func (r *courseRepository) ReadAllAvailableCourses(ctx context.Context, userId string) ([]entities.Course, error) {
+	var courses []entities.Course
+
+	if err := r.db.
+		WithContext(ctx).
+		Model(&entities.Course{}).
+		Select(`
+			courses.*,
+			(
+				SELECT COUNT(*)
+				FROM modules
+				WHERE modules.course_id = courses.id
+				  AND modules.deleted_at IS NULL
+			) AS amount_of_modules,
+			(
+				SELECT COUNT(*)
+				FROM lessons
+				JOIN modules ON modules.id = lessons.module_id
+				WHERE modules.course_id = courses.id
+				  AND modules.deleted_at IS NULL
+				  AND lessons.deleted_at IS NULL
+			) AS amount_of_lessons
+		`).
+		Where(`
+			courses.published_at IS NOT NULL
+			AND (
+				courses.access_type = 'public'
+				OR (
+					courses.access_type = 'group_only'
+					AND EXISTS (
+						SELECT 1
+						FROM group_courses gc
+						JOIN group_members gm
+							ON gm.group_id = gc.group_id
+						WHERE gc.course_id = courses.id
+						  AND gm.user_id = ?
+					)
+				)
+			)
+		`, userId).
+		Find(&courses).Error; err != nil {
+
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+
+		return nil, err
+	}
+
+	return courses, nil
+}
+
 func (r *courseRepository) Update(ctx context.Context, course *entities.Course) (*entities.Course, error) {
 	var updatedCourse entities.Course
 	err := r.db.

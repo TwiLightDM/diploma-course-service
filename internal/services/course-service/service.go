@@ -13,6 +13,7 @@ type CourseRepository interface {
 	ReadById(ctx context.Context, id string) (*entities.Course, error)
 	ReadAllByOwnerId(ctx context.Context, ownerId string) ([]entities.Course, error)
 	ReadAllCourses(ctx context.Context) ([]entities.Course, error)
+	ReadAllAvailableCourses(ctx context.Context, userId string) ([]entities.Course, error)
 	Update(ctx context.Context, course *entities.Course) (*entities.Course, error)
 	UpdatePublishedAt(ctx context.Context, id string, time *time.Time) error
 	Delete(ctx context.Context, id string) error
@@ -71,6 +72,18 @@ func (s *courseService) ReadAllCourses(ctx context.Context) ([]entities.Course, 
 	return courses, nil
 }
 
+func (s *courseService) ReadAllAvailableCourses(ctx context.Context, userId string) ([]entities.Course, error) {
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
+	defer cancel()
+
+	courses, err := s.repo.ReadAllAvailableCourses(ctx, userId)
+	if err != nil {
+		return nil, err
+	}
+
+	return courses, nil
+}
+
 func (s *courseService) UpdateCourse(ctx context.Context, course *entities.Course) (*entities.Course, error) {
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
@@ -98,8 +111,7 @@ func (s *courseService) UpdatePublishedAt(ctx context.Context, id string) (*enti
 
 	var t *time.Time
 	if course.PublishedAt == nil {
-		now := time.Now()
-		t = &now
+		t = new(time.Now())
 	} else {
 		t = nil
 	}
