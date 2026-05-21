@@ -66,7 +66,23 @@ func (r *lessonRepository) Create(ctx context.Context, lesson *entities.Lesson) 
 		return err
 	}
 
-	_ = r.redis.Del(ctx, "lessons:module:"+lesson.ModuleId).Err()
+	var module entities.Module
+
+	if err = r.db.
+		WithContext(ctx).
+		Select("course_id").
+		Where("id = ?", lesson.ModuleId).
+		First(&module).Error; err == nil {
+
+		_ = r.redis.Del(ctx,
+			"lessons:module:"+lesson.ModuleId,
+			"module:"+lesson.ModuleId,
+
+			"modules:course:"+module.CourseId,
+			"course:"+module.CourseId,
+			"courses:all",
+		).Err()
+	}
 
 	return nil
 }
@@ -155,10 +171,24 @@ func (r *lessonRepository) Update(ctx context.Context, lesson *entities.Lesson) 
 		return nil, err
 	}
 
-	_ = r.redis.Del(ctx,
-		"lesson:"+lesson.Id,
-		"lessons:module:"+lesson.ModuleId,
-	).Err()
+	var module entities.Module
+
+	if err = r.db.
+		WithContext(ctx).
+		Select("course_id").
+		Where("id = ?", lesson.ModuleId).
+		First(&module).Error; err == nil {
+
+		_ = r.redis.Del(ctx,
+			"lesson:"+lesson.Id,
+			"lessons:module:"+lesson.ModuleId,
+			"module:"+lesson.ModuleId,
+
+			"modules:course:"+module.CourseId,
+			"course:"+module.CourseId,
+			"courses:all",
+		).Err()
+	}
 
 	return &updatedLesson, nil
 }
@@ -178,10 +208,24 @@ func (r *lessonRepository) Delete(ctx context.Context, id string) error {
 		return err
 	}
 
-	_ = r.redis.Del(ctx,
-		"lesson:"+id,
-		"lessons:module:"+lesson.ModuleId,
-	).Err()
+	var module entities.Module
+
+	if err = r.db.
+		WithContext(ctx).
+		Select("course_id").
+		Where("id = ?", lesson.ModuleId).
+		First(&module).Error; err == nil {
+
+		_ = r.redis.Del(ctx,
+			"lesson:"+id,
+			"lessons:module:"+lesson.ModuleId,
+			"module:"+lesson.ModuleId,
+
+			"modules:course:"+module.CourseId,
+			"course:"+module.CourseId,
+			"courses:all",
+		).Err()
+	}
 
 	return nil
 }

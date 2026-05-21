@@ -39,7 +39,10 @@ func (r *courseRepository) Create(ctx context.Context, course *entities.Course) 
 		return err
 	}
 
-	_ = r.redis.Del(ctx, "courses:all").Err()
+	_ = r.redis.Del(ctx,
+		"courses:all",
+		"modules:course:"+course.Id,
+	).Err()
 
 	return nil
 }
@@ -255,6 +258,7 @@ func (r *courseRepository) Update(ctx context.Context, course *entities.Course) 
 	_ = r.redis.Del(ctx,
 		"course:"+course.Id,
 		"courses:all",
+		"modules:course:"+course.Id,
 	).Err()
 
 	return &updatedCourse, nil
@@ -294,6 +298,7 @@ func (r *courseRepository) Delete(ctx context.Context, id string) error {
 	_ = r.redis.Del(ctx,
 		"course:"+id,
 		"courses:all",
+		"modules:course:"+id,
 	).Err()
 
 	return nil
