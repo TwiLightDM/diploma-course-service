@@ -123,6 +123,7 @@ func (h *LessonHandler) UpdateLesson(ctx context.Context, req *lessonservicepb.U
 		Id:          req.Id,
 		Title:       req.Title,
 		Description: req.Description,
+		Content:     req.Content,
 	})
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
